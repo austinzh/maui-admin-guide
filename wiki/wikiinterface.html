@@ -1,0 +1,1439 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+<hr>
+<h2>Appendix W: Wiki Interface Specification, version 1.2</h2>
+
+<ul>
+<li><a href="#commands">W.1.1</a> &nbsp; Commands
+<ul>
+<li><a href="#getnodes">W.1.1.1</a> &nbsp; Resource Query
+<ul>
+<li><a href="#resformat">W.1.1.1.1</a> &nbsp; Query Resources Request Format
+<li><a href="#resrespformat">W.1.1.1.2</a> &nbsp; Resource Query Response Format
+<li><a href="#resexample">W.1.1.1.3</a> &nbsp; Query Resources Example
+<li><a href="#resourceformat">W.1.1.1.4</a> &nbsp; Query Resources Data Format
+</ul>
+<li><a href="#getjobs">W.1.1.2</a> &nbsp; Workload Query
+<ul>
+<li><a href="#jobformat">W.1.1.2.1</a> &nbsp; Query Workload Request Format
+<li><a href="#jobrespformat">W.1.1.2.2</a> &nbsp; Query Workload Response Format
+<li><a href="#jobexample">W.1.1.2.3</a> &nbsp; Query Workload Example
+<li><a href="#workloadattr">W.1.1.2.4</a> &nbsp; Query Workload Data Format
+</ul>
+<li><a href="#startjob">W.1.1.3</a> &nbsp; Start Job
+<li><a href="#canceljob">W.1.1.4</a> &nbsp; Cancel Job
+<li><a href="#suspendjob">W.1.1.5</a> &nbsp; Suspend Job 
+<li><a href="#resumejob">W.1.1.6</a> &nbsp; Resume Job
+<li><a href="#requeuejob">W.1.1.7</a> &nbsp; Requeue Job
+<li><a href="#signaljob">W.1.1.8</a> &nbsp; Signal Job
+<li><a href="#modifyjob">W.1.1.9</a> &nbsp; Modify Job
+<li><a href="#jobaddtask">W.1.1.10</a> &nbsp; JobAddTask
+<li><a href="#jobremovetask">W.1.1.11</a> &nbsp; JobRemoveTask
+</ul>
+<li><a href="#rejcodes">W.1.2</a> &nbsp; Rejection Codes
+</ul>
+
+<h3><a name="commands"></a>W.1.1 &nbsp; COMMANDS</h3>
+
+&nbsp;&nbsp; All commands are requested via a socket interface, one command per socket connection. All fields and values are specified in ASCII text.&nbsp; Moab is configured to communicate via the wiki interface by specifying the following parameters in the moab.cfg file:
+
+<p><fieldset><legend>moab.cfg</legend>
+<pre>
+RMCFG[base] TYPE=WIKI SERVER=&lt;HOSTNAME&gt;[:&lt;PORT&gt;]
+...
+</pre></fieldset>
+
+<p>&nbsp;&nbsp; Field values must backslash escape the following characters if specified:
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '#'&nbsp; ';'&nbsp; ':'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(i.e.&nbsp; '\#')
+
+<p>&nbsp;&nbsp;&nbsp; Supported Commands are:
+
+<p><ul>
+<li><a href="#getnodes">Query Resources</a>
+<li><a href="#getjobs">Query Workload</a>
+<li><a href="#startjob">Start Job</a>
+<li><a href="#canceljob">Cancel Job</a>
+<li><a href="#suspendjob">Suspend Job</a>
+<li><a href="#resumejob">Resume Job</a>
+<li><a href="#requeuejob">Requeue Job</a>
+<li>JOBADDTASK
+<li>JOBRELEASETASK
+</ul>
+
+<hr WIDTH="100%">
+
+<h4><a NAME="getnodes"></a>W.1.1.1 &nbsp; Wiki Query Resources</h4>
+
+<h5><a name="resformat"></a>W.1.1.1.1 &nbsp; Wiki Query Resources Request Format</h5>
+
+&nbsp;&nbsp; CMD=GETNODES ARG={&lt;UPDATETIME&gt;:&lt;NODEID&gt;[:&lt;NODEID&gt;]... | &lt;UPDATETIME&gt;:ALL}
+
+<p>&nbsp;&nbsp; Only nodes updated more recently than &lt;UPDATETIME&gt; will be returned where &lt;UPDATETIME&gt; is specified as the epoch time of interest.&nbsp; Setting &lt;UPDATETIME&gt; to '0' will return information for all nodes.&nbsp; Specify a colon delimited list of NODEID's if specific nodes are desired or use the keyword 'ALL' to receive information for all nodes.
+
+<h5><a name="resrespformat"></a>W.1.1.1.2 &nbsp; Wiki Resource Query Response Format</h5>
+
+<!--
+&nbsp;&nbsp; SC=&lt;STATUSCODE> ARG=&lt;NODECOUNT>#&lt;NODEID>:&lt;FIELD>=&lt;VALUE>;[&lt;FIELD>=&lt;VALUE>;]...[#&lt;NODEID>:&lt;FIELD>=&lt;VALUE>;[&lt;FIELD>=&lt;VALUE>;]...]...
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SC=&lt;STATUSCODE> RESPONSE=&lt;RESPONSE>
+<p>&nbsp;&nbsp;&nbsp; STATUSCODE Values:
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;SUCCESS
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -1&nbsp;&nbsp;&nbsp;&nbsp; INTERNAL ERROR
+<p>&nbsp;&nbsp;&nbsp; FIELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+is either the text name listed below or 'A&lt;FIELDNUM>' (ie, 'UPDATETIME' or 'A2')
+
+<p>&nbsp;&nbsp;&nbsp; RESPONSE&nbsp;&nbsp; is a statuscode sensitive message describing error or state details
+-->
+
+The query resources response format is one or more line of the following format (separated with a newline, "
+"):
+<p>
+&lt;NODEID&gt; &lt;ATTR&gt;=&lt;VALUE&gt;[;&lt;ATTR&gt;=&lt;VALUE&gt;]...
+<p>&lt;ATTR&gt; is one of the names in the <a href="#resourceformat">table below</a> and the format of &lt;VALUE&gt; is dependent on &lt;ATTR&gt;.
+
+<h5><a name="resexample"></a>W.1.1.1.3 &nbsp; Wiki Query Resources Example</h5>
+
+request:
+
+<p><fieldset><legend>wiki resource query</legend><pre>
+CMD=GETNODES ARG=0:node001:node002:node003
+</pre></fieldset>
+<!--
+<p>&nbsp;&nbsp; response '<tt>SC=0 ARG=4#node001:UPDATETIME=1103004212;STATE=Busy;OS=AIX43;ARCH=RS6000;...</tt>'
+-->
+<p>
+response:
+<p><fieldset><legend>wiki resource query response</legend><pre>
+node001 UPDATETIME=963004212;STATE=Busy;OS=AIX43;ARCH=RS6000...
+node002 UPDATETIME=963004213;STATE=Busy;OS=AIX43;ARCH=RS6000...
+...
+</pre></fieldset>
+
+<h5><a name="resourceformat"></a>W.1.1.1.4 &nbsp; Wiki Query Resources Data Format</h5>
+
+
+<table class="navTable" width=100%>
+<tr>
+<td><b>NAME</b></td>
+<td><b>FORMAT</b></td>
+<td><b>DEFAULT</b></td>
+<td><b>DESCRIPTION</b></td>
+</tr>
+
+<tr>
+<td><b>ACLASS</b></td>
+<td>one or more bracket enclosed &lt;NAME&gt;:&lt;COUNT&gt; pairs (ie, [batch:5][sge:3])</td>
+<td>---</td>
+<td>run classes currently available on node.&nbsp; If not specified, scheduler
+will attempt to determine actual ACLASS value.</td>
+</tr>
+
+<tr NOSAVE>
+<td><b>ADISK</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td NOSAVE>0</td>
+<td>available local disk on node (in MB)</td>
+</tr>
+
+<tr NOSAVE>
+<td><a name="afs"></a><b>AFS</b></td>
+<td>&lt;fs id="X" size="X" io="Y" rcount="X" wcount="X" ocount="X"&gt;&lt;/fs&gt;[...]</td>
+<td NOSAVE>0</td>
+<td>available filesystem state</td>
+</tr>
+
+<tr>
+<td><b>AMEMORY</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>available/free RAM on node (in MB)</td>
+</tr>
+
+<tr>
+<td><b>ANET</b></td>
+<td>one or more colon delimited &lt;STRING&gt;'s (ie, ETHER:ATM)</td>
+<td>---</td>
+<td>Available network interfaces on node.&nbsp; Available interfaces are
+those which are 'up' and not already dedicated to a job.</td>
+</tr>
+
+<tr>
+<td><b>APROC</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>1</td>
+<td>available processors on node</td>
+</tr>
+
+<tr>
+<td><b>ARCH</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>compute architecture of node</td>
+</tr>
+
+<tr>
+<td><b>ARES</b></td>
+<td>one or more comma delimited &lt;NAME&gt;:&lt;VALUE&gt; pairs (ie, MATLAB:6,COMPILER:100)</td>
+<td>---</td>
+<td>Arbitrary consumable resources currently available on the node</td>
+</tr>
+
+<tr>
+<td><b>ASWAP</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>available swap on node (in MB)</td>
+</tr>
+
+<tr>
+<td><b>CCLASS</b></td>
+<td>one or more bracket enclosed &lt;NAME&gt;:&lt;COUNT&gt; pairs (ie, [batch:5][sge:3])</td>
+<td>---</td>
+<td>Run classes supported by node.&nbsp; Typically, one class is 'consumed'
+per task.&nbsp; Thus, an 8 processor node may have 8 instances of each
+class it supports present, ie [batch:8][interactive:8]</td>
+</tr>
+
+<tr>
+<td><b>CDISK</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>configured local disk on node (in MB)</td>
+</tr>
+
+<tr NOSAVE>
+<td><b>CFS</b></td>
+<td>&lt;STRING&gt;</td>
+<td NOSAVE>0</td>
+<td>configured filesystem state</td>
+</tr>
+
+<tr>
+<td><b>CMEMORY</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>configured RAM on node (in MB)</td>
+</tr>
+
+<tr>
+<td><b>CNET</b></td>
+<td>one or more colon delimited &lt;STRING&gt;'s (ie, ETHER:FDDI:ATM)</td>
+<td>---</td>
+<td>configured network interfaces on node</td>
+</tr>
+
+<tr>
+<td><b>CPROC</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>1</td>
+<td>configured processors on node</td>
+</tr>
+
+<tr>
+<td><b>CPULOAD</b></td>
+<td>&lt;DOUBLE&gt;</td>
+<td>0.0</td>
+<td>one minute BSD load average</td>
+</tr>
+
+<tr>
+<td><b>CRES</b></td>
+<td>one or more comma delimited &lt;NAME&gt;:&lt;VALUE&gt; pairs (ie, MATLAB:6,COMPILER:100)</td>
+<td>---</td>
+<td>Arbitrary consumable resources supported and tracked on the node, ie
+software licenses or tape drives.</td>
+</tr>
+
+<tr>
+<td><b>CSWAP</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>configured swap on node (in MB)</td>
+</tr>
+
+<tr>
+<td><b>CURRENTTASK</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>Number of tasks currently active on the node</td>
+</tr>
+
+<tr>
+<td><b>EVENT</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>Event or exception which occurred on the node</td>
+</tr>
+
+<tr>
+<td><b>FEATURE</b></td>
+<td>one or more colon delimited &lt;STRING&gt;'s (ie, WIDE:HSM)</td>
+<td>---</td>
+<td>generic attributes, often describing hardware or software features,
+associated with the node.</td>
+</tr>
+
+<tr>
+<td><a name="gcounter"></a><b>GCOUNTER</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>---</td>
+<td>current total number of gevent event occurrences since epoch. &nbsp;This value should be monotonically increasing.</td>
+</tr>
+
+<tr>
+<td><a name="gcounter"></a><b>GEVENT</b></td>
+<td>GEVENT[&lt;EVENTNAME&gt;]=&lt;STRING&gt;</td>
+<td>---</td>
+<td><a href="../12.8enablinggevents.html">generic event</a> occurrence and context data.</td>
+</tr>
+
+<tr>
+<td><a name="gcounter"></a><b>GMETRIC</b></td>
+<td>GMETRIC[&lt;METRICNAME&gt;]=&lt;DOUBLE&gt;</td>
+<td>---</td>
+<td>current value of <a href="../12.7enablinggmetrics.html">generic metric</a>, i.e., 'GMETRIC[temp]=103.5'.</td>
+</tr>
+
+<tr>
+<td><a name="idletime"></a><b>IDLETIME</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>---</td>
+<td>number of seconds since last detected keyboard or mouse activity (often used with <a href="../12.3nodepolicies.html#desktop">desktop harvesting</a>)</td>
+</tr>
+
+<tr>
+  <td><b>MAXTASK</b></td>
+  <td>&lt;INTEGER&gt;</td>
+  <td>&lt;CPROC&gt;</td>
+  <td>Maximum number of tasks allowed on the node at any given time</td>
+</tr>
+
+<tr>
+  <td><b>OS</b></td>
+  <td>&lt;STRING&gt;</td>
+  <td>---</td>
+  <td>operating system running on node</td>
+</tr>
+
+<tr>
+<td><b>OSLIST</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>operating systems accepted by node</td>
+</tr>
+
+<tr>
+<td><b>OTHER</b></td>
+<td>&lt;ATTR&gt;=&lt;VALUE&gt;[,&lt;ATTR&gt;=&lt;VALUE&gt;]...</td>
+<td>---</td>
+<td>opaque node attributed assigned to node</td>
+</tr>
+
+<tr>
+<td><b>PARTITION</b></td>
+<td>&lt;STRING&gt;</td>
+<td>DEFAULT</td>
+<td>partition to which node belongs</td>
+</tr>
+
+<tr>
+<td><b>RACK</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>Rack location of the node</td>
+</tr>
+
+<tr>
+<td><b>SLOT</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>Slot location of the node</td>
+</tr>
+
+<tr>
+<td><b>SPEED</b></td>
+<td>&lt;DOUBLE&gt;</td>
+<td>1.0</td>
+<td>Relative processor speed of the node</td>
+</tr>
+
+<tr>
+  <td><b>STATE*</b></td>
+  <td>one of the following: <b>Idle</b>, <b>Running</b>, <b>Busy</b>, <b>Unknown</b>, <b>Drained</b>, <b>Draining</b>, or <b>Down</b></td>
+  <td>Down</td>
+  <td>state of the node</td>
+</tr>
+
+<tr>
+  <td><b>UPDATETIME*</b></td>
+  <td>&lt;EPOCHTIME&gt;</td>
+  <td>0</td>
+  <td>time node information was last updated</td>
+</tr>
+
+<tr>
+<td><a name="variable"></a><b>VARIABLE*</b></td>
+<td>&lt;ATTR&gt;=&lt;VAL&gt;</td>
+<td>---</td>
+<td>generic variables to be associated with node</td>
+</tr>
+
+</table>
+
+<p>* indicates required field
+<p>Note:&nbsp; node states have the following definitions:
+
+<table>
+<tr>
+  <td>Busy:
+  <td>Node is running some jobs and will not accept additional jobs
+<tr>
+  <td>Down:
+  <td>Resource Manager problems have been detected.&nbsp; Node is incapable of running jobs.
+<tr>
+  <td>Draining:
+  <td>Node is responding but will not accept new jobs
+<tr>
+  <td>Idle:
+  <td>Node is ready to run jobs but currently is not running any.
+<tr>
+  <td>Running:
+  <td>Node is running some jobs and will accept additional jobs
+<tr>
+  <td>Unknown:
+  <td>Node is capable of running jobs but the scheduler will need to determine if the node state is actually Idle, Running, or Busy.
+</table>
+
+<hr WIDTH="100%">
+
+<h4><a NAME="getjobs"></a>W.1.1.2 &nbsp; Wiki Query Workload</h4>
+
+<h5><a name="jobformat"></a>W.1.1.2.1 &nbsp; Wiki Query Workload Request Format</h5>
+
+&nbsp;&nbsp; CMD=GETJOBS ARG={&lt;UPDATETIME&gt;:&lt;JOBID&gt;[:&lt;JOBID&gt;]...  | &lt;UPDATETIME&gt;:ALL }
+
+<p>&nbsp;&nbsp; Only jobs updated more recently than &lt;UPDATETIME> will be returned where &lt;UPDATETIME> is specified as the epoch time of interest.&nbsp; Setting &lt;UPDATETIME> to '0' will return information for all jobs.&nbsp; Specify a colon delimited list of JOBID's if information for specific jobs is desired or use the keyword 'ALL' to receive information about all jobs.
+
+<h5><a name="jobrespformat"></a>W.1.1.2.2 &nbsp; Wiki Query Workload Response Format</h5>
+
+&nbsp;&nbsp; SC=&lt;STATUSCODE> ARG=&lt;JOBCOUNT>#&lt;JOBID>:&lt;FIELD>=&lt;VALUE>;[&lt;FIELD>=&lt;VALUE>;]...[#&lt;JOBID>:&lt;FIELD>=&lt;VALUE>;[&lt;FIELD>=&lt;VALUE>;]...]...
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SC=&lt;STATUSCODE> RESPONSE=&lt;RESPONSE>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+is either the text name listed below or 'A&lt;FIELDNUM>'
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(ie, 'UPDATETIME' or 'A2')
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE values:
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp; SUCCESS
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+-1&nbsp;&nbsp; INTERNAL ERROR
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESPONSE&nbsp;&nbsp; is a
+statuscode sensitive message describing error or state details
+
+<h5><a name="jobexample"></a>W.1.1.2.3 &nbsp; Wiki Query Workload Example</h5>
+
+<fieldset><legend>request syntax</legend><pre>
+CMD=GETJOBS ARG=0:ALL
+</pre></fieldset>
+
+<p><fieldset><legend>response syntax</legend><pre>
+ARG=2#nebo3001.0:UPDATETIME=9780000320;STATE=Idle;WCLIMIT=3600;...
+</pre></fieldset>
+
+<h5><a name="workloadattr"></a>W.1.1.2.4 &nbsp; Wiki Query Workload Data Format</h5>
+
+<table BORDER WIDTH="100%" NOSAVE >
+<tr>
+<td><b>NAME</b></td>
+<td><b>FORMAT</b></td>
+<td><b>DEFAULT</b></td>
+<td><b>DESCRIPTION</b></td>
+</tr>
+
+<tr>
+<td><b>ACCOUNT</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>AccountID associated with job</td>
+</tr>
+
+<tr>
+<td><b>ALLOCSIZE</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>---</td>
+<td>number of application tasks to allocate at each allocation adjustment. Used for <a href="../21.3dynamicjobs.html">dynamic jobs</a>.</td>
+</tr>
+
+<tr>
+<td><b>APPBACKLOG</b></td>
+<td>&lt;DOUBLE&gt;</td>
+<td>---</td>
+<td>backlogged quantity of workload for associated application (units are opaque), value may be compared against <a href="../11.10jobtemplates.html#targetbacklog">TARGETBACKLOG</a></td>
+</tr>
+
+<tr>
+<td><b>APPLOAD</b></td>
+<td>&lt;DOUBLE&gt;</td>
+<td>---</td>
+<td>load of workload for associated application (units are opaque), value may be compared against <a href="../11.10jobtemplates.html#targetload">TARGETLOAD</a></td>
+</tr>
+
+<tr>
+<td><b>APPRESPONSETIME</b></td>
+<td>&lt;DOUBLE&gt;</td>
+<td>---</td>
+<td>response time of workload for associated application (units are opaque), value may be compared against <a href="../11.10jobtemplates.html#targetresponsetime">TARGETRESPONSETIME</a></td>
+</tr>
+
+<tr>
+<td><b>APPTHROUGHPUT</b></td>
+<td>&lt;DOUBLE&gt;</td>
+<td>---</td>
+<td>throughput of workload for associated application (units are opaque), value may be compared against <a href="../11.10jobtemplates.html#targetthroughput">TARGETTHROUGHPUT</a></td>
+</tr>
+
+<tr>
+<td><b>ARGS</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>job command-line arguments</td>
+</tr>
+
+<tr>
+<td><a name="comment"></a><b>COMMENT</b></td>
+<td>&lt;STRING&gt;</td>
+<td>0</td>
+<td>job <a href="../13.3rmextensions.html">resource manager extension</a> arguments including qos, dependencies, reservation constraints, etc</td>
+</tr>
+
+<tr>
+<td><b>COMPLETETIME</b>*</td>
+<td>&lt;EPOCHTIME&gt;</td>
+<td>0</td>
+<td>time job completed execution</td>
+</tr>
+
+<tr>
+<td><b>DDISK</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>quantity of local disk space (in MB) which must be dedicated to each
+task of the job</td>
+</tr>
+
+<tr>
+<td><b>DGRES</b></td>
+<td>name:value[,name:value]</td>
+<td>---</td>
+<td>Dedicated generic resources per task.</td>
+</tr>
+
+<tr>
+<td><b>DPROCS</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>1</td>
+<td>number of processors dedicated per task</td>
+</tr>
+
+<tr>
+<td><b>DNETWORK</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>network adapter which must be dedicated to job</td>
+</tr>
+
+<tr>
+<td><b>DSWAP</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>quantity of virtual memory (swap, in MB) which must be dedicated to
+each task of the job</td>
+</tr>
+
+<tr>
+<td><b>ENDDATE</b></td>
+<td>&lt;EPOCHTIME&gt;</td>
+<td>[ANY]</td>
+<td>time by which job must complete</td>
+</tr>
+
+<tr>
+<td><b>ENV</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>job environment variables</td>
+</tr>
+
+<tr>
+<td><b>EVENT</b></td>
+<td>&lt;EVENT&gt;</td>
+<td>---</td>
+<td>event or exception experienced by job</td>
+</tr>
+
+<tr>
+<td><b>ERROR</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>file to contain STDERR</td>
+</tr>
+
+<tr>
+<td><b>EXEC</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>job executable command</td>
+</tr>
+
+<tr>
+<td><b>EXITCODE</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>---</td>
+<td>job exit code</td>
+</tr>
+
+<tr>
+<td><b>FLAGS</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>job flags</td>
+</tr>
+
+<tr>
+<td><b>GEOMETRY</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>String describing task geometry required by job</td>
+</tr>
+
+<tr>
+<td><a name="gname"></a><b>GNAME</b>*</td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>GroupID under which job will run</td>
+</tr>
+
+<tr>
+<td><a name="hostlist"></a><b>HOSTLIST</b></td>
+<td>comma or colon delimited list of hostnames -<br>
+suffix the hostlist with a carat (^) to mean superset; suffix with an asterisk (*) to mean subset; otherwise, the hostlist is interpreted as an exact set</td>
+<td>[ANY]</td>
+<td>list of <b>required</b> hosts on which job must run. &nbsp;(see <a href="#tasklist">TASKLIST</a>)</td>
+</tr>
+
+<tr>
+<td><b>INPUT</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>file containing STDIN</td>
+</tr>
+
+<tr>
+<td><b>IWD</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>job's initial working directory</td>
+</tr>
+
+<tr>
+<td><b>NAME</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>User specified name of job</td>
+</tr>
+
+<tr>
+<td><b>NODERANGE</b></td>
+<td>&lt;INTEGER&gt;[,&lt;INTEGER&gt;]</td>
+<td>---</td>
+<td>Minimum and maximum nodes allowed to be allocated to job. Used for <a href="../21.3dynamicjobs.html">dynamic jobs</a>.</td>
+</tr>
+
+<tr>
+<td><b>NODES</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>1</td>
+<td>Number of nodes required by job (See <a href="../3.2environment.html#nodedefinition">Node Definition</a> for more info)</td>
+</tr>
+
+<tr>
+<td><b>OUTPUT</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>file to contain STDOUT</td>
+</tr>
+
+<tr>
+<td><b>PARTITIONMASK</b></td>
+<td>one or more colon delimited &lt;STRING&gt;s</td>
+<td>[ANY]</td>
+<td>list of partitions in which job can run</td>
+</tr>
+
+<tr>
+<td><b>PREF</b></td>
+<td>colon delimited list of &lt;STRING&gt;s</td>
+<td>---</td>
+<td>List of preferred node features or variables. (See <a href="../13.3rmextensions.html#pref">PREF</a> for more information.)</td>
+</tr>
+
+<tr>
+<td><b>PRIORITY</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>---</td>
+<td>system priority (absolute or relative - use '+' and '-' to specify relative)</td>
+</tr>
+
+<tr>
+<td><b>QOS</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>quality of service requested</td>
+</tr>
+
+<tr>
+<td><b>QUEUETIME</b>*</td>
+<td>&lt;EPOCHTIME&gt;</td>
+<td>0</td>
+<td>time job was submitted to resource manager</td>
+</tr>
+
+<tr>
+<td><b>RARCH</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>architecture required by job</td>
+</tr>
+
+<tr>
+<td><b>RCLASS</b></td>
+<td>list of bracket enclosed &lt;STRING&gt;:&lt;INTEGER&gt; pairs</td>
+<td>---</td>
+<td>list of &lt;CLASSNAME&gt;:&lt;COUNT&gt; pairs indicating type and number
+of class instances required per task.&nbsp; (ie, '[batch:1]' or '[batch:2][tape:1]')</td>
+</tr>
+
+<tr>
+<td><b>RDISK</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>local disk space (in MB) required to be configured on nodes allocated
+to the job&nbsp;</td>
+</tr>
+
+<tr>
+<td><b>RDISKCMP</b></td>
+<td>one of '&gt;=', '&gt;', '==', '&lt;', or '&lt;='</td>
+<td>&gt;=</td>
+<td>local disk comparison (ie, node must have &gt; 2048 MB local disk)</td>
+</tr>
+
+<tr>
+<td><b>REJCODE</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>reason job was rejected</td>
+</tr>
+
+<tr>
+<td><b>REJCOUNT</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>number of times job was rejected</td>
+</tr>
+
+<tr>
+<td><b>REJMESSAGE</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>text description of reason job was rejected</td>
+</tr>
+
+<tr>
+<td><b>REQRSV</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>Name of reservation in which job must run</td>
+</tr>
+
+<tr>
+<td><b>RESACCESS</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>List of reservations in which job can run</td>
+</tr>
+
+<tr>
+<td><b>RFEATURES</b></td>
+<td>colon delimited list &lt;STRING&gt;'s</td>
+<td>---</td>
+<td>List of features required on nodes</td>
+</tr>
+
+<tr>
+<td><b>RMEM</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>real memory (RAM, in MB) required to be configured on nodes allocated
+to the job</td>
+</tr>
+
+<tr>
+<td><b>RMEMCMP</b></td>
+<td>one of '&gt;=', '&gt;', '==', '&lt;', or '&lt;='</td>
+<td>&gt;=</td>
+<td>real memory comparison (ie, node must have &gt;= 512MB RAM)</td>
+</tr>
+
+<tr>
+<td><b>RNETWORK</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>network adapter required by job</td>
+</tr>
+
+<tr>
+<td><b>ROPSYS</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>operating system required by job</td>
+</tr>
+
+<tr>
+<td><b>RSOFTWARE</b></td>
+<td>&lt;RESTYPE&gt;[{+|:}&lt;COUNT&gt;][@&lt;TIMEFRAME&gt;]</td>
+<td>---</td>
+<td>software required by job</td>
+</tr>
+
+<tr>
+<td><b>RSWAP</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>virtual memory (swap, in MB) required to be configured on nodes allocated
+to the job</td>
+</tr>
+
+<tr>
+<td><b>RSWAPCMP</b></td>
+<td>one of '&gt;=', '&gt;', '==', '&lt;', or '&lt;='</td>
+<td>&gt;=</td>
+<td>virtual memory comparison (ie, node must have ==4096 MB virtual memory)&nbsp;</td>
+</tr>
+
+<tr>
+<td><b>SID</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>system id (global job system owner)</td>
+</tr>
+
+<tr>
+<td><b>SJID</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>system job id (global job id)</td>
+</tr>
+
+<tr>
+<td><b>STARTDATE</b></td>
+<td>&lt;EPOCHTIME&gt;</td>
+<td>0</td>
+<td>earliest time job should be allowed to start</td>
+</tr>
+
+<tr>
+<td><b>STARTTIME</b>*</td>
+<td>&lt;EPOCHTIME&gt;</td>
+<td>0</td>
+<td>time job was started by the resource manager</td>
+</tr>
+
+<tr>
+<td><b>STATE</b>*</td>
+<td>one of <a href="../3.2environment.html#idle">Idle</a>, Running, Hold, Suspended, Completed, or Removed</td>
+<td>Idle</td>
+<td>State of job</td>
+</tr>
+
+<tr>
+<td><b>SUSPENDTIME</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>Number of seconds job has been suspended</td>
+</tr>
+
+<tr>
+<td><b>TARGETBACKLOG</b></td>
+<td>&lt;DOUBLE&gt;[,&lt;DOUBLE&gt;]</td>
+<td>---</td>
+<td>Minimum and maximum backlog for application within job. In the case of <a href="../21.3dynamicjobs.html">dynamic jobs</a>, Moab allocates/deallocates resources as needed to keep the job within the target range.</td>
+</tr>
+
+<tr>
+<td><b>TARGETLOAD</b></td>
+<td>&lt;DOUBLE&gt;[,&lt;DOUBLE&gt;]</td>
+<td>---</td>
+<td>Minimum and maximum load for application within job. In the case of <a href="../21.3dynamicjobs.html">dynamic jobs</a>, Moab allocates/deallocates resources as needed to keep the job within the target range.</td>
+</tr>
+
+<tr>
+<td><b>TARGETRESPONSETIME</b></td>
+<td>&lt;DOUBLE&gt;[,&lt;DOUBLE&gt;]</td>
+<td>---</td>
+<td>Minimum and maximum response time for application within job. In the case of <a href="../21.3dynamicjobs.html">dynamic jobs</a>, Moab allocates/deallocates resources as needed to keep the job within the target range.</td>
+</tr>
+
+<tr>
+<td><b>TARGETTHROUGHPUT</b></td>
+<td>&lt;DOUBLE&gt;[,&lt;DOUBLE&gt;]</td>
+<td>---</td>
+<td>Minimum and maximum throughput for application within job. In the case of <a href="../21.3dynamicjobs.html">dynamic jobs</a>, Moab allocates/deallocates resources as needed to keep the job within the target range.</td>
+</tr>
+
+<tr>
+<td><b>TARGETVIOLATIONTIME</b></td>
+<td>&lt;ALLOCATIONTIME&gt;[,&lt;DEALLOCATIONTIME&gt;] where values are specified using the format [[[DD:]HH:]MM:]SS</td>
+<td>---</td>
+<td>Amount of time an application performance target must be exceeded before Moab adjusts the resource allocation of a <a href="../21.3dynamicjobs.html">dynamic job</a>. By default, Moab allocates/deallocates resources as soon as a performance target violation is detected.</td>
+</tr>
+
+
+<tr>
+<td><a name="tasklist"></a><b>TASKLIST</b></td>
+<td>one or more comma-delimited &lt;STRING&gt;'s</td>
+<td>---</td>
+<td>list of <b>allocated</b> tasks, or in other words, comma-delimited list of node ID's associated with each active task of job (i.e., cl01, cl02,
+cl01, cl02, cl03)&nbsp; The tasklist is initially selected by the scheduler
+at the time the StartJob command is issued.&nbsp; The resource manager
+is then responsible for starting the job on these nodes and maintaining
+this task distribution information throughout the life of the job.&nbsp;
+(see <a href="#hostlist">HOSTLIST</a>)</td>
+</tr>
+
+<tr>
+<td><b>TASKS</b>*</td>
+<td>&lt;INTEGER&gt;</td>
+<td>1</td>
+<td>Number of tasks required by job (See <a href="../3.2environment.html#taskdefinition">Task Definition</a> for more info)</td>
+</tr>
+
+<tr>
+<td><b>TASKPERNODE</b></td>
+<td>&lt;INTEGER&gt;</td>
+<td>0</td>
+<td>exact number of tasks required per node</td>
+</tr>
+
+<tr>
+<td><a name="uname"></a><b>UNAME</b>*</td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>UserID under which job will run</td>
+</tr>
+
+<tr>
+<td><b>UPDATETIME</b>*</td>
+<td>&lt;EPOCHTIME&gt;</td>
+<td>0</td>
+<td>Time job was last updated</td>
+</tr>
+
+<tr>
+<td><b>WCLIMIT</b>*</td>
+<td>[[HH:]MM:]SS</td>
+<td>864000</td>
+<td>walltime required by job</td>
+</tr>
+</table>
+
+<p>* indicates required field
+
+<p><b>Note</b>:&nbsp; Job states have the following definitions:
+
+<table>
+<tr>
+  <td>Completed:
+  <td>Job has completed
+<tr>
+  <td>Hold:
+  <td>Job is in the queue but is not allowed to run
+<tr>
+  <td>Idle:
+  <td>Job is ready to run
+<tr>
+  <td>Removed:
+  <td>Job has been canceled or otherwise terminated externally
+<tr>
+  <td>Running:
+  <td>Job is currently executing
+<tr>
+  <td>Suspended:
+  <td>job has started but execution has temporarily been suspended
+</table>
+
+<p><b>Note</b>:&nbsp; Completed and canceled jobs should
+be maintained by the resource manager for a brief time, perhaps 1 to 5
+minutes, before being purged.&nbsp; This provides the scheduler time to
+obtain all final job state information for scheduler statistics.
+
+<hr WIDTH="100%">
+
+<h4><a NAME="startjob"></a>1.1.3 StartJob</h4>
+
+&nbsp;&nbsp; The 'StartJob' command may only be applied to jobs
+in the 'Idle' state.&nbsp; It causes the job to begin running using the
+resources listed in the NodeID list.
+
+<p>&nbsp;&nbsp;&nbsp; send&nbsp;&nbsp;&nbsp;&nbsp; CMD=STARTJOB ARG=&lt;JOBID&gt;
+TASKLIST=&lt;NODEID&gt;[:&lt;NODEID&gt;]...
+<p>&nbsp;&nbsp;&nbsp; receive&nbsp; SC=&lt;STATUSCODE&gt; RESPONSE=&lt;RESPONSE&gt;
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&gt;= 0 indicates SUCCESS
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&lt;&nbsp; 0 indicates FAILURE
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESPONSE&nbsp;&nbsp;
+is a text message possibly further describing an error or state
+<p><fieldset><legend>job start example</legend><pre>
+<p># Start job nebo.1 on nodes cluster001 and cluster002
+<p>send 'CMD=STARTJOB ARG=nebo.1 TASKLIST=cluster001:cluster002'
+<p>receive 'SC=0;RESPONSE=job nebo.1 started with 2 tasks'
+</pre></fieldset>
+
+<hr WIDTH="100%">
+
+<h4><a name="canceljob"></a>1.1.4 CancelJob</h4>
+
+&nbsp;&nbsp; The 'CancelJob' command, if applied to an active job, will terminate its execution.&nbsp; If applied to an idle or active job, the CancelJob command will change the job's state to 'Canceled'.
+
+<p>&nbsp;&nbsp;&nbsp; send&nbsp;&nbsp;&nbsp;&nbsp; CMD=CANCELJOB ARG=&lt;JOBID&gt;
+TYPE=&lt;CANCELTYPE&gt;
+<p>&nbsp;&nbsp;&nbsp; &lt;CANCELTYPE&gt; is one of the following:
+<p>&nbsp;&nbsp;&nbsp; ADMIN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(command initiated by scheduler administrator)
+<br>&nbsp;&nbsp;&nbsp; WALLCLOCK (command initiated by scheduler because
+job exceeded its specified wallclock limit)
+<p>&nbsp;&nbsp;&nbsp; receive&nbsp; SC=&lt;STATUSCODE&gt; RESPONSE=&lt;RESPONSE&gt;
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&gt;= 0 indicates SUCCESS
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&lt;&nbsp; 0 indicates FAILURE
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESPONSE&nbsp;&nbsp;
+is a text message further describing an error or state
+<p><fieldset><legend>job cancel example</legend><pre>
+# Cancel job nebo.2
+<p>send '<tt>CMD=CANCELJOB ARG=nebo.2 TYPE=ADMIN</tt>'
+<p>receive '<tt>SC=0 RESPONSE=job nebo.2 canceled</tt>'
+</pre></fieldset>
+
+<hr WIDTH="100%">
+
+<h4><a name="suspendjob"></a>1.1.5 SuspendJob</h4>
+
+&nbsp;&nbsp; The 'SuspendJob' command can only be issued against a job in the state 'Running'.&nbsp; This command <a href="../8.4preemption.html#suspend">suspends</a> job execution and results in the job changing to the 'Suspended' <a href="../3.2environment.html#jobstates">state</a>.
+<p>&nbsp;&nbsp;&nbsp; send&nbsp;&nbsp;&nbsp;&nbsp; CMD=SUSPENDJOB ARG=&lt;JOBID&gt;
+<p>&nbsp;&nbsp;&nbsp; receive&nbsp; SC=&lt;STATUSCODE&gt; RESPONSE=&lt;RESPONSE&gt;
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&gt;= 0 indicates SUCCESS
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&lt;&nbsp; 0 indicates FAILURE
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESPONSE&nbsp;&nbsp;
+is a text message possibly further describing an error or state
+<p><fieldset><legend>job suspend example</legend><pre>
+<p># Suspend job nebo.3
+<p>send '<tt>CMD=SUSPENDJOB ARG=nebo.3</tt>'
+<p>receive '<tt>SC=0 RESPONSE=job nebo.3 suspended</tt>'
+</pre></fieldset>
+
+<hr WIDTH="100%">
+
+<h4><a name="resumejob"></a>1.1.6 ResumeJob</h4>
+
+&nbsp;&nbsp; The 'ResumeJob' command can only be issued against
+a job in the state 'Suspended'.&nbsp; This command resumes a suspended
+job returning it to the 'Running' state.
+<p>&nbsp; send&nbsp;&nbsp;&nbsp;&nbsp; CMD=RESUMEJOB ARG=&lt;JOBID&gt;
+<p>&nbsp; receive&nbsp; SC=&lt;STATUSCODE&gt; RESPONSE=&lt;RESPONSE&gt;
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&gt;= 0 indicates SUCCESS
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&lt;&nbsp; 0 indicates FAILURE
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESPONSE&nbsp;&nbsp;
+is a text message further describing an error or state
+
+<p><fieldset><legend>job resume example</legend><pre>
+<p># Resume job nebo.3
+<p>send 'CMD=RESUMEJOB ARG=nebo.3'
+<p>receive 'SC=0 RESPONSE=job nebo.3 resumed'
+</pre></fieldset>
+
+<hr WIDTH="100%">
+
+<h4><a name="requeuejob"></a>1.1.7 RequeueJob</h4>
+
+&nbsp;&nbsp; The 'RequeueJob' command can only be issued against an active job in the state 'Starting' or 'Running'.&nbsp; This command <a href="../8.4preemption.html#requeue">requeues</a> the job, stopping execution and returning the job to an idle <a href="../3.2environment.html#jobstates">state</a> in the queue. &nbsp;The requeued job will be eligible for execution the next time resources are available.
+<p>&nbsp; send&nbsp;&nbsp;&nbsp;&nbsp; CMD=REQUEUEJOB ARG=&lt;JOBID&gt;
+<p>&nbsp; receive&nbsp; SC=&lt;STATUSCODE&gt; RESPONSE=&lt;RESPONSE&gt;
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&gt;= 0 indicates SUCCESS
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&lt;&nbsp; 0 indicates FAILURE
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESPONSE&nbsp;&nbsp;
+is a text message further describing an error or state
+
+<p><fieldset><legend>job requeue example</legend><pre>
+<p># Requeue job nebo.3
+<p>send 'CMD=REQUEUEJOB ARG=nebo.3'
+<p>receive 'SC=0 RESPONSE=job nebo.3 requeued'
+</pre></fieldset>
+
+<hr WIDTH="100%">
+
+<h4><a name="signaljob"></a>1.1.8 SignalJob</h4>
+
+&nbsp;&nbsp; The 'SignalJob' command can only be issued against an active job in the state 'Starting' or 'Running'.&nbsp; This command signals the job, sending the specified signal to the master process. &nbsp;The signalled job will be remain in the same state it was before the signal was issued.
+<p>&nbsp; send&nbsp;&nbsp;&nbsp;&nbsp; CMD=SIGNALJOB ARG=&lt;JOBID&gt; ACTION=signal VALUE=&lt;SIGNAL&gt;
+<p>&nbsp; receive&nbsp; SC=&lt;STATUSCODE&gt; RESPONSE=&lt;RESPONSE&gt;
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&gt;= 0 indicates SUCCESS
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&lt;&nbsp; 0 indicates FAILURE
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESPONSE&nbsp;&nbsp;
+is a text message further describing an error or state
+
+<p><fieldset><legend>job signal example</legend><pre>
+<p># Signal job nebo.3
+<p>send 'CMD=SIGNALJOB ARG=nebo.3 ACTION=signal VALUE=13'
+<p>receive 'SC=0 RESPONSE=job nebo.3 signalled'
+</pre></fieldset>
+
+<hr WIDTH="100%">
+
+<h4><a name="modifyjob"></a>1.1.9 ModifyJob</h4>
+
+&nbsp;&nbsp; The 'ModifyJob' command can be issued against any active or queued job.&nbsp; This command modifies specified attributes of the job. 
+<p>&nbsp; send&nbsp;&nbsp;&nbsp;&nbsp; CMD=MODIFYJOB ARG=&lt;JOBID&gt; [BANK=name] [NODES=num] [PARTITION=name] [TIMELIMIT=minutes]
+<p>&nbsp; receive&nbsp; SC=&lt;STATUSCODE&gt; RESPONSE=&lt;RESPONSE&gt;
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&gt;= 0 indicates SUCCESS
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&lt;&nbsp; 0 indicates FAILURE
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESPONSE&nbsp;&nbsp;
+is a text message further describing an error or state
+
+<p><fieldset><legend>job modify example</legend><pre>
+<p># Signal job nebo.3
+<p>send 'CMD=MODIFYJOB ARG=nebo.3 TIMELIMIT=9600'
+<p>receive 'SC=0 RESPONSE=job nebo.3 modified'
+</pre></fieldset>
+
+<hr WIDTH="100%">
+
+<h4><a name="jobaddtask"></a>1.1.10 JobAddTask</h4>
+
+&nbsp;&nbsp; The 'JobAddTask' command allocates additional tasks to an active job.
+<p>&nbsp;&nbsp;&nbsp; send
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CMD=JOBADDTASK ARG=&lt;JOBID&gt;
+&lt;NODEID&gt; [&lt;NODEID&gt;]...
+<p>&nbsp;&nbsp;&nbsp; receive
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SC=&lt;STATUSCODE&gt; RESPONSE=&lt;RESPONSE&gt;
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&gt;= 0 indicates SUCCESS
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&lt;&nbsp; 0 indicates FAILURE
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESPONSE&nbsp;&nbsp;
+is a text message possibly further describing an error or state
+
+<p><fieldset><legend>job addtask example</legend><pre>
+<p># Add 3 default tasks to job nebo30023.0 using resources located on nodes cluster002, cluster016, and cluster112.
+<p>send 'CMD=JOBADDTASK ARG=nebo30023.0 DEFAULT cluster002 cluster016 cluster112'
+<p>receive 'SC=0 RESPONSE=3 tasks added'
+</pre></fieldset>
+
+<hr WIDTH="100%">
+
+<h4><a name="jobreleasetask"></a>1.1.11 JobReleaseTask</h4>
+
+&nbsp;&nbsp; The 'JobReleaseTask' command removes tasks from an active job.
+
+<p>&nbsp;&nbsp;&nbsp; send
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CMD=JOBREMOVETASK ARG=&lt;JOBID&gt;
+&lt;TASKID&gt; [&lt;TASKID&gt;]...
+<p>&nbsp;&nbsp;&nbsp; receive
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SC=&lt;STATUSCODE&gt; RESPONSE=&lt;RESPONSE&gt;
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&gt;= 0 indicates SUCCESS
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUSCODE
+&lt;&nbsp; 0 indicates FAILURE
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RESPONSE&nbsp;&nbsp;
+is a text message further describing an error or state
+
+<p><fieldset><legend>job releasetask example</legend><pre>
+<p># Free resources allocated to tasks 14, 15, and 16 of job nebo30023.0
+<p>send 'CMD=JOBREMOVETASK ARG=nebo30023.0 14 15 16'
+<p>receive 'SC=0 RESPONSE=3 tasks removed'
+</pre></fieldset>
+
+<hr WIDTH="100%">
+
+<h3><a name="rejcodes"></a>1.2 Rejection Codes</h3>
+<ul>
+<li>0xx - success - no error</li>
+<ul>
+<li>00x - success</li>
+<ul>
+<li>000 - success</li>
+</ul>
+<li>01x - usage/help reply</li>
+<ul>
+<li>010 - usage/help reply</li>
+</ul>
+<li>02x - status reply</li>
+<ul>
+<li>020 - general status reply</li>
+</ul>
+</ul>
+
+<li>1xx - warning</li>
+<ul>
+<li>10x - general warning</li>
+<ul>
+<li>100 - general warning</li>
+</ul>
+<li>11x - no content</li>
+<ul>
+<li>110 - general wire protocol or network warning</li>
+<li>112 - redirect</li>
+<li>114 - protocol warning</li>
+</ul>
+<li>12x - no matching results</li>
+<ul>
+<li>120 - general message format warning</li>
+<li>122 - incomplete specification (best guess action/response applied)</li>
+</ul>
+<li>13x - security warning</li>
+<ul>
+<li>130 - general security warning</li>
+<li>132 - insecure request</li>
+<li>134 - insufficient privileges (response was censored/action reduced in scope)</li>
+</ul>
+<li>14x - content or action warning</li>
+<ul>
+<li>140 - general content/action warning</li>
+<li>142 - no content (server has processed the request but there is no data to be returned)</li>
+<li>144 - no action (no object to act upon)</li>
+<li>146 - partial content</li>
+<li>148 - partial action</li>
+</ul>
+<li>15x - component defined</li>
+<li>18x - application defined</li>
+</ul>
+<li>2xx - wire protocol/network failure</li>
+<ul>
+<li>20x - protocol failure</li>
+<ul>
+<li>200 - general protocol/network failure</li>
+</ul>
+<li>21x - network failure</li>
+<ul>
+<li>210 - general network failure</li>
+<li>212 - cannot resolve host</li>
+<li>214 - cannot resolve port</li>
+<li>216 - cannot create socket</li>
+<li>218 - cannot bind socket</li>
+</ul>
+<li>22x - connection failure</li>
+<ul>
+<li>220 - general connection failure</li>
+<li>222 - cannot connect to service</li>
+<li>224 - cannot send data</li>
+<li>226 - cannot receive data</li>
+</ul>
+<li>23x - connection rejected</li>
+<ul>
+<li>230 - general connection failure</li>
+<li>232 - connection timed-out</li>
+<li>234 - connection rejected - too busy</li>
+<li>236 - connection rejected - message too big</li>
+</ul>
+<li>24x - malformed framing</li>
+<ul>
+<li>240 - general framing failure</li>
+<li>242 - malformed framing protocol</li>
+<li>244 - invalid message size</li>
+<li>246 - unexpected end of file</li>
+</ul>
+<li>25x - component defined</li>
+<li>28x - application defined</li>
+</ul>
+<li>3xx - messaging format error</li>
+<ul>
+<li>30x - general messaging format error</li>
+<ul>
+<li>300 - general messaging format error</li>
+</ul>
+<li>31x - malformed XML document</li>
+<ul>
+<li>310 - general malformed XML error</li>
+</ul>
+<li>32x - XML schema validation error</li>
+<ul>
+<li>320 - general XML schema validation</li>
+</ul>
+<li>33x - general syntax error in request</li>
+<ul>
+<li>330 - general syntax error in response</li>
+<li>332 - object incorrectly specified</li>
+<li>334 - action incorrectly specified</li>
+<li>336 - option/parameter incorrectly specified</li>
+</ul>
+<li>34x - general syntax error in response</li>
+<ul>
+<li>340 - general response syntax error</li>
+<li>342 - object incorrectly specified</li>
+<li>344 - action incorrectly specified</li>
+<li>346 - option/parameter incorrectly specified</li>
+</ul>
+
+<li>35x - synchronization failure</li>
+<ul>
+<li>350 - general synchronization failure</li>
+<li>352 - request identifier is not unique</li>
+<li>354 - request id values do not match</li>
+<li>356 - request id count does not match</li>
+</ul>
+</ul>
+<li>4xx - security error occurred</li>
+<ul>
+<li>40x - authentication failure - client signature</li>
+<ul>
+<li>400 - general client signature failure</li>
+<li>402 - invalid authentication type</li>
+<li>404 - cannot generate security token key - inadequate information</li>
+<li>406 - cannot canonicalize request</li>
+<li>408 - cannot sign request</li>
+</ul>
+<li>41x - negotiation failure</li>
+<ul>
+<li>410 - general negotiation failure</li>
+<li>412 - negotiation request malformed</li>
+<li>414 - negotiation request not understood</li>
+<li>416 - negotiation request not supported</li>
+</ul>
+<li>42x - authentication failure</li>
+<ul>
+<li>420 - general authentication failure</li>
+<li>422 - client signature failure</li>
+<li>424 - server authentication failure</li>
+<li>426 - server signature failure</li>
+<li>428 - client authentication failure</li>
+</ul>
+<li>43x - encryption failure</li>
+<ul>
+<li>430 - general encryption failure</li>
+<li>432 - client encryption failure</li>
+<li>434 - server decryption failure</li>
+<li>436 - server encryption failure</li>
+<li>438 - client decryption failure</li>
+</ul>
+<li>44x - authorization failure</li>
+<ul>
+<li>440 - general authorization failure</li>
+<li>442 - client authorization failure</li>
+<li>444 - server authorization failure</li>
+</ul>
+
+<li>45x - component defined failure</li>
+<li>48x - application defined failure</li>
+</ul>
+<li>5xx - event management request failure</li>
+<ul>
+<li>50x - reserved</li>
+<ul>
+<li>500 - reserved</li>
+</ul>
+</ul>
+<li>6xx - reserved for future use</li>
+<ul>
+<li>60x - reserved</li>
+<ul>
+<li>600 - reserved</li>
+</ul>
+</ul>
+<li>7xx - server side error occurred</li>
+<ul>
+<li>70x - server side error</li>
+<ul>
+<li>700 - general server side error</li>
+</ul>
+<li>71x - server does not support requested function</li>
+<ul>
+<li>710 - server does not support requested function</li>
+</ul>
+<li>72x - internal server error</li>
+<ul>
+<li>720 - general internal server error</li>
+</ul>
+<li>73x - resource unavailable</li>
+<ul>
+<li>730 - general resource unavailable error</li>
+<li>732 - software resource unavailable error</li>
+<li>734 - hardware resource unavailable error</li>
+</ul>
+<li>74x - request violates policy</li>
+<ul>
+<li>740 - general policy violation</li>
+</ul>
+<li>75x - component-defined failure</li>
+<li>78x - application-defined failure</li>
+</ul>
+<li>8xx - client side error occurred</li>
+<ul>
+<li>80x - general client side error</li>
+<ul>
+<li>800 - general client side error</li>
+</ul>
+<li>81x - request not supported</li>
+<ul>
+<li>810 - request not supported</li>
+</ul>
+<li>82x - application specific failure</li>
+<ul>
+<li>820 - general application specific failure</li>
+</ul>
+</ul>
+<li>9xx - miscellaneous</li>
+<ul>
+<li>90x - general miscellaneous error</li>
+<ul>
+<li>900 - general miscellaneous error</li>
+</ul>
+<li>91x - general insufficient resources error</li>
+<ul>
+<li>910 - general insufficient resources error</li>
+</ul>
+<li>99x - general unknown error</li>
+<ul>
+<li>999 - unknown error</li>
+</ul>
+</ul>
+</ul>
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

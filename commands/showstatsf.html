@@ -1,0 +1,223 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>showstats -f</h1>
+   <td valign=bottom nowrap><b>(showstats -f)</b>
+<tr>
+</table>
+
+<big><p><b>Synopsis</b></p></big>
+
+<pre>
+showstats -f <i>statistictype</i>
+</pre>
+
+<big><p><b>Overview</b></p></big>
+
+Shows table of various scheduler statistics.
+
+<p>This command displays a table of the selected Moab Scheduler statistics,
+such as expansion factor, bypass count, jobs, proc-hours, wall clock
+accuracy, and backfill information.
+
+<big><p><b>Access</b></p></big>
+
+This command can be run by any Moab Scheduler Administrator.
+
+<p><b>Parameters</b>
+
+<p>
+<table class="simpleTable">
+<tr>
+  <th>Parameter</th>
+  <th>Description</th>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>AVGBYPASS</b></td>
+<td class="contentDetails">Average bypass count. Includes summary of job-weighted expansion
+    bypass and total samples.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="avgqtime"></a><b>AVGQTIME</b></td>
+<td class="contentDetails">Average queue time. Includes summary of job-weighted queue time and
+    total samples.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>AVGXFACTOR</b></td>
+<td class="contentDetails">Average expansion factor. Includes summary of job-weighted expansion 
+    factor, processor-weighted expansion factor, processor-hour-weighted expansion
+    factor, and total number of samples.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>BFCOUNT</b></td>
+<td class="contentDetails">Number of jobs backfilled. Includes summary of job-weighted backfill
+    job percent and total samples.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>BFPHRUN</b></td>
+<td class="contentDetails">Number of proc-hours backfilled. Includes summary of job-weighted
+    backfill proc-hour percentage and total samples.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="eststarttime"></a><b>ESTSTARTTIME</b></td>
+<td class="contentDetails">Job start time estimate for jobs meeting specified processor/duration criteria.
+ This estimate is based on the <a href="showstart.html#rsv">reservation start time
+analysis</a> algorithm.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>JOBCOUNT</b></td>
+<td class="contentDetails">Number of jobs. Includes summary of total jobs and total samples.</td>
+</tr>
+
+
+<tr>
+<td class="contentLabels"><b>JOBEFFICIENCY</b></td>
+<td class="contentDetails">Job efficiency. Includes summary of job-weighted job efficiency
+    percent and total samples.</td>
+</tr>
+
+
+<tr>
+<td class="contentLabels"><b>MAXBYPASS</b></td>
+<td class="contentDetails">Maximum bypass count. Includes summary of overall maximum bypass and
+    total samples.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>MAXXFACTOR</b></td>
+<td class="contentDetails">Maximum expansion factor. Includes summary of overall maximum 
+    expansion factor and total samples.</td> 
+</tr>
+
+
+<tr>
+<td class="contentLabels"><b>PHREQUEST</b></td>
+<td class="contentDetails">proc-hours requested. Includes summary of total proc-hours requested
+    and total samples.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>PHRUN</b></td>
+<td class="contentDetails">proc-hours run. Includes summary of total proc-hours run and total
+    samples.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>QOSDELIVERED</b></td>
+<td class="contentDetails">Quality of service delivered. Includes summary of job-weighted 
+    quality of service success rate and total samples.</td> 
+</tr>
+
+<tr>
+<td class="contentLabels"><b>WCACCURACY</b></td>
+<td class="contentDetails">Wall clock accuracy. Includes summary of overall wall clock accuracy
+    and total samples.</td>
+</tr>
+</TABLE>
+
+<big><p><b>Example 1</b></p></big>
+
+<p><div class="example"><pre>
+&gt; showstats -f AVGXFACTOR
+
+Average XFactor Grid
+
+[ NODES ][ 00:02:00 ][ 00:04:00 ][ 00:08:00 ][ 00:16:00 ][ 00:32:00 ][ 01:04:00 ][ 02:08:00 ][ 04:16:00 ][ 08:32:00 ][ 17:04:00 ][ 34:08:00 ][   TOTAL  ]
+[    1  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ]
+[    2  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ]
+[    4  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][  1.00   1][ -------- ][  1.12   2][ -------- ][ -------- ][  1.10   3]
+[    8  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][  1.00   2][  1.24   2][ -------- ][ -------- ][ -------- ][  1.15   4]
+[   16  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][  1.01   2][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][  1.01   2]
+[   32  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ]
+[   64  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ]
+[  128  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ]
+[  256  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ]
+[ T TOT ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][  1.01   2][  1.00   3][  1.24   2][  1.12   2][ -------- ][ -------- ]
+Job Weighted X Factor:     1.0888
+Node Weighted X Factor:    1.1147
+NS Weighted X Factor:      1.1900
+Total Samples:                9
+</pre></div>
+
+<P>   The <b>showstats -f</b> command returns a table with data for the specified
+<i>STATISTICTYPE</i> parameter.  The left-most column shows the maximum number
+of processors required by the jobs shown in the other columns.  The column headers
+indicate the maximum wall clock time (in HH:MM:SS notation) requested by
+the jobs shown in the columns.  The data returned in the table varies by
+the <i>STATISTICTYPE</i> requested.  For table entries with one number, it
+is of the data requested.  For table entries with two numbers, the left
+number is the data requested and the right number is the number of jobs
+used to calculate the average.  Table entries that contain only dashes
+(-------) indicate no job has completed that matches the profile associated 
+for this inquiry.  The bottom row shows the totals for each column.  
+Following each table is a summary, which varies by the <I>STATISTICTYPE</I> 
+requested. 
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">The column and row break down can be adjusted using the <a href="../a.fparameters.html#statprocmin">STATPROC*</a> and <a href="../a.fparameters.html#stattimemin">STATTIME*</a> parameters respectively.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<p>   This particular example shows the average expansion factor grid. Each table 
+entry indicates two pieces of information -- the average expansion 
+factor for all jobs that meet this slot's profile and the number of jobs 
+that were used to calculate this average. For example, the XFactors of 
+two jobs were averaged to obtain an average XFactor of 1.24 for jobs 
+requiring over 2 hours 8 minutes, but not more than 4 hours 16 minutes 
+and between 5 and 8 processors.  Totals along the bottom provide overall 
+XFactor averages weighted by job, processors, and processor-hours. 
+
+<h2>See Also</h2>
+
+<ul>
+<li><a href="../2.2installation.html#client">Moab Client Installation</a> - explains how to distribute this command to client nodes</li>
+<li><a href="resetstats.html">resetstats</a> command
+<li><a href="showstats.html">showstats</a> command
+<li><a href="../a.fparameters.html#statprocmin">STATPROCMIN</a> parameter
+<li><a href="../a.fparameters.html#statprocstepcount">STATPROCSTEPCOUNT</a> parameter
+<li><a href="../a.fparameters.html#statprocstepsize">STATPROCSTEPSIZE</a> parameter
+<li><a href="../a.fparameters.html#stattimemin">STATTIMEMIN</a> parameter
+<li><a href="../a.fparameters.html#stattimestepcount">STATTIMESTEPCOUNT</a> parameter
+<li><a href="../a.fparameters.html#stattimestepsize">STATTIMESTEPSIZE</a> parameter
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+
+

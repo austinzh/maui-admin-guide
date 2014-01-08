@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="10.0managingsharedresources.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="10.3resourceusagetracking.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="11.0generaljobadmin.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1><a name="resourcelimits" id="resourcelimits"></a>10.4 Resource Usage Limits</h1>
+
+          <p>Resource usage limits constrain the amount of resources a given job may consume. These limits are generally proportional to the resources requested and may include walltime, any standard resource, or any specified generic resource. The parameter <a href="a.fparameters.html#resourcelimitpolicy">RESOURCELIMITPOLICY</a> controls which resources are limited, what limit policy is enforced per resource, and what actions the scheduler should take in the event of a policy violation.</p>
+
+          <p>The <b>RESOURCELIMITPOLICY</b> parameter accepts a number of policies and actions defined in the tables below.</p>
+
+          <table border="1">
+            <tr>
+              <td><b>Policy</b></td>
+
+              <td><b>Description</b></td>
+            </tr>
+
+            <tr>
+              <td><b>ALWAYS</b></td>
+
+              <td>take action whenever a violation is detected</td>
+            </tr>
+
+            <tr>
+              <td><b>EXTENDEDVIOLATION</b></td>
+
+              <td>take action only if a violation is detected and persists for greater than the specified timelimit</td>
+            </tr><!--<tr><td><b>BLOCKEDWORKLOADONLY</b><td>take action only if a violation is detected and the constrained resource is required by another job</tr>-->
+          </table>
+
+          <table border="1">
+            <tr>
+              <td><b>Action</b></td>
+
+              <td><b>Description</b></td>
+            </tr>
+
+            <tr>
+              <td><b>CANCEL</b></td>
+
+              <td>terminate the job</td>
+            </tr>
+
+            <tr>
+              <td><b>REQUEUE</b></td>
+
+              <td>terminate and requeue the job</td>
+            </tr>
+
+            <tr>
+              <td><b>SUSPEND</b></td>
+
+              <td>suspend the job and leave it suspended for an amount of time defined by the <b>X</b> parameter</td>
+            </tr>
+          </table>
+
+          <h2>Constraining Walltime Usage</h2><!-- While Maui constrains walltime using the parameter <b>RESOURCELIMITPOLICY</b> like other resources, it also allows walltime exceptions which are not available with other resources.-->Early releases of Maui 3.2 allowed jobs to exceed the requested wallclock limit by an amount specified on a global basis using the <a href="a.fparameters.html#jobmaxoverrun">JOBMAXOVERRUN</a> parameter or on a per class basis using the <a href="a.fparameters.html#classcfg"><b>CLASSCFG</b></a> parameter's <b>OVERRUN</b> attribute. Later releases of 3.2 allowed the <b>OVERRUN</b> attribute to be associated with any job credential.
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="10.0managingsharedresources.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="10.3resourceusagetracking.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="11.0generaljobadmin.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

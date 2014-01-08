@@ -1,0 +1,115 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>releasehold</h1>
+   <td valign=bottom nowrap><b>(Release Hold)</b>
+<tr>
+</table>
+
+<p><font color="#e63805"><b>Caution</b></font>: This command is deprecated. Use <a href="mjobctl.html#unhold">mjobctl -u</a> instead.</p>
+
+<h4>Synopsis</h4>
+<pre>
+releasehold [<a href="releasehold.html#a">-a</a>|<a href="releasehold.html#b">-b</a>] <a href="mjobctl.html#jobexp">jobexp</a>
+</pre>
+
+<h4>Overview</h4>
+Release hold on specified job(s).
+<p>This command allows you to release batch holds or all holds (system,
+user, and batch) on specified jobs. Any number of jobs may be released
+with this command.
+
+<h4>Access</h4>
+By default, this command can be run by any Moab Scheduler Administrator.
+
+<p><b>Parameters</b>
+<table BORDER=0 CELLPADDING=5 >
+<tr VALIGN=TOP>
+<td>JOBEXP</td>
+
+<td>Job expression of job(s) to release.</td>
+</tr>
+</table>
+
+<p><b>Flags</b>
+<table BORDER=0 CELLPADDING=5 >
+<tr VALIGN=TOP>
+<td><a name="a"></a>-a</td>
+
+<td>Release all types of holds (user, system, batch) for specified job(s).</td>
+</tr>
+
+<tr VALIGN=TOP>
+<td><a name="b"></a>-b</td>
+
+<td>Release batch hold from specified job(s).</td>
+</tr>
+
+<tr VALIGN=TOP>
+<td>-h</td>
+
+<td>Help for this command.</td>
+</tr>
+</table>
+
+<h4>Example 1</h4>
+
+<fieldset><legend>releasehold -b</legend><pre>
+&gt; releasehold -b 6443
+
+batch hold released for job 6443
+</pre></fieldset>
+
+<p>&nbsp;&nbsp; In this example, a batch hold was released from this one job.
+
+<h4>Example 2</h4>
+
+<fieldset><legend>releasehold -a</legend><pre>
+&gt; releasehold -a "81[1-6]"
+
+holds modified for job 811
+holds modified for job 812
+holds modified for job 813
+holds modified for job 814
+holds modified for job 815
+holds modified for job 816
+</pre></fieldset>
+
+<p>&nbsp;&nbsp; In this example, all holds were released from the specified jobs.
+
+
+<h4>See Also</h4>
+
+<ul>
+<li><a href="sethold.html">sethold</a>
+<li><a href="mjobctl.html">mjobctl</a>
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+
+

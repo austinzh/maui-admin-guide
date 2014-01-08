@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <h3>Appendix G: mjobctl</h3>
+          <hr>
+          <br>
+          <b>mjobctl [ARGS] &lt;JOBID&gt;</b>
+
+          <p><b>Purpose</b></p>
+
+          <p>modify attributes or perform operation on a specified job<br></p>
+
+          <p><b>Permissions</b></p>
+
+          <p>This command can be run by any Maui administrator or by the owner of the specified job.<br></p>
+
+          <p><b>Parameters</b></p>
+
+          <table border="0" cellpadding="5">
+            <tr valign="top">
+              <td><b>JOBID</b></td>
+
+              <td>Name of the job to be affected.</td>
+            </tr>
+          </table>
+
+          <table border="0" cellpadding="5">
+            <tr valign="top">
+              <td><b>Args</b></td>
+
+              <td><b>Description</b></td>
+            </tr>
+
+            <tr>
+              <td><b>-c</b></td>
+
+              <td><i>Cancel</i> job</td>
+            </tr>
+
+            <tr>
+              <td><b>-f</b></td>
+
+              <td>Attempt to <i>force</i> the job to run, ignoring throttling policies (Only valid with the <b>-r</b> flag)</td>
+            </tr>
+
+            <tr valign="top">
+              <td><b>-h</b></td>
+
+              <td><i>Help</i> for this command.</td>
+            </tr>
+
+            <tr>
+              <td><b>-m</b></td>
+
+              <td><i>Modify</i> specified job. See details below.</td>
+            </tr>
+
+            <tr>
+              <td><b>-n &lt;NODELIST&gt;</b></td>
+
+              <td>Attempt to start the job using the specified <i>nodelist</i> where nodenames are comma or colon delimited (Only valid with the <b>-r</b> flag)</td>
+            </tr>
+
+            <tr valign="top">
+              <td><b>-p &lt;PARTITION&gt;</b></td>
+
+              <td>Attempt to start the job in the specified <i>partition.</i> (Only valid with the <b>-r</b> flag)</td>
+            </tr>
+
+            <tr>
+              <td><b>-r</b></td>
+
+              <td>Attempt to start (<i>run</i>) the job</td>
+            </tr>
+
+            <tr>
+              <td><b>-s</b></td>
+
+              <td>Attempt to <i>suspend</i> the job</td>
+            </tr>
+
+            <tr>
+              <td><b>-x</b></td>
+
+              <td>Attempt to force the job to run, ignoring throttling policies, QoS constraints, and reservations (only valid with the <b>-r</b> flag)</td>
+            </tr>
+          </table>
+
+          <p><b>Description</b></p>
+
+          <p>This command will attempt to alter a specified job<br></p>
+
+          <p><b>Example</b></p>
+
+          <p><tt>&gt; mjobctl -r cluster.231</tt></p>
+
+          <p><tt>job cluster.231 successfully started</tt></p>
+
+          <p>This example attempts to run job cluster.231.<br></p>
+
+          <p><b>See Also:</b></p>
+
+          <p><tt><a href="commands/checkjob.html">checkjob</a></tt> - show detailed status of a job.<br>
+          <tt><a href="commands/showq.html">showq</a></tt> - list queued jobs.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

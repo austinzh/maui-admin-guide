@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="7.0controllingresourceaccess.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="7.1.6userreservations.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="7.3qos.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>7.2 Partitions</h1>
+
+          <p>Partitions are a logical construct which divide available resources. By default, a given job may only utilize resources within a single partition and any resource (i.e., compute node) may only be associated with a single partition. In general, partitions are organized along physical or political boundaries. For example, a cluster may consist of 256 nodes containing four 64 port switches. This cluster may receive excellent interprocess communication speeds for parallel job tasks located within the same switch but sub-stellar performance for tasks which span switches. To handle this, the site may choose to create four partitions, allowing jobs to run within any of the four partitions but not span them.</p>
+
+          <p>While partitions do have value, it is important to note that within Maui, the <a href="7.1.3standingreservations.html">standing reservation</a> facility provides significantly improved flexibility and should be used in the vast majority of cases where partitions are required under other resource management systems. Standing reservations provide time flexibility, improved access control features, and more extended resource specification options. Also, another Maui facility called <a href="8.3nodesetoverview.html">Node sets</a> allows intelligent aggregation of resources to improve per job node allocation decisions. In cases where system partitioning is considered for such reasons, node sets may be able to provide a better solution.</p>
+
+          <p>Still, one key advantage of partitions over standing reservations and node sets is the ability to specify partition specific policies, limits, priorities, and scheduling algorithms although this feature is rarely required. An example of this need may be a cluster consisting of 48 nodes owned by the Astronomy Department and 16 nodes owned by the Mathematics Department. Each department may be willing to allow sharing of resources but wants to specify how their partition will be used. As mentioned earlier, many of Maui's scheduling policies may be specified on a per partition basis allowing each department to control the scheduling goals within their partition.</p>
+
+          <p>The partition associated with each node must be specified as indicated in the <a href="12.1nodelocation.html">Node Location</a> section. With this done, partition access lists may be specified on a per job or per QOS basis to constrain which resources a job may have access to (See the <a href="7.3qos.html">QOS Overview</a> for more information). By default, QOS's and jobs allow global partition access.</p>
+
+          <p>If no partition is specified, Maui creates a single partition named '<b>DEFAULT</b>' into which all resources are placed. In addition to the DEFAULT partition, a pseudo-partition named '<b>[ALL]</b> ' is created which contains the aggregate resources of all partitions. <b>NOTE</b>: While DEFAULT is a real partition containing all resources not explicitly assigned to another partition, the [ALL] partition is only a convenience construct and is not a real partition; thus it cannot be requested by jobs or included in configuration ACL's.</p>
+
+          <ul>
+            <li><a href="7.2partitions.html#defining">7.2.1 Defining Partitions</a></li>
+
+            <li><a href="7.2partitions.html#managing">7.2.2 Managing Partition Access</a></li>
+
+            <li><a href="7.2partitions.html#requesting">7.2.3 Requesting Partitions</a></li>
+
+            <li><a href="7.2partitions.html#misc">7.2.4 Miscellaneous Partition Issues</a></li>
+          </ul>
+          <hr>
+          <br>
+
+          <h2><a name="defining" id="defining"></a>7.2.1 Defining Partitions</h2>
+
+          <p>Node to partition mappings are established using the <a href="a.fparameters.html#nodecfg">NODECFG</a> parameter as shown in the example below.</p>
+
+          <p>---<br>
+          <tt>NODECFG[node001] PARTITION=astronomy</tt><br>
+          <tt>NODECFG[node002] PARTITION=astronomy</tt><br>
+          <tt>...</tt><br>
+          <tt>NODECFG[node049] PARTITION=math</tt><br>
+          <tt>...</tt><br>
+          ---</p>
+
+          <table class="note">
+            <tbody>
+              <tr>
+                <td class="noteIMG"><img src="note.png" title="Note" alt="Note"></td>
+
+                <td class="noteDetail">By default, Maui only allows the creation of 4 partitions total. Two of these partitions, <b>DEFAULT</b>, and <b>[ALL]</b>, are used internally, leaving only two additional partition definition slots available. If more partitions will be needed, the maximum partition count should be adjusted. See Appendix D, <a href="a.ddevelopment.html">Adjusting Default Limits</a>, for information on increasing the maximum number of partitions.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2><a name="managing" id="managing"></a>7.2.2 Managing Partition Access</h2>
+
+          <p>Determining who can use which partition is specified using the <b>*CFG</b> parameters (<a href="a.fparameters.html#usercfg">USERCFG</a> , <a href="a.fparameters.html#groupcfg">GROUPCFG</a> , <a href="a.fparameters.html#accountcfg">ACCOUNTCFG</a> , <a href="a.fparameters.html#qoscfg">QOSCFG</a> , <a href="a.fparameters.html#classcfg">CLASSCFG</a> , and <a href="a.fparameters.html#systemcfg">SYSTEMCFG</a> ). These parameters allow both a partition access list and default partition to be selected on a credential or system wide basis using the PLIST and PDEF keywords. By default, the access associated with any given job is the <i>logical or</i> of all partition access lists assigned to the job's credentials. Assume a site with two partitions, general, and test. The site management would like everybody to use the general partition by default. However, one user, steve, needs to perform the majority of his work on the test partition. Two special groups, staff and mgmt will also need access to use the test partition from time to time but will perform most of their work in the general partition. The example configuration below will enable the needed user and group access and defaults for this site.</p>
+
+          <p>---<br>
+          <tt>SYSCFG[base] PLIST=<br>
+          USERCFG[DEFAULT] PLIST=general</tt><br>
+          <tt>USERCFG[steve] PLIST=general:test PDEF=test</tt><br>
+          <tt>GROUPCFG[staff] PLIST=general:test PDEF=general</tt><br>
+          <tt>GROUPCFG[mgmt] PLIST=general:test PDEF=general</tt><br>
+          ---</p>
+
+          <p><b>NOTE</b>: By default, the system partition access list allows <i>global</i> access to all partitions. If using <i>logically or</i> based partition access lists, the system partition list should be explicitly constrained using the <b>SYSCFG</b> parameter.</p>
+
+          <p>While using a <i>logical or</i> approach allows sites to add access to certain jobs, some sites prefer to work the other way around. In these cases, access is granted by default and certain credentials are then restricted from access various partitions. To use this model, a system partition list must be specified. See the example below:</p>
+
+          <p>---<br>
+          <tt>SYSCFG[base] PLIST=general,test&amp;<br>
+          USERCFG[demo] PLIST=test&amp;<br>
+          GROUPCFG[staff] PLIST=general&amp;</tt><br>
+          ---</p>In the above example, note the <i>ampersand</i> ('&amp;'). This character, which can be located anywhere in the <b>PLIST</b> line, indicates that the specified partition list should be <i>logically and'd</i> with other partition access lists. In this case, the configuration will limit jobs from user <b>demo</b> to running in partition <b>test</b> and jobs from group <b>staff</b> to running in partition <b>general</b> . All other jobs will be allowed to run in either partition. <b>NOTE</b> : When using and based partition access lists, the base system access list must be specified with <b>SYSCFG</b>.<br>
+          <br>
+
+          <h2><a name="requesting" id="requesting"></a>7.2.3 Requesting Partitions</h2>
+
+          <p>Users may request to use any partition they have access to on a per job basis. This is accomplished using the resource manager extensions since most native batch systems do not support the partition concept. For example, on a PBS system, a job submitted by a member of the group staff could request that the job run in the test partition by adding the line '#PBS -W x=PARTITION:test' to the command file. See the <a href="13.3rmextensions.html">resource manager extension overview</a> for more information on configuring and utilizing resource manager extensions.<br></p>
+
+          <h2><a name="misc" id="misc"></a> 7.2.4 Miscellaneous Partition Issues</h2>
+
+          <p>Special jobs may be allowed to span the resources of multiple partitions if desired by associating the job with a QOS which has the flag '<b>SPAN</b>' set. (See the <a href="a.fparameters.html#qoscfg">QOSCFG</a> parameter)</p>
+
+          <p>A brief caution, use of partitions has been quite limited in recent years as other, more effective approaches are selected for site scheduling policies. Consequently, some aspects of partitions have received only minor testing. Still note that partitions are fully supported and any problem found will be rectified.</p>
+
+          <p><b>See Also:</b></p>
+
+          <p>Standing Reservations, Node Sets</p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="7.0controllingresourceaccess.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="7.1.6userreservations.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="7.3qos.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

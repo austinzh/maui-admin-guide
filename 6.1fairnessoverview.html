@@ -1,0 +1,101 @@
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="6.0managingfairness.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="6.0managingfairness.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="6.2throttlingpolicies.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>6.1 Fairness Overview</h1>
+
+          <p>The concept of <i>fairness</i> varies widely from person to person and site to site. To some it implies giving all users equal access to compute resources. However, more complicated concepts incorporating historical resource usage, political issues, and job <i>value</i> are equally valid. While no scheduler can handle all possible definitions of what <i>fair</i> means, Maui provides some flexible tools that help with most common fairness management definitions and needs. Particularly, fairness under Maui may be addressed by any combination of the facilities described in the table below.<br></p>
+
+          <table border cols="3" width="100%" nosave="">
+            <tr>
+              <td><b>Facility</b></td>
+
+              <td><b>Description</b></td>
+
+              <td><b>Example</b></td>
+            </tr>
+
+            <tr>
+              <td><a href="6.2throttlingpolicies.html">Throttling Policies</a></td>
+
+              <td>Specify limits on exactly what resources can be used at any given instant.</td>
+
+              <td>
+                <tt>USERCFG[john] MAXJOB=3</tt><br>
+                <tt>GROUPCFG[DEFAULT] MAXPROC=64</tt><br>
+                <tt>GROUPCFG[staff] MAXPROC=128</tt>
+
+                <p>(allow <tt>john</tt> to only run 3 jobs at a time. Allow the group <tt>staff</tt> to utilize up to 128 total processors and all other groups to utilize up to 64 processors.)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><a href="5.0prioritization.html">Job Prioritization</a></td>
+
+              <td>Specify what is most important to the scheduler. Using <i>Service</i> based priority factors can allow a site to balance job turnaround time, expansion factor, or other scheduling performance metrics.</td>
+
+              <td>
+                <tt>SERVWEIGHT 1</tt><br>
+                <tt>QUEUETIMEWEIGHT 10</tt>
+
+                <p>(cause jobs to increase in priority by 10 points for every minute they remain in the queue.)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><a href="6.3fairshare.html">Fairshare</a></td>
+
+              <td>Specify usage targets to limits resource access or adjust priority based on historical resource usage.</td>
+
+              <td>
+                <tt>USERCFG[steve] FSTARGET=25.0+</tt><br>
+                <tt>FSWEIGHT 1</tt><br>
+                <tt>FSUSERWEIGHT 10</tt>
+
+                <p>(enable <i>priority based</i> fairshare and specify a fairshare target for user <tt>steve</tt> such that his job's will be favored in an attempt to keep his job's utilizing <i>at least</i> 25.0% of delivered compute cycles.)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><a href="6.4allocationmanagement.html">Allocation Management</a></td>
+
+              <td>Specify long term, credential-based resource usage limits.</td>
+
+              <td>
+                <tt>BANKTYPE QBANK</tt><br>
+                <tt>BANKSERVER server.sys.net</tt>
+
+                <p>(enable the <b>QBank</b> allocation management system. Within the allocation manager, project or account based allocations may be configured. These allocations may, for example, allow project <b>X</b> to utilize up to 100,000 processor-hours per quarter, provide various QoS sensitive charge rates, share allocation access, etc.)</p>
+              </td>
+            </tr>
+          </table>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="6.0managingfairness.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="6.0managingfairness.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="6.2throttlingpolicies.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

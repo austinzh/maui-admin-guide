@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <h1>13.3.1 PBS RM Extensions</h1>RM extensions within PBS are utilized by using the '<b>-W</b>' flag. To enable this flag, some versions of PBS must be rebuilt.(NOTE: <a href="http://docs.adaptivecomputing.com/torque">TORQUE</a> and recent OSCAR distributions come with the flag enabled by default. Most other versions do not.)<br>
+          The required steps are documented below.
+
+          <p><b>&gt; qterm -t quick #shutdown PBS server</b> (cd to the directory from which you executed the PBS 'configure' at install time) <b>make distclean</b> <b>./configure &lt;WITH OPTIONS&gt;</b></p>
+
+          <p><b>create <a href="13.3.1pbsrmextensions.html#addparam">addparam</a> script</b><br>
+          (chmod +x addparam)</p>
+
+          <p><b>addparam x S</b><br></p>
+
+          <table class="note">
+            <tbody>
+              <tr>
+                <td class="noteIMG"><img src="note.png" title="Note" alt="Note"></td>
+
+                <td class="noteDetail">In Maui 3.2.x, only the '<b>x</b>' parameter needs to be added.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p><b>make</b></p>
+
+          <p>(backup current $PBS_HOMEDIR directory contents, NOTE: $PBS_HOMEDIR defaults to /usr/spool/PBS)</p>
+
+          <p><b>&gt; make install</b></p>
+
+          <p>(restore old $PBS_HOMEDIR directory contents)</p>
+
+          <p><b>&gt; pbs_server # restart PBS server</b></p>
+
+          <p>A job's QOS level can then be specified using qsub's '-W' flag, i.e., qsub -W x=iQOS:hi -l nodes=4 ...<br></p>
+
+          <p>(<a name="addparam" id="addparam"></a>addparam script follows)<br>
+          ------<br>
+          #!/bin/sh<br>
+          #script: addparam<br>
+          #usage: addparam $Parameter [S|L]</p>
+
+          <p>NewParameter=$1<br>
+          ParameterType=x$2</p>
+
+          <p>if [ ! -d src/include ]; then<br>
+          echo "error: `basename $0` src/include doesn't exist, run configure" 1&gt;&amp;2<br>
+          exit 1<br>
+          fi</p>
+
+          <p># run make in this directory to pull over the template files<br>
+          cd src/include<br>
+          if make<br>
+          then</p>
+
+          <p>if grep -q "\"$NewParameter\"" site_*.h 2&gt;/dev/null; then<br>
+          echo "parameter $NewParameter previously added"<br>
+          exit 0<br>
+          fi<br>
+          fi</p>
+
+          <p>chmod +w site_job_attr_enum.h<br>
+          echo "<br>
+          JOB_SITE_ATR_$1,<br>
+          " &gt;&gt; site_job_attr_enum.h</p>
+
+          <p>chmod +w site_job_attr_def.h</p>
+
+          <p>if [ $ParameterType = "xS" ]<br>
+          then<br>
+          echo "<br>
+          { \"$NewParameter\",<br>
+          decode_str,<br>
+          encode_str,<br>
+          set_str,<br>
+          comp_str,<br>
+          free_str,<br>
+          NULL_FUNC,<br>
+          READ_WRITE,<br>
+          ATR_TYPE_STR,<br>
+          PARENT_TYPE_JOB<br>
+          },<br>
+          " &gt;&gt; site_job_attr_def.h<br>
+          else<br>
+          echo "<br>
+          { \"$NewParameter\",<br>
+          decode_l,<br>
+          encode_l,<br>
+          set_l,<br>
+          comp_l,<br>
+          free_null,<br>
+          NULL_FUNC,<br>
+          READ_WRITE,<br>
+          ATR_TYPE_LONG,<br>
+          PARENT_TYPE_JOB<br>
+          },<br>
+          " &gt;&gt; site_job_attr_def.h<br>
+          fi<br>
+          exit 0</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

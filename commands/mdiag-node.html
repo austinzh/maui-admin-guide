@@ -1,0 +1,409 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>mdiag -n</h1>
+   <td valign=bottom nowrap><b>(Moab Node Diagnostics)</b>
+<tr>
+</table>
+
+<p><big><b><a name="synopsis"></a>Synopsis</b></big></p>
+<pre>
+mdiag -n [-t <i>partitionid</i>] [-A <i>creds</i>] [-v] [<a href="mdiag-node.html#xml">--format=xml</a>] [<i>nodeid</i>]
+</pre>
+
+<p><big><b>Overview</b></big></p>
+
+The <b>mdiag -n</b> command provides detailed information about the state of nodes Moab is currently tracking.  This command also performs a large number of sanity and state checks.  The node configuration and status information as well as the results of the various checks are presented by this command.
+
+<p><big><b>Arguments</b></big></p>
+
+<table class="simpleTable">
+<tr>
+<th>Flag</th>
+<th>Argument</th>
+<th>Description</th>
+<tr>
+<td class="contentLabels">[-A]
+<td class="contentDetails">{user|group|account|qos|class|job}:&lt;OBJECTID&gt;
+<td class="contentDetails">report if each node is accessible by requested job or credential
+<tr>
+<td class="contentLabels">[-t]
+<td class="contentDetails">&lt;partitionid&gt;
+<td class="contentDetails">report only nodes from specified partition
+<tr>
+<td class="contentLabels">[-v]
+<td class="contentDetails">-
+<td class="contentDetails">show verbose output (do not truncate columns and add columns for additional node attributes)
+</table>
+
+<!-- <p><big><b>Flags</b></big></p>
+    -n                                 
+(nodes)       diagnose node information
+<br>    -t &lt;PARTITION>   (partition) 
+show only nodes contained in the specified partition
+<br>    -v                                 
+(verbose)    do not truncate data fields -->
+
+<p><big><b>Output</b></big></p>
+
+   This command presents detailed node information in whitespace delineated fields.
+
+<p>   The output of this command can be extensive and the values for a number of fields may be truncated.  If truncated, the '<b>-v</b> flag can be used to display full field content.
+
+<table class="simpleTable">
+<tr>
+<th>Column</th>
+<th>Format</th>
+<tr> <td class="contentLabels">Name<td class="contentDetails">&lt;NODE NAME 
+<tr><td class="contentLabels">State<td class="contentDetails">&lt;NODE STATE 
+<tr><td class="contentLabels">Procs<td class="contentDetails">&lt;AVAILABLE PROCS&gt;:&lt;CONFIGURED
+PROCS&gt;
+<tr><td class="contentLabels">Memory<td class="contentDetails">&lt;AVAILABLE MEMORY&gt;:&lt;CONFIGURED MEMORY&gt;
+<tr><td class="contentLabels">Disk<td class="contentDetails">&lt;AVAILABLE DISK>:&lt;CONFIGURED
+DISK>
+<tr><td class="contentLabels">Swap<td class="contentDetails">&lt;AVAILABLE SWAP>:&lt;CONFIGURED
+SWAP>
+<tr><td class="contentLabels">Speed<td class="contentDetails">&lt;RELATIVE MACHINE SPEED>
+<tr><td class="contentLabels">Opsys<td class="contentDetails">&lt;NODE OPERATING SYSTEM>
+<tr><td class="contentLabels">Arch<td class="contentDetails">&lt;NODE HARDWARE ARCHITECTURE>
+<tr><td class="contentLabels">Par<td class="contentDetails">&lt;PARTITION NODE IS ASSIGNED TO>
+<tr><td class="contentLabels">Load<td class="contentDetails">&lt;CURRENT 1 MINUTE BSD LOAD>
+<tr><td class="contentLabels">Rsv<td class="contentDetails">&lt;NUMBER OF RESERVATIONS ON NODE>
+<tr><td class="contentLabels">Classes<td class="contentDetails">&lt;CLASS NAME>&lt;CLASS INSTANCES AVAILABLE>:&lt;CLASS INSTANCES CONFIGURED>...
+<tr><td class="contentLabels">Network<td class="contentDetails">&lt;NETWORK NAME>...
+<tr><td class="contentLabels">Features<td class="contentDetails">&lt;NODE FEATURE>...
+</table>
+
+<p><big><b>Example 1</b></big></p>
+
+<p><div class="example"><pre>
+&gt; mdiag -n</font></tt>
+
+compute node summary
+Name                    State   Procs      Memory         Opsys
+ 
+opt-001                  Busy    0:2      2048:2048        SuSE
+opt-002                  Busy    0:2      2048:2048        SuSE
+opt-003                  Busy    0:2      2048:2048        SuSE
+opt-004                  Busy    0:2      2048:2048        SuSE
+opt-005                  Busy    0:2      2048:2048        SuSE
+opt-006                  Busy    0:2      2048:2048        SuSE
+WARNING:   swap is low on node opt-006
+opt-007                  Busy    0:2      2048:2048        SuSE
+opt-008                  Busy    0:2      2048:2048        SuSE
+opt-009                  Busy    0:2      2048:2048        SuSE
+opt-010                  Busy    0:2      2048:2048        SuSE
+opt-011                  Busy    0:2      2048:2048        SuSE
+opt-012                  Busy    0:2      2048:2048        SuSE
+opt-013                  Busy    0:2      2048:2048        SuSE
+opt-014                  Busy    0:2      2048:2048        SuSE
+opt-015                  Busy    0:2      2048:2048        SuSE
+opt-016                  Busy    0:2      2048:2048        SuSE
+x86-001                  Busy    0:1       512:512       Redhat
+x86-002                  Busy    0:1       512:512       Redhat
+x86-003                  Busy    0:1       512:512       Redhat
+x86-004                  Busy    0:1       512:512       Redhat
+x86-005                  Idle    1:1       512:512       Redhat
+x86-006                  Idle    1:1       512:512       Redhat
+x86-007                  Idle    1:1       512:512       Redhat
+x86-008                  Busy    0:1       512:512       Redhat
+x86-009                  Down    1:1       512:512       Redhat
+x86-010                  Busy    0:1       512:512       Redhat
+x86-011                  Busy    0:1       512:512       Redhat
+x86-012                  Busy    0:1       512:512       Redhat
+x86-013                  Busy    0:1       512:512       Redhat
+x86-014                  Busy    0:1       512:512       Redhat
+x86-015                  Busy    0:1       512:512       Redhat
+x86-016                  Busy    0:1       512:512       Redhat
+P690-001                 Busy    0:1     16384:16384        AIX
+P690-002                 Busy    0:1     16384:16384        AIX
+P690-003                 Busy    0:1     16384:16384        AIX
+P690-004                 Busy    0:1     16384:16384        AIX
+P690-005                 Busy    0:1     16384:16384        AIX
+P690-006                 Busy    0:1     16384:16384        AIX
+P690-007                 Idle    1:1     16384:16384        AIX
+P690-008                 Idle    1:1     16384:16384        AIX
+WARNING:   node P690-008 is missing ethernet adapter
+P690-009                 Busy    0:1     16384:16384        AIX
+P690-010                 Busy    0:1     16384:16384        AIX
+P690-011                 Busy    0:1     16384:16384        AIX
+P690-012                 Busy    0:1     16384:16384        AIX
+P690-013                 Busy    0:1     16384:16384        AIX
+P690-014                 Busy    0:1     16384:16384        AIX
+P690-015                 Busy    0:1     16384:16384        AIX
+P690-016                 Busy    0:1     16384:16384        AIX
+-----                     ---    6:64   745472:745472     -----
+ 
+Total Nodes: 36  (Active: 30  Idle: 5  Down: 1)
+</pre></div>
+
+<p><b>Note:</b> Warning messages are interspersed with the node configuration information with all warnings preceded by the keyword '<b>WARNING</b>'.
+
+<p><big><b><a name="xml"></a>XML Output</b></big></p>
+
+   If XML output is requested (via the <a href="mdiag-node.html#synopsis">--format=xml</a> argument), XML based node information will be written to STDOUT in the following format:
+
+<p><div class="example"><legend>mdiag -n --format=xml</legend><pre>
+&lt;Data&gt;
+  &lt;node&gt; &lt;ATTR&gt;="&lt;VAL&gt;" ... &lt;/node&gt;
+  ...
+&lt;/Data&gt;
+</pre></div>
+
+<p>In addition to the attributes listed below, mdiag -n's node element XML has children that describe a node's messages 
+(<a href="http://docs.adaptivecomputing.com/maui/xml/Messages.php">Messages</a> XML element).</p>
+
+<p><big><b>XML Attributes</b></big></p>
+<table class="simpleTable">
+<tr>
+  <th>Name</th>
+  <th>Description</th>
+</tr>
+<tr>
+  <td class="contentLabels">AGRES</td>
+  <td class="contentDetails">Available generic resources</td>
+</tr>
+<tr>
+  <td class="contentLabels">ALLOCRES</td>
+  <td class="contentDetails">Special allocated resources (like vlans)</td>
+</tr>
+<tr>
+  <td class="contentLabels">ARCH</td>
+  <td class="contentDetails">The node's processor architecture.</td>
+</tr>
+<tr>
+  <td class="contentLabels">AVLETIME</td>
+  <td class="contentDetails">Time when the node will no longer be availble (used in Utility centers)</td>
+</tr>
+<tr>
+  <td class="contentLabels">AVLSTIME</td>
+  <td class="contentDetails">Time when the node will be available (used in Utility centers)</td>
+</tr>
+<tr>
+  <td class="contentLabels">CFGCLASS</td>
+  <td class="contentDetails">Classes configured on the node</td>
+</tr>
+<tr>
+  <td class="contentLabels">GRES</td>
+  <td class="contentDetails">generic resources on the node</td>
+</tr>
+  <td class="contentLabels">ENABLEPROFILING</td>
+  <td class="contentDetails">If true, a node's state and usage is tracked over time.</td>
+</tr>
+  <td class="contentLabels">FEATURES</td>
+  <td class="contentDetails">A list of comma separated custom features describing a node.</td>
+</tr>
+<tr>
+  <td class="contentLabels">GMETRIC</td>
+  <td class="contentDetails">A list of comma separated consumable resources associated with a node.</td>
+</tr>
+<tr>
+  <td class="contentLabels">HOPCOUNT</td>
+  <td class="contentDetails">How many hops the node took to reach this Moab (used in hierarchical grids)</td>
+</tr>
+<tr>
+  <td class="contentLabels">ISDELETED</td>
+  <td class="contentDetails">Node has been deleted</td>
+</tr>
+<tr>
+  <td class="contentLabels">ISDYNAMIC</td>
+  <td class="contentDetails">Node is dynamic (used in Utility centers)</td>
+</tr>
+<tr>
+  <td class="contentLabels">JOBLIST</td>
+  <td class="contentDetails">The list of jobs currently running on a node.</td>
+</tr>
+<tr>
+  <td class="contentLabels">LOAD</td>
+  <td class="contentDetails">current load as reported by the resource manager</td>
+</tr>
+<tr>
+  <td class="contentLabels">LOADWEIGHT</td>
+  <td class="contentDetails">load weight used when calculating node priority</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAXJOB</td>
+  <td class="contentDetails">See <a href="../12.3nodepolicies.html">Node Policies</a> for details.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAXJOBPERUSER</td>
+  <td class="contentDetails">See <a href="../12.3nodepolicies.html">Node Policies</a> for details.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAXLOAD</td>
+  <td class="contentDetails">See <a href="../12.3nodepolicies.html">Node Policies</a> for details.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAXPROC</td>
+  <td class="contentDetails">See <a href="../12.3nodepolicies.html">Node Policies</a> for details.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAXPROCPERUSER</td>
+  <td class="contentDetails">See <a href="../12.3nodepolicies.html">Node Policies</a> for details.</td>
+</tr>
+<tr>
+  <td class="contentLabels">NETWORK</td>
+  <td class="contentDetails">The ability to specify which networks are available to a given node is limited to only a few resource manager.  Using the <b>NETWORK</b> attribute, administrators can establish this node to network connection directly through the scheduler.  The <a href="../a.fparameters.html#nodecfg">NODECFG</a>
+parameter allows this list to be specified in a comma delimited list.
+</td>
+</tr>
+<tr>
+  <td class="contentLabels">NODEID</td>
+  <td class="contentDetails">The unique identifier for a node.</td>
+</tr>
+<tr>
+  <td class="contentLabels">NODESTATE</td>
+  <td class="contentDetails">The state of a node.</td>
+</tr>
+<tr>
+  <td class="contentLabels">OS</td>
+  <td class="contentDetails">A node's operating system.</td>
+</tr>
+<tr>
+  <td class="contentLabels">OSLIST</td>
+  <td class="contentDetails">Operating systems the node can run</td>
+</tr>
+<tr>
+  <td class="contentLabels">OSMODACTION</td>
+  <td class="contentDetails">URL for changing the operating system</td>
+</tr>
+<tr>
+  <td class="contentLabels">OWNER</td>
+  <td class="contentDetails">Credential type and name of owner</td>
+</tr>
+<tr>
+  <td class="contentLabels">PARTITION</td>
+  <td class="contentDetails">The partition a node belongs to. See <a href="../12.1nodelocation.html">Node Location</a> for details.</td>
+</tr>
+<tr>
+  <td class="contentLabels">POWER</td>
+  <td class="contentDetails">The state of the node's power.  Either ON or OFF.</td>
+</tr>
+<tr>
+  <td class="contentLabels">PRIORITY</td>
+  <td class="contentDetails">The fixed node priority relative to other nodes.</td>
+</tr>
+<tr>
+  <td class="contentLabels">PROCSPEED</td>
+  <td class="contentDetails">A node's processsor speed information specified in MHz.</td>
+</tr>
+<tr>
+  <td class="contentLabels">RACK</td>
+  <td class="contentDetails">The rack associated with a node's physical location.</td>
+</tr>
+<tr>
+  <td class="contentLabels">RADISK</td>
+  <td class="contentDetails">The total available disk on a node.</td>
+</tr>
+<tr>
+  <td class="contentLabels">RAMEM</td>
+  <td class="contentDetails">The total available memory available on a node.<</td>
+</tr>
+<tr>
+  <td class="contentLabels">RAPROC</td>
+  <td class="contentDetails">The total number of processors available on a node.</td>
+</tr>
+<tr>
+  <td class="contentLabels">RASWAP</td>
+  <td class="contentDetails">The total available swap on a node.</td>
+</tr>
+<tr>
+  <td class="contentLabels">RCMEM</td>
+  <td class="contentDetails">The total configured memory on a node.</td>
+</tr>
+<tr>
+  <td class="contentLabels">RCPROC</td>
+  <td class="contentDetails">The total configured processors on a node.</td>
+</tr>
+<tr>
+  <td class="contentLabels">RCSWAP</td>
+  <td class="contentDetails">The total configured swap on a node.</td>
+</tr>
+<tr>
+  <td class="contentLabels">RESCOUNT</td>
+  <td class="contentDetails">Number of reservations on the node</td>
+</tr>
+<tr>
+  <td class="contentLabels">RSVLIST</td>
+  <td class="contentDetails">List of reservations on the node</td>
+</tr>
+<tr>
+  <td class="contentLabels">RESOURCES</td>
+  <td class="contentDetails">Deprecated (use GRES)</td>
+</tr>
+<tr>
+  <td class="contentLabels">RMACCESSLIST</td>
+  <td class="contentDetails">A comma separated list of resource managers who have access to a node.</td>
+</tr>
+<tr>
+  <td class="contentLabels">SIZE</td>
+  <td class="contentDetails">The number of slots or size units consumed by the node.</td>
+</tr>
+<tr>
+  <td class="contentLabels">SLOT</td>
+  <td class="contentDetails">The first slot in the rack associated with the node's physical location.</td>
+</tr>
+<tr>
+  <td class="contentLabels">SPEED</td>
+  <td class="contentDetails">A node's relative speed.</td>
+</tr>
+<tr>
+  <td class="contentLabels">SPEEDWEIGHT</td>
+  <td class="contentDetails">speed weight used to calculate node's priority</td>
+</tr>
+<tr>
+  <td class="contentLabels">STATACTIVETIME</td>
+  <td class="contentDetails">Time node was active</td>
+</tr>
+<tr>
+  <td class="contentLabels">STATMODIFYTIME</td>
+  <td class="contentDetails">Time node's state was modified</td>
+</tr>
+<tr>
+  <td class="contentLabels">STATTOTALTIME</td>
+  <td class="contentDetails">Time node has been monitored</td>
+</tr>
+<tr>
+  <td class="contentLabels">STATUPTIME</td>
+  <td class="contentDetails">Time node has been up</td>
+</tr>
+<tr>
+  <td class="contentLabels">TASKCOUNT</td>
+  <td class="contentDetails">The number of tasks on a node.</td>
+</tr>
+</table>
+
+<h2>See Also</h2>
+
+<ul>
+<li><a href="checknode.html">checknode</a>
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

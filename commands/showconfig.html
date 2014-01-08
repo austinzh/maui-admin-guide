@@ -1,0 +1,109 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>showconfig</h1>
+   <td valign=bottom nowrap><b>(Show Configuration)</b>
+<tr>
+</table>
+
+<p><font color="#e63805"><b>Caution</b></font>: This command is deprecated. Use <a href="mschedctl.html#LIST">mschedctl -l</a> instead.</p>
+
+<h4>Synopsis</h4>
+
+<pre>
+showconfig [-v]
+</pre>
+
+<h4>Overview</h4>
+
+View the current configurable parameters of the Moab Scheduler.
+
+<p>&nbsp;&nbsp; The showconfig command shows the current scheduler
+version and the settings of all 'in memory' parameters.&nbsp; These parameters
+are set via internal defaults, command line arguments, environment variable
+settings, parameters in the moab.cfg file, and via the <a href="mschedctl.html">mschedctl -m</a> command.&nbsp;
+Because of the many sources of configuration settings, the output may differ
+from the contents of the moab.cfg file.&nbsp; The output is such that it
+can be saved and used as the contents of the moab.cfg file if desired.
+
+<h4>Access</h4>
+
+This command can be run by a level 1, 2, or 3 Moab administrator.
+
+<p><b>Flags</b>
+<table BORDER=0 CELLPADDING=5 >
+<tr VALIGN=TOP>
+<td>-h</td>
+
+<td>Help for this command.</td>
+</tr>
+
+<tr VALIGN=TOP>
+<td>-v</td>
+
+<td>This optional flag turns on verbose mode, which shows all possible
+Moab Scheduler parameters and their current settings. If this flag is not
+used, this command operates in context-sensitive terse mode, which shows
+only relevant parameter settings.&nbsp;</td>
+</tr>
+</table>
+
+<h4>Example 1</h4>
+
+<p><fieldset><legend>showconfig</legend><pre>
+&gt; showconfig
+
+# moab scheduler version 4.2.4 (PID: 11080)
+
+BACKFILLPOLICY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIRSTFIT
+BACKFILLMETRIC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NODES
+
+ALLOCATIONPOLICY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MINRESOURCE
+RESERVATIONPOLICY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CURRENTHIGHEST
+...
+</pre></fieldset>
+
+<p><b>IMPORTANT Note</b>:&nbsp; The showconfig flag without the '-v'
+flag does not show the settings of all parameters.&nbsp; It does show all
+major parameters and all parameters which are in effect and have been set
+to non-default values.&nbsp; However, it hides other rarely used parameters
+and those which currently have no effect or are set to default values.&nbsp;
+To show the settings of all parameters, use the '-v' (verbose) flag.&nbsp;
+This will provide an extended output.&nbsp; This output is often best used
+in conjunction with the 'grep' command as the output can be voluminous.
+
+<h4>See Also:</h4>
+
+<ul>
+<li>Use the <tt><a href="mschedctl.html#MODIFY">mschedctl -m</a></tt> command to change the various Moab Scheduler parameters.
+<li>See the <a href="../a.fparameters.html">Parameters</a> document for details about configurable parameters.
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

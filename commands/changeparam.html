@@ -1,0 +1,107 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>changeparam</h1>
+   <td valign=bottom nowrap><b>(Change Parameter)</b>
+<tr>
+</table>
+
+<p><font color="#e63805"><b>Caution</b></font>: This command is deprecated. Use <a href="mschedctl.html#MODIFY">mschedctl -m</a> instead.</p>
+
+<h4>Synopsis</h4>
+
+<!-- synopsis is a high-level usage / quick reference -->
+<!-- synopsis should not extend beyond ~80 chars -->
+
+<pre>
+changeparam <a href="changeparam.html#PARAMETER"><i>parameter</i></a> <a href="changeparam.html#VALUE"><i>value</i></a>
+</pre>
+<!-- Quick overview with links as necessary -->
+<h4>Overview</h4>
+
+&nbsp;&nbsp; The <b>changeparam</b> command is used to dynamically change the value of any parameter which can be specified in the <tt>moab.cfg</tt> file.  The changes take affect at the beginning of the next scheduling iteration.  They are not persistent, only lasting until Moab is shutdown.
+
+<p>&nbsp;&nbsp; <b>changeparam</b> is a compact command of <a href="mschedctl.html#MODIFY">mschedctl -m</a>.
+
+<!-- who can run the command -->
+
+<h4>Access</h4>
+
+&nbsp;&nbsp; This command can be run by a level 1 Moab administrator.
+
+<h4>Format</h4>
+<table BORDER WIDTH="100%" >
+<tr>
+   <td valign=top><b>Flag</b></td>
+   <td valign=top><b>Name</b></td>
+   <td valign=top><b>Format</b></td>
+   <td valign=top><b>Default</b></td>
+   <td valign=top><b>Description</b></td>
+   <td valign=top><b>Example</b></td>
+</tr>
+
+<tr>
+<td valign=top>&nbsp;</td>
+<td valign=top><a name="PARAMETER"</a><b>PARAMETER</b></td>
+<td valign=top>&lt;STRING></td>
+<td valign=top>[NONE]</td>
+<td valign=top>The name a Moab configuration parameter</td>
+<td valign=top>&nbsp;</td>
+</tr>
+<tr>
+<td valign=top>&nbsp;</td>
+<td valign=top><a name="VALUE"</a><b>VALUE</b></td>
+<td valign=top>&lt;STRING></td>
+<td valign=top>[NONE]</td>
+<td valign=top>any valid value for <a href="changeparam.html#PARAMETER">&lt;PARAMETER></a></td>
+<td valign=top>&nbsp;</td>
+</tr>
+</table>
+
+<h4>Example 1</h4>
+
+&nbsp;&nbsp; Set Moab's LOGLEVEL to 6 for the current run:
+
+<p><fieldset><legend>changeparam</legend><pre>
+&gt; changeparam LOGLEVEL 6
+
+parameters changed
+</pre></fieldset>
+
+<h4>Example 2</h4>
+
+&nbsp;&nbsp; Set Moab's ADMIN1 userlist to sys, mike and peter
+
+<p><fieldset><legend>changeparam</legend><pre>
+&gt; changeparam ADMIN1 sys mike peter
+
+parameters changed</pre></fieldset>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

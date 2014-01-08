@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <h2>Maui-SGE Integration Guide</h2>
+
+          <p><b>Overview:</b></p>
+
+          <p>Maui can be used as an external scheduler for the Sun Grid Engine (SGE) resource management system (requires SGE v5.3 source distribution). In this configuration, SGE manages the job queue and the compute resources while Maui queries the SGE Server to obtain up to date job, node, and configuration information. Using this information, Maui directs SGE to manage jobs in accordance with specified Maui policies, priorities, and reservations.<br></p>
+
+          <p><b>Steps:</b></p>
+
+          <p>Maui drives SGE via the SGE scheduling API. To enable Maui scheduling, the following steps must be taken:</p>
+
+          <p><b>1)</b> <b>Install SGE</b></p>
+
+          <p><a href="http://gridengine.sunsource.net/unbranded-source/browse/~checkout~/gridengine/doc/INSTALL">SGE Installation HowTo</a></p>
+
+          <p><a href="http://gridengine.sunsource.net/unbranded-source/browse/~checkout~/gridengine/source/README.BUILD">SGE Build README</a></p>
+          <hr width="100%">
+          <br>
+          <b>2)</b> <b>Install Maui</b>
+
+          <p>- <b>untar</b> Maui distribution file.<br>
+          - <b>cd</b> into the maui-&lt;X&gt; directory<br>
+          - run <b>./configure</b><br>
+          <br>
+          <img src="note.png" height="24" width="20"> The <b>configure</b> script will automatically setup Maui so that the user running configure will become the default <i>Primary Maui Administrator</i>, $MAUIADMIN. This can be changed by modifying the '<b>ADMIN &lt;USERNAME&gt;</b>' line in the <b>maui.cfg</b> file. The primary administrator is the first user listed after the <b><a href="a.fparameters.html#admin1">ADMIN1</a></b> parameter and is the ID under which the Maui daemon will run.<br></p>
+          <hr width="100%">
+          <br>
+          <b>3) Configure SGE</b>
+
+          <ul>
+            <li>Set default PE (i.e.,<strong>qconf -ap default</strong> and add line '<strong>-pe default 1</strong>' to file <tt>$SGE_ROOT/default/common/sge_request</tt>, See SGE man page <b>sge_pe.5</b> for more information)</li>
+
+            <li>Optional - Set default walltime for jobs (add line '<strong>-l h_rt=&lt;limit&gt;</strong>' to file <tt>$SGE_ROOT/default/common/sge_request</tt>)</li>
+
+            <li>disable default SGE scheduler (edit <tt>$SGE_ROOT/default/common/rcsge and comment out the line starting sge_schedd.</tt>)</li>
+
+            <li>If not the same user, add Maui's <i>Primary Admin User</i> as SGE <i>operator</i> (use '<strong>qconf -am &lt;user&gt;</strong>')</li>
+          </ul>
+
+          <p><img src="note.png" height="24" width="20"> All jobs submitted to Maui must be assigned a PE. Jobs without an assigned PE will have a batch hold placed upon them.</p>
+          <hr width="100%">
+          <br>
+          <b>4) Configure Maui</b>
+
+          <p>- specify SGE as the resource manager:</p>
+
+          <p>This should be taken care of by '<b>configure</b>', but if not, the following parameter must be specified in the <b>maui.cfg</b> file:</p>
+
+          <p><b><tt>RMCFG[base] TYPE=SGE</tt></b></p>
+
+          <p>If you have a non-standard SGE configuration, you may need to specify additional Maui parameters to point Maui to the right location:</p>
+
+          <p><b><tt>RMCFG[base] HOST=$SGESERVERHOST</tt></b><br>
+          <b><tt>RMCFG[base] PORT=$SGESERVERPORT</tt></b></p>
+
+          <p>(See the <a href="13.1rmoverview.html">Resource Manager Overview</a> for more information)</p>
+          <hr width="100%">
+          <br>
+          <b>5) Start Daemons</b>
+
+          <ol>
+            <li>start SGE
+
+              <ul>
+                <li>issue command '<b>$SGE_ROOT/default/common/rcsge</b>' as user root</li>
+              </ul>
+            </li>
+
+            <li>start Maui
+
+              <ul>
+                <li>source <tt>$SGE_ROOT/default/common/settings.sh</tt></li>
+
+                <li>issue command '<b>maui</b>' as <i>Primary Maui Admin</i> user</li>
+              </ul>
+            </li>
+          </ol>
+          <hr width="100%">
+
+          <p><b>Current Issues:</b></p>
+
+          <p><b>&lt;N/A&gt;</b></p>
+          <hr width="100%">
+          <br>
+          <b>Trouble-shooting:</b>
+
+          <p><b>&lt;N/A&gt;</b></p>
+
+          <p><b>See also:</b></p>
+
+          <p><a href="mauiadmin.html">Maui Administrators Guide</a><br>
+          <a href="mauiusers.html">Maui Users Guide</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

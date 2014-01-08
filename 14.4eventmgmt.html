@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="14.0troubleshootingandsysmaintenance.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="14.3messagebuffer.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="14.5troubleshootingclients.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>14.4 Handling Events with the Notification Routine</h1>
+
+          <p>Maui possesses a primitive event management system through the use of the <i>notify</i> program. The program is called each time an event of interest occurs. Currently, most events are associated with failures of some sort but use of this facility need not be limited in this way. The <a href="a.fparameters.html#notificationprogram">NOTIFICATIONPROGRAM</a> parameter allows a site to specify the name of the program to run. This program is most often locally developed and designed to take action based on the event which has occurred. The location of the notification program may be specified as a relative or absolute path. If a relative path is specified, Maui will look for the notification relative to the <b>$(MAUIHOMEDIR)/tools</b> directory. In all cases, Maui will verify the existence of the notification program at start up and will disable it if it cannot be found or is not executable.</p>
+
+          <p>The notification program's action may include steps such as reporting the event via email, adjusting scheduling parameters, rebooting a node, or even recycling the scheduler.</p>
+
+          <p>For most events, the notification program is called with commandline arguments in a simple &lt;EVENTTYPE&gt;: &lt;MESSAGE&gt; format. The following event types are currently enabled:<br>
+          <br></p>
+
+          <table border width="100%" nosave="">
+            <tr>
+              <td><b>Event Type</b></td>
+
+              <td><b>Format</b></td>
+
+              <td><b>Description</b></td>
+            </tr>
+
+            <tr>
+              <td><b>BANKFAILURE</b></td>
+
+              <td>&lt;MESSAGE&gt;</td>
+
+              <td>Maui cannot successfully communicate with the bank due to reasons such as connection failures, bank corruption, or parsing failures</td>
+            </tr>
+
+            <tr>
+              <td><b>JOBCORRUPTION</b></td>
+
+              <td>&lt;MESSAGE&gt;</td>
+
+              <td>An active job is in an unexpected state or has one or more allocated nodes which are in unexpected states</td>
+            </tr>
+
+            <tr>
+              <td><b>JOBHOLD</b></td>
+
+              <td>&lt;MESSAGE&gt;</td>
+
+              <td>A job hold has been placed on a job</td>
+            </tr>
+
+            <tr>
+              <td><b>JOBWCVIOLATION</b></td>
+
+              <td>&lt;MESSAGE&gt;</td>
+
+              <td>A job has exceeded its wallclock limit</td>
+            </tr>
+
+            <tr>
+              <td><b>RESERVATIONCORRUPTION</b></td>
+
+              <td>&lt;MESSAGE&gt;</td>
+
+              <td>Reservation corruption has been detected</td>
+            </tr>
+
+            <tr>
+              <td><b>RESERVATIONCREATED</b></td>
+
+              <td>&lt;RESNAME&gt; &lt;RESTYPE&gt; &lt;NAME&gt; &lt;PRESENTTIME&gt; MSTARTTIME&gt; &lt;ENDTIME&gt; &lt;NODECOUNT&gt;</td>
+
+              <td>A new reservation has been created</td>
+            </tr>
+
+            <tr>
+              <td><b>RESERVATIONDESTROYED</b></td>
+
+              <td>&lt;RESNAME&gt; &lt;RESTYPE&gt; &lt;PRESENTTIME&gt; &lt;STARTTIME&gt; &lt;ENDTIME&gt; &lt;NODECOUNT&gt;</td>
+
+              <td>A reservation has been destroyed</td>
+            </tr>
+
+            <tr>
+              <td><b>RMFAILURE</b></td>
+
+              <td>&lt;MESSAGE&gt;</td>
+
+              <td>The interface to the resource manager has failed</td>
+            </tr>
+          </table>
+
+          <p>Perhaps the most valuable use of the notify program stems from the fact that additional notifications can be easily inserted into Maui to handle site specific issues. To do this, locate the proper block routine, specify the correct conditional statement, and add a call to the routine <b>notify(&lt;MESSAGE&gt;);</b></p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="14.0troubleshootingandsysmaintenance.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="14.3messagebuffer.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="14.5troubleshootingclients.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

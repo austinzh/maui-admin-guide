@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="7.0controllingresourceaccess.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="7.2partitions.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="8.0optimizingschedulingbehavior.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>7.3 Quality of Service (QoS) Facilities</h1>
+
+          <ul>
+            <li><a href="7.3qos.html#overview">7.3.1 QoS Overview</a></li>
+
+            <li>
+              <a href="7.3qos.html#privileges">7.3.2 QoS Enabled Privileges</a>
+
+              <ul>
+                <li><a href="7.3qos.html#special">7.3.2.1 Special Prioritization</a></li>
+
+                <li><a href="7.3qos.html#service">7.3.2.2 Service Access and Constraints</a></li>
+
+                <li><a href="7.3qos.html#policy">7.3.2.3 Policy Exemptions</a></li>
+              </ul>
+            </li>
+
+            <li><a href="7.3qos.html#access">7.3.3 Managing QoS Access</a></li>
+          </ul>
+          <hr>
+          <br>
+
+          <h2>7.3.1 <a name="overview" id="overview"></a>QoS Overview</h2>
+
+          <p>The QOS facility allows a site to give special treatment to various classes of jobs, users, groups, etc. Each QOS object can be thought of as a container of special privileges ranging from fairness policy exemptions, to special job prioritization, to special functionality access. Each QOS object also has an extensive access list of users, groups, and accounts which can access these privileges.</p>
+
+          <p>Sites can configure various QOS's each with its own set of priorities, policy exemptions, and special resource access settings. They can then configure user, group, account, and class access to these QOS's. A given job will have a default QOS and may have access to several additional QOS's. When the job is submitted, the submittor may request a specific QOS (see the User's Manual for information on specifying job QOS for the resource manager of interest) or just allow the default QOS to be used. Once a job is submitted, a user may adjust the QOS of his job's at any time using the '<a href="commands/setqos.html">setqos</a>' command. The <b>setqos</b> command will only allow the user to modify the QOS of his jobs and only change the QOS to a QOS that this user has access to. Maui administrators may change the QOS of any job to any value.</p>
+
+          <p>Jobs are currently granted access to QOS privileges by configuring QDEF (QOS Default) or QLIST (QOS Access List) settings in the fs.cfg file. A job may access a particular QOS if that QOS is listed in the system default configuration QDEF or QLIST, or if the QOS is specified in the QDEF or QLIST of a user, group, account, or class associated with that job.</p>
+
+          <p>The '<a href="commands/diagnoseqos.html">diagnose -Q</a>' command can be used to obtain information about the current QOS configuration.<br></p>
+
+          <p><img src="http://docs.adaptivecomputing.com/images/logo1.gif" height="24">With the <a href="http://docs.adaptivecomputing.com/mcm/index.php">Moab Cluster Manager</a><sup>TM</sup>, a QoS can be <a href="http://docs.adaptivecomputing.com/mcm/qos.html">created, modifed</a> and <a href="http://docs.adaptivecomputing.com/mcm/reports.html">reports</a> generated about through a graphical interface.</p>
+
+          <h2><a name="privileges" id="privileges"></a>7.3.2 QoS Enabled Privileges</h2>The privileges enabled via QoS settings may be broken into one of the following categories
+
+          <ul>
+            <li>Special Prioritization</li>
+
+            <li>Service Access and Constraints</li>
+
+            <li>Override Policies and Policy Exemptions</li>
+          </ul>All privileges are managed via the <a href="a.fparameters.html#qoscfg">QOSCFG</a> parameter. <!--<blockquote>-->
+
+          <h3><a name="special" id="special"></a>7.3.2.1 Special Prioritization</h3><br>
+
+          <table border width="100%" nosave="">
+            <tr>
+              <td><b>Attribute Name</b></td>
+
+              <td><b>Description</b></td>
+            </tr>
+
+            <tr>
+              <td>FSTARGET</td>
+
+              <td></td>
+            </tr>
+
+            <tr>
+              <td>PRIORITY</td>
+
+              <td>Assign priority to all jobs requesting particular QoS</td>
+            </tr>
+
+            <tr>
+              <td>QTTARGET</td>
+
+              <td></td>
+            </tr>
+
+            <tr>
+              <td>QTWEIGHT</td>
+
+              <td></td>
+            </tr>
+
+            <tr>
+              <td>XFTARGET</td>
+
+              <td></td>
+            </tr>
+
+            <tr>
+              <td>XFWEIGHT</td>
+
+              <td></td>
+            </tr>
+          </table>
+
+          <p>Example:</p>
+
+          <p>---<br>
+          <tt>QOSCFG[geo] PRIORITY=10000</tt><br>
+          ---<br></p>
+
+          <h3><a name="service" id="service"></a>7.3.2.2 Service Access and Constraints</h3>
+
+          <p>The QoS facility can ne used to enable special service and/or disable default services. All services are enabled/disabled by setting the QoS <b>QFLAGS</b> attribute.<br></p>
+
+          <table border width="100%" nosave="">
+            <tr>
+              <td><b>Flag Name</b></td>
+
+              <td><b>Description</b></td>
+            </tr>
+
+            <tr>
+              <td>DEDICATED</td>
+
+              <td>jobs should not share compute resources with any other job. These jobs will only run on nodes which are idle and will not allow other jobs to use resources on allocated nodes even if additional resources are available.</td>
+            </tr>
+
+            <tr>
+              <td>NOBF</td>
+
+              <td>job cannot be considered for backfilled</td>
+            </tr>
+
+            <tr>
+              <td>NORESERVATION</td>
+
+              <td>job should never reserve resources regardless of priority</td>
+            </tr>
+
+            <tr>
+              <td>PREEMPTEE</td>
+
+              <td>job may be preempted by higher priority PREEMPTOR jobs</td>
+            </tr>
+
+            <tr>
+              <td>PREEMPTOR</td>
+
+              <td>job may preempt lower priority PREEMPTEE jobs</td>
+            </tr>
+
+            <tr>
+              <td>RESERVEALWAYS</td>
+
+              <td>job should create resource reservation regardless of job priority</td>
+            </tr>
+
+            <tr>
+              <td>RESTARTPREEMPT</td>
+
+              <td>jobs can preempt restartable jobs by essentially requeueing them if this allows the QOS job to start earlier</td>
+            </tr>
+
+            <tr>
+              <td>USERESERVED[:&lt;RESID&gt;]</td>
+
+              <td>job may only utilize resources within accessible reservations. If &lt;RESID&gt; is specified, job may only utilize resources within the specified reservation.</td>
+            </tr>
+          </table>
+
+          <p>Example:</p>
+
+          <p>---<br>
+          <tt>QOSCFG[hiprio] QFLAGS=NOBF:PREEMPTEE</tt><br>
+          ---</p>
+
+          <p>Example 2:</p>
+
+          <p>---<br>
+          <tt>QOSCFG[chem-b] QFLAGS=USERESERVED:chemistry</tt><br>
+          ---<br></p>
+
+          <h3><a name="policy" id="policy"></a>7.3.2.3 Policy Exemptions</h3>
+
+          <p>Individual QoS's may be assigned override policies which will set new policy limits regardless of user, group, account, or queue limits. Particularly, the following policies may be overridden:</p>
+
+          <p><b>MAXJOB</b><br>
+          <b>MAXPROC</b><br>
+          <b>MAXNODE</b></p>
+
+          <p>Example:</p>
+
+          <p>---<br>
+          <tt>QOSCFG[staff] MAXJOB=48</tt><br>
+          ---</p>
+
+          <p>In addition to overriding policies, QoS's may also be used to allow particular jobs to ignore policies by setting the QoS <b>FLAG</b> attribute</p>
+
+          <p><b>QOS Flags</b></p>
+
+          <p>IGNJOBPERUSER<br>
+          IGNPROCPERUSER<br>
+          IGNPSPERUSER<br>
+          IGNJOBQUEUEDPERUSER<br>
+          IGNJOBPERGROUP<br>
+          IGNPROCPERGROUP<br>
+          IGNPSPERGROUP<br>
+          IGNJOBQUEUEDPERGROUP<br>
+          IGNJOBPERACCOUNT<br>
+          IGNPROCPERACCOUNT<br>
+          IGNPSPERACCOUNT<br>
+          IGNJOBQUEUEDPERACCOUNT<br>
+          IGNSYSMAXPROC<br>
+          IGNSYSMAXTIME<br>
+          IGNSYSMAXPS</p>
+
+          <p>IGNSRMAXTIME</p>
+
+          <p>jobs should ignore standing reservation MAXTIME constraints</p>
+
+          <p>IGNUSER</p>
+
+          <p>jobs should ignore all user throttling policies</p>
+
+          <p>IGNGROUP</p>
+
+          <p>jobs should ignore all group throttling policies</p>
+
+          <p>IGNACCOUNT</p>
+
+          <p>jobs should ignore all account throttling policies</p>
+
+          <p>IGNSYSTEM</p>
+
+          <p>jobs should ignore all system throttling policies</p>
+
+          <p>IGNALL</p>
+
+          <p>jobs should ignore all user, group, and account throttling policies</p>
+
+          <p><br>
+          Example</p>
+
+          <p>---<br>
+          <tt>QOSCFG[express] QFLAGS=IGNSYSTEM</tt><br>
+          ---</p>
+
+          <p><!--</blockquote>--></p>
+
+          <h2><a name="access" id="access"></a>7.3.3 Managing QoS Access</h2><br>
+          While defining the privileges allowed within a QoS is managed using the <b>QOSCFG</b> parameter, actual access to the QoS is enabled via credential specific <b>*CFG</b> parameters. Specifically, the <a href="a.fparameters.html#usercfg">USERCFG</a>, <a href="a.fparameters.html#groupcfg">GROUPCFG</a>, <a href="a.fparameters.html#accountcfg">ACCOUNTCFG</a>, and <a href="a.fparameters.html#classcfg">CLASSCFG</a> parameters allow QoS access lists and QoS defaults to be defined. To enable QoS access, the <b>QLIST</b> and/or <b>QDEF</b> attributes of the appropriate user, group, account, or queue should be specified as in the example below:
+
+          <p>Example:</p>
+          <pre>
+---
+# user john's jobs can access QOS geo, chem, or staff with geo as default
+USERCFG[john]     QDEF=geo   QLIST=geo,chem,staff
+
+# group system jobs can access the development qos
+GROUPCFG[systems] QDEF=development
+
+# class batch jobs can access the normal qos
+CLASSCFG[batch]   QDEF=normal
+---
+</pre>
+
+          <p>NOTE: By default, jobs may request a QoS if access to that QoS is allowed by <i>any</i> of the job's credentials. (i.e., in the example above, a job from user <tt>john</tt> submitted to the class <tt>batch</tt> could request QoS's <tt>geo</tt>, <tt>chem</tt>, <tt>staff</tt>, or <tt>normal</tt>)</p>
+
+          <p>See also:</p>
+
+          <p>N/A<br></p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="7.0controllingresourceaccess.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="7.2partitions.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="8.0optimizingschedulingbehavior.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="11.0generaljobadmin.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="11.6jobdefaults.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="11.8localqueue.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>11.7 General Job Policies</h1>The default scheduler configuration enables a number of policies which control functionality available to a job. These policies are described in detail in the sections below.
+
+          <h2>11.7.1 Multi-Node Support</h2>By default, resources allocated to a job are allowed to span multiple nodes. To disable this behavior, the parameter <a href="a.fparameters.html#ENABLEMULTINODEJOBS">ENABLEMULTINODEJOBS</a> should be set to <b>FALSE</b>.
+
+          <h2>11.7.2 Multi-Req Support</h2>By default, jobs are only allowed to specify a single type of resource for allocation. For example, a job could request '4 nodes with 256 MB of memory' or '8 nodes with feature <tt>fast</tt> present'. However, the default behavior does not allow submission of a single job which requests both of these resource types. The parameter <a href="a.fparameters.html#ENABLEMULTIREQJOBS">ENABLEMULTIREQJOBS</a> can be set to <b>TRUE</b> to remove this constraint. (NOTE: only available in Moab 4.0.0 and higher)
+
+          <h2>11.7.3 Job Size Policy</h2>Moab 4.0.0 and higher allow jobs to request resource ranges. Using this range information, the scheduler is able to maximize the amount of resources available to the job while minimizing the amount of time the job is blocked waiting for resources. The <a href="a.fparameters.html#JOBSIZEPOLICY">JOBSIZEPOLICY</a> parameter can be used to set this behavior according to local site needs. NOTE: job resource ranges may only be specified when using a <i>local queue</i> as described in the <a href="11.8localqueue.html">Using a Local Queue</a> section.
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="11.0generaljobadmin.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="11.6jobdefaults.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="11.8localqueue.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,207 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Maui Scheduler  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+<div class="navIcons topIcons">
+<a href="../index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.acasestudy.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+<a href="case2.html"><img src="../prevArrow.png" border=0 title="Previous" alt="Previous"></a>
+<a href="case4.html"><img src="../nextArrow.png" border=0 title="Next" alt="Next"></a>
+</div>
+  
+
+
+<h1>A.3&nbsp; Case Study: Background Load</h1>
+
+<big><p><b>Overview</b></p></big>
+<p>
+A 64 proc Altix system needs to be scheduled with a significant 'background' load.
+</p>
+
+<big><p><b>Resources</b></p></big>
+
+<table class="navTable" width=100%>
+<tr valign="top">
+  <td class="contentLabels">Compute Nodes:</td>
+  <td class="contentDetails">64 processor Altix system with 32 GB RAM</td>
+</tr>
+<tr valign="top">
+  <td class="contentLabels">Resource Manager:&nbsp;&nbsp;</td>
+  <td class="contentDetails">OpenPBS 2.3</td>
+</tr>
+<tr valign="top">
+  <td class="contentLabels">Network:</td>
+  <td class="contentDetails">InternalSGI</td>
+</tr>
+</table>
+
+<big><p><b>Workload</b></p></big>
+<table class="simpleTable">
+<tr valign="top">
+  <td class="contentLabels">Job Size:</td>
+  <td class="contentDetails">Range in size from 1 to 32 processors</td>
+</tr>
+<tr valign="top">
+  <td class="contentLabels">Job Length:</td>
+  <td class="contentDetails">Jobs range in length from 15 minutes to 48 hours</td>
+</tr>
+<tr valign="top">
+  <td nowrap class="contentLabels">Job Owners:&nbsp;&nbsp;</td>
+  <td class="contentDetails">Various</td>
+</tr>
+<tr valign="top">
+  <td class="contentLabels">Notes:</td>
+  <td class="contentDetails">This is a login/development machine.&nbsp; At any given time, there may
+      be a significant load from jobs and processes outside of the resource
+      manager's view or control.&nbsp; The major impact of this load related to
+      scheduling is in the area of cpu load and real memory consumption.</td>
+</tr>
+</table>
+
+<big><p><b>Goals</b></p></big>
+<p>
+The scheduler must run the machine at maximum capacity without overcommitting
+either memory or processors.&nbsp; A significant, variable background load exists
+from jobs submitted outside of the resource manager's view or control.&nbsp;
+The scheduler must track and account for this load and allow space for some
+variability and growth of this load over time.&nbsp; The scheduler should also
+kill any job which violates its requested resource allocation and notify the
+associated user of this violation.
+</p>
+<p>
+The scheduler should maximize the throughput associated with the queued jobs
+while avoiding starvation as a secondary concern.&nbsp;
+</p>
+
+<big><p><b>Analysis</b></p></big>
+<p>
+The background load causes many problems in any mixed batch/interactive
+environment.&nbsp; One problem is that a situation may arise in which the
+highest priority batch job cannot run.&nbsp; Moab can make a reservation for
+this highest priority job.&nbsp; But because there are no constraints on the
+background load, Moab cannot determine when it will drop enough to allow this
+job to run.&nbsp; By default, it optimistically attempts a reservation for the
+next scheduling iteration, perhaps 1 minute out.&nbsp;
+</p>
+<p>
+The problem is that this reservation now exists one minute out and when Moab
+attempts to backfill, it can only consider jobs which request less than one
+minute or which can fit "beside" this high priority job.&nbsp; During the next
+iteration, Moab still cannot run the job because the background load has not
+dropped and again creates a new reservation for one minute into the future.&nbsp;
+<p>
+The background load has basically turned batch scheduling into an exercise in
+"resource scavenging."&nbsp; If the priority job reservation was not there,
+other smaller queued jobs might be able to run.&nbsp; Therefore, to maximize
+the "scavenging" effect, the scheduler should be configured to allow this high
+priority job the first opportunity to use available resources but prevent it
+from reserving these resources if it cannot run immediately.&nbsp;
+</p>
+
+<big><p><b>Configuration</b></p></big>
+<p>
+The configuration needs to accomplish several main objectives including:
+</p>
+<ul>
+<li>track the background load to prevent oversubscription</li>
+<li>favor small, short jobs to maximize job turnaround</li>
+<li>prevent blocked high priority jobs from creating reservations</li>
+<li>work with an allocation manager to charge for utilized CPU time</li>
+<li>cancel jobs which exceed specified resource limits</li>
+<li>notify users when a job is canceled due to resource usage limit violations</li>
+</ul>
+
+<div class="example">
+
+<pre>
+# allow jobs to share node
+NODEACCESSPOLICY           SHARED
+
+# track background load
+NODELOADPOLICY             ADJUSTPROCS
+NODEUNTRACKEDLOADFACTOR    1.2
+
+# favor short jobs, disfavor large jobs
+QUEUETIMEWEIGHT            0
+RESOURCEWEIGHT             -10
+PROCWEIGHT                 128
+MEMWEIGHT                  1
+XFACTOR                    1000
+
+# disable priority reservations for the default QOS
+QOSFLAGS[0]                NORESERVATION
+
+# debit by CPU
+BANKTYPE                   QBANK
+BANKSERVER                 develop1
+BANKPORT                   2334
+BANKCHARGEMODE             DEBITSUCCESSFULLCPU
+
+# kill resource hogs
+RESOURCELIMITPOLICY        WALLTIME:ALWAYS:CANCEL
+
+# notify user of job events
+NOTIFYSCRIPT               tools/notify.pl
+</pre>
+</div>
+
+<big>
+<p><b>Monitoring</b></p></big>
+<p>
+The most difficult aspects of this environment are properly reserving space for
+the untracked background load.&nbsp; Since this load is outside the control of
+the scheduler and resource manager, it has no constraints.&nbsp; It could grow
+suddenly and overwhelm the machine, or just as easily disappear.&nbsp; The
+NODEUNTRACKEDLOADFACTOR parameter provides slack for this background load to
+grow and shrink.&nbsp; However, since there is no control over the load, the
+effectiveness of this parameter will depend on the statistical behavior of the
+load.&nbsp; The greater the value, the more slack provided, and the less likely
+the system is to be overcommitted.&nbsp; However, a larger value also means
+more resources are in this reserve which are not available for scheduling.&nbsp;
+</p>
+<p>
+The second aspect of this environment which must be monitored is the trade-off
+between high job throughput and job starvation.&nbsp; The 'locally greedy'
+approach of favoring the smallest, shortest jobs will have a negative effect on
+larger and longer jobs.&nbsp; The large, long jobs which have been queued for
+some time can be pushed to the front of the queue by increasing the
+<a href="../a.fparameters.html#queuetimeweight">QUEUETIMEWEIGHT</a> factor
+until a satisfactory balance is achieved.&nbsp;
+
+<big><p><b>Conclusions</b></p></big>
+<p>
+The right solution is to migrate the users over to the batch system or provide
+them with a constrained resource 'box' to play in, either through a processor
+partition, standing reservation, or a logical software system.&nbsp; The value
+in this is that it prevents this unpredictable background load from wreaking
+havoc with a dedicated resource reservation system.&nbsp;
+</p>
+<p>
+Moab can reserve resources for jobs according to all currently available
+information.&nbsp; However, the unpredictable nature of the background load
+means that those resources may not be available when they should be, which
+result in canceled reservations and hinder enforcement of site policies and
+priorities.&nbsp;
+</p>
+
+<div class="navIcons bottomIcons">
+<a href="../index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.acasestudy.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+<a href="case2.html"><img src="../prevArrow.png" border=0 title="Previous" alt="Previous"></a>
+<a href="case4.html"><img src="../nextArrow.png" border=0 title="Next" alt="Next"></a>
+</div>
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

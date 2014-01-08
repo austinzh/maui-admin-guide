@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="16.0simulations.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="16.1simulationoverview.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="16.3workloadtrace.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>16.2 Resource Traces</h1>
+
+          <p>Resource traces fully describe all scheduling relevant aspects of a batch system's compute resources. In most cases, each resource trace describes a single compute node providing information about configured resources, node location, supported classes and queues, etc. Each resource trace consists of a single line composed of 21 whitespace delimited fields. Each field is described in detail in the table below.<br></p>
+
+          <table border width="100%" nosave="">
+            <tr>
+              <td><b>Field Name</b></td>
+
+              <td><b>Field Index</b></td>
+
+              <td><b>Data Format</b></td>
+
+              <td><b>Default Value</b></td>
+
+              <td><b>Details</b></td>
+            </tr>
+
+            <tr>
+              <td>Resource Type</td>
+
+              <td>1</td>
+
+              <td>one of <b>COMPUTENODE</b></td>
+
+              <td><b>COMPUTENODE</b></td>
+
+              <td>currently the only legal value is <b>COMPUTENODE</b></td>
+            </tr>
+
+            <tr>
+              <td>Event Type</td>
+
+              <td>2</td>
+
+              <td>one of <b>AVAILABLE</b>, <b>DEFINED</b>, or <b>DRAINED</b></td>
+
+              <td>[NONE]</td>
+
+              <td>when <b>AVAILABLE</b>, <b>DEFINED</b>, or <b>DRAINED</b> is specified, node will start in the state Idle, Down, or Drained respectively.</td>
+            </tr>
+
+            <tr>
+              <td>Event Time</td>
+
+              <td>3</td>
+
+              <td>&lt;EPOCHTIME&gt;</td>
+
+              <td>1</td>
+
+              <td>time event occurred. (currently ignored)</td>
+            </tr>
+
+            <tr>
+              <td>Resource ID</td>
+
+              <td>4</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>N/A</td>
+
+              <td>for <b>COMPUTENODE</b> resources, this should be the name of the node.</td>
+            </tr>
+
+            <tr>
+              <td>Resource Manager Name</td>
+
+              <td>5</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>name of resource manager resource is associated with</td>
+            </tr>
+
+            <tr>
+              <td>Configured Swap</td>
+
+              <td>6</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>1</td>
+
+              <td>amount of virtual memory (in MB) configured on node</td>
+            </tr>
+
+            <tr>
+              <td>Configured Memory</td>
+
+              <td>7</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>1</td>
+
+              <td>amount of real memory (in MB) configured on node (i.e. RAM)</td>
+            </tr>
+
+            <tr>
+              <td>Configured Disk</td>
+
+              <td>8</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>1</td>
+
+              <td>amount of local disk (in MB) on node available to batch jobs</td>
+            </tr>
+
+            <tr>
+              <td>Configured Processors</td>
+
+              <td>9</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>1</td>
+
+              <td>number of processors configured on node</td>
+            </tr>
+
+            <tr>
+              <td>Resource Frame Location</td>
+
+              <td>10</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>1</td>
+
+              <td>number of frame containing node (SP2 only)</td>
+            </tr>
+
+            <tr>
+              <td>Resource Slot Location</td>
+
+              <td>11</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>1</td>
+
+              <td>Number of first frame slot used by node (SP2 only)</td>
+            </tr>
+
+            <tr>
+              <td>Resource Slot Use Count</td>
+
+              <td>12</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>1</td>
+
+              <td>Number of frame slots used by node (SP2 only)</td>
+            </tr>
+
+            <tr>
+              <td>Node Operating System</td>
+
+              <td>13</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>node operating system</td>
+            </tr>
+
+            <tr>
+              <td>Node Architecture</td>
+
+              <td>14</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>node architecture</td>
+            </tr>
+
+            <tr>
+              <td>Configured Node Features</td>
+
+              <td>15</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>square bracket delimited list of node features/attributes (ie, '[amd][s1200]')</td>
+            </tr>
+
+            <tr>
+              <td>Configured Run Classes</td>
+
+              <td>16</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[batch:1]</td>
+
+              <td>square bracket delimited list of CLASSNAME:CLASSCOUNT pairs.</td>
+            </tr>
+
+            <tr>
+              <td>Configured Network Adapters</td>
+
+              <td>17</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>square bracket delimited list of configured network adapters (ie, '[atm][fddi][ethernet]')</td>
+            </tr>
+
+            <tr>
+              <td>Relative Resource Speed</td>
+
+              <td>18</td>
+
+              <td>&lt;DOUBLE&gt;</td>
+
+              <td>1.0</td>
+
+              <td>relative machine speed value</td>
+            </tr>
+
+            <tr>
+              <td>RESERVED FIELD 1</td>
+
+              <td>19</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>[NONE]</td>
+            </tr>
+
+            <tr>
+              <td>RESERVED FIELD 2</td>
+
+              <td>20</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>[NONE]</td>
+
+              <td></td>
+            </tr>
+
+            <tr>
+              <td>RESERVED FIELD 3</td>
+
+              <td>21</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>[NONE]</td>
+            </tr>
+          </table>
+
+          <table class="note">
+            <tbody>
+              <tr>
+                <td class="noteIMG"><img src="note.png" title="Note" alt="Note"></td>
+
+                <td class="noteDetail">If no applicable value is specified, the exact string '<b>[NONE]</b>' should be entered.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>Sample Resource Trace:</p>
+
+          <p>'<tt>COMPUTENODE AVAILABLE 0 cluster008 PBS1 423132 256 7140 2 -1 -1 1 LINUX62 AthlonK7 [s950][compute] [batch:2] [ethernet][atm] 1.67 [NONE] [NONE] [NONE]</tt>'</p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="16.0simulations.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="16.1simulationoverview.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="16.3workloadtrace.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

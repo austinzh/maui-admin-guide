@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="3.0basics.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="3.0basics.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="3.2environment.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>3.1 File Layout</h1>
+
+          <p>Maui is initially unpacked into a simple one-deep directory structure as shown below. Note that some of the files (i.e., log and statistics files) will be created as Maui is run.</p>
+
+          <p>$(MAUIHOMEDIR) _____ <b>maui.cfg</b> (general config file containing information required by both the Maui server and user interface clients)<br>
+          |___ <b>maui-private.cfg</b> (config file containing private information required by the Maui server only)<br>
+          |___ <b><a href="fsconfig.html">fs.cfg</a></b> (fairshare config file used in Maui 3.0.6 and earlier)<br>
+          |___ <b>maui.ck</b> (Maui checkpoint file)<br>
+          |___ <b>maui.pid</b> (Maui 'lock' file to prevent multiple instances)<br>
+          |___ <b><a href="a.fparameters.html#logdir">log</a></b> (directory for Maui log files - REQUIRED BY DEFAULT)<br>
+          |____ <b><a href="a.fparameters.html#logfile">maui.log</a></b> (Maui log file)<br>
+          |____ <b>maui.log.1</b> (previous 'rolled' Maui log file)<br>
+          |___ <b><a href="a.fparameters.html#statdir">stats</a></b> (directory for Maui statistics files - REQUIRED BY DEFAULT)<br>
+          |____ Maui stats files (in format 'stats.&lt;YYYY&gt;_&lt;MM&gt;_&lt;DD&gt;')<br>
+          |____ Maui fairshare data files (in format 'FS.&lt;EPOCHTIME&gt;')<br>
+          |___ <b>tools</b> (directory for local tools called by Maui - OPTIONAL BY DEFAULT)<br>
+          |___ <b>traces</b> (directory for Maui simulation trace files - REQUIRED FOR SIMULATIONS)<br>
+          |____ resource.trace1 (sample resource trace file)<br>
+          |____ workload.trace1 (sample workload trace file)<br>
+          |___ <b>bin</b> (directory for Maui executable files - REQUIRED BY DEFAULT)<br>
+          |____ <b>maui</b> (Maui scheduler executable)<br>
+          |____ <b>maui_client</b> (Maui user interface client executable)<br>
+          |____ <b><a href="commands/profiler.html">profiler</a></b> (tool used to analyze Maui statistics)<br>
+          |___ <b>src</b> (directory for Maui source code files - REQUIRED FOR BUILD)<br>
+          |___ <b>spool</b> (directory for temporary Maui files - REQUIRED FOR ADVANCED FEATURES)<br>
+          |___ <b>contrib</b> (directory containing contributed code in the areas of GUI's, algorithms, policies, etc)</p>
+
+          <p>$(MAUIINSTDIR) ________bin (directory for installed Maui executables)<br>
+          |____ <b>maui</b> (Maui scheduler executable)<br>
+          |____ <b>maui_client</b> (Maui user interface client executable)<br>
+          |____ <b>profiler</b> (tool used to analyze Maui statistics)</p>
+
+          <p><b>/etc/maui.cfg</b> (optional file. This file is used to override default '$(MAUIHOMEDIR)' settings. it should contain the string '<b>SERVERHOMEDIR $(DIRECTORY)</b>' to override the 'built-in' $(MAUIHOMEDIR)' setting.</p>
+
+          <p>When Maui is configured via the <b>configure</b> script, the user is queried for the location of the Maui home directory and this directory, $(MAUIHOMEDIR), is compiled in as the default <b>MAUIHOMEDIR</b> directory when Maui is built. Unless specified otherwise, Maui will look in this directory for its various config files. If you wish to run Maui out of a different directory, you can override the default home directory setting by creating a <b>/etc/maui.cfg</b> file containing the string '<b>SERVERHOMEDIR &lt;DIRECTORY&gt;</b>', by setting the environment variable '<b>MAUIHOMEDIR</b>', or by specifying the configfile explicitly using the '<b>-C</b>' command line option on Maui and the Maui client commands.</p>
+
+          <p>When Maui is run, it creates a log file, '<b>maui.log</b>' in the log directory and creates a statistics file in the stats directory with the naming convention '<b>stats.YYYY_MM_DD</b>' (i.e., 'stats.2000_09_20'). Additionally, a checkpoint file, <b>maui.ck</b> and lock file <b>maui.pid</b> are maintained in the Maui home directory.</p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="3.0basics.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="3.0basics.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="3.2environment.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

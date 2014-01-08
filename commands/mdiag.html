@@ -1,0 +1,226 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>mdiag</h1>
+   <td valign=bottom nowrap><b>(Moab Diagnostics)</b>
+<tr>
+</table>
+
+<big><p><b>Synopsis</b></p></big>
+
+<!-- synopsis is a high-level usage / quick reference -->
+<!-- synopsis should not extend beyond ~80 chars -->
+
+<pre>
+<a href="mdiag-accounts.html">mdiag -a</a> [<i>accountid</i>]
+<a href="mdiag-blockedjobs.html">mdiag -b</a> [-l <i>policylevel</i>] [-t <i>partition</i>]
+<a href="mdiag-class.html">mdiag -c</a> [<i>classid</i>]
+<a href="mdiag.html#C">mdiag -C</a> [<i>configfile</i>]  // diagnose config file syntax
+<a href="mdiag-fairshare.html">mdiag -f</a> [-o user|group|acct|qos|class] [-v]
+<a href="mdiag-groups.html">mdiag -g</a> [<i>groupid</i>]
+<a href="mdiag.html#mdiag-green">mdiag -G</a> [<i>Green</i>]
+<a href="mdiag-jobs.html">mdiag -j</a> [<i>jobid</i>] [-t &lt;<i>partition</i>&gt;] [-v]
+mdiag -L [-v]  // diagnose usage limits
+mdiag -m [<i>rackid</i>]
+<a href="mdiag-node.html">mdiag -n</a> [-A &lt;creds&gt;] [-t <i>partition</i>] [<i>nodeid</i>] [-v]
+<a href="mdiag-priority.html">mdiag -p</a> [-t <i>partition</i>] [-v] // diagnose job priority
+<a href="mdiag-qos.html">mdiag -q</a> [<i>qosid</i>]
+<a href="mdiag-reservations.html">mdiag -r</a> [<i>reservationid</i>] [-v] [-w type=&lt;<i>type</i>&gt;]
+<a href="mdiag-rm.html">mdiag -R</a> [<i>resourcemanagername</i>] [-v]
+mdiag -s [<i>standingreservationid</i>]
+<a href="mdiag-sched.html">mdiag -S</a> [-v] // diagnose scheduler
+mdiag -t [-v] // diagnose partitions
+<a href="mdiag-triggers.html">mdiag -T</a> [<i>triggerid</i>] [-v]
+<a href="mdiag-users.html">mdiag -u</a> [<i>userid</i>]
+<a href="mdiag.html#x">mdiag -x</a>
+mdiag [--format=xml]
+</pre>
+
+<big><p><b>Overview</b></p></big>
+
+The <b>mdiag</b> command is used to display information about various aspects of
+the cluster and the results of internal diagnostic tests. &nbsp;In summary, it provides the following:
+
+<p><ul>
+<li>current object health and state information
+<li>current object configuration (resources, policies, attributes, etc)
+<li>current and historical performance/utilization information
+<li>reports on recent failure
+<li>object messages
+</ul>
+
+<big><p><b>Arguments</b></p></big>
+
+<table class="simpleTable">
+<tr>
+<th>Argument</th>
+<th>Description</th>
+
+<tr><td class="contentLabels"><a href="mdiag-accounts.html">-a [accountid]</a>
+<td class="contentDetails">display <a href="http://docs.adaptivecomputing.com/maui/3.5credoverview.php#account">account</a> information
+
+<tr><td class="contentLabels"><a href="mdiag-blockedjobs.html">-b</a>
+<td class="contentDetails">display information on jobs blocked by policies, holds, or other factors.
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">If blocked job diagnostics are specified, the '<b>-t</b>' option is
+also available to constrain the report to analysis of particular partition. &nbsp;Also,
+with blocked job diagnosis, the '<b>-l</b>' option can be used to specify the analysis
+policy level.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<tr><td class="contentLabels"><a href="mdiag-class.html">-c [classid]</a>
+<td class="contentDetails">display <a href="http://docs.adaptivecomputing.com/maui/3.5credoverview.php#class">class</a> information
+
+<tr><td class="contentLabels"><a name="C">-C</a> [file]
+<td class="contentDetails">analyze configuration file for errors including use of invalid parameters, deprecated parameters, and illegal values.  (If you start Moab with the -e flag, Moab evaluates the configuration file at startup and quits if an error exists.)
+
+<tr><td class="contentLabels"><a href="mdiag-fairshare.html">-f</a>
+<td class="contentDetails">display <a href="../6.3fairshare.html">fairshare</a> information 
+
+<tr><td class="contentLabels"><a href="mdiag-groups.html">-g [groupid]</a>
+<td class="contentDetails">display <a href="http://docs.adaptivecomputing.com/maui/3.5credoverview.php#group">group</a> information
+
+<tr><td class="contentLabels"><a name="mdiag-green"></a>-G [Green]
+<td class="contentDetails">display <a href="http://docs.adaptivecomputing.com/maui/18.2enablinggreen.php">power management</a> information
+
+<tr><td class="contentLabels"><a href="mdiag-jobs.html">-j [jobid]</a>
+<td class="contentDetails">display job information
+
+<tr><td class="contentLabels">-L
+<td class="contentDetails">display limits
+
+<tr><td class="contentLabels">-m rackid
+<td class="contentDetails">display rack/frame information
+
+<tr><td class="contentLabels"><a href="mdiag-node.html">-n [nodeid]</a>
+<td class="contentDetails">display nodes.
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">If node diagnostics are specified, the '<b>-t</b>' option is also available to constrain the report to a particular partition.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<tr><td class="contentLabels">-o &lt;OTYPE&gt;[:&lt;OID&gt;]
+<td class="contentDetails">organize information by specified object type
+
+<tr><td class="contentLabels"><a href="mdiag-priority.html">-p</a>
+<td class="contentDetails">display <a href="../5.1jobprioritization.html">job priority</a>.
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">If priority diagnostics are specified, the '<b>-t</b>' option is also available to constrain the report to a particular partition.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<tr><td class="contentLabels"><a href="mdiag-qos.html">-q [qosid]</a>
+<td class="contentDetails">display <a href="http://docs.adaptivecomputing.com/maui/3.5credoverview.php#qos">qos</a> information
+
+<tr><td class="contentLabels"><a href="mdiag-reservations.html">-r [reservationid]</a>
+<td class="contentDetails">display reservation information
+
+<tr><td class="contentLabels"><a href="mdiag-rm.html">-R [rmid]</a>
+<td class="contentDetails">display resource manager information
+
+<tr><td class="contentLabels">-s [srsv]
+<td class="contentDetails">display <a href="../7.1.3standingreservations.html">standing reservation</a> information
+
+<tr><td class="contentLabels"><a href="mdiag-sched.html">-S</a>
+<td class="contentDetails">display general scheduler information
+
+<tr><td class="contentLabels"><a href="mdiag-triggers.html">-T [triggerid]</a>
+<td class="contentDetails">display trigger information
+
+<tr><td class="contentLabels"><a href="mdiag-users.html">-u [userid]</a>
+<td class="contentDetails">display <a href="http://docs.adaptivecomputing.com/maui/3.5credoverview.php#user">user</a> information
+
+<tr><td class="contentLabels"><a name="x"></a>-x
+<td class="contentDetails">display advanced system information
+
+<tr><td class="contentLabels">--format=xml
+<td class="contentDetails">display output in XML format
+</table>
+
+<!--
+<big><p><b>Format</b></p></big>
+<table>
+<tr>
+<td>mdiag<td>[ -a ]<td>[&lt;ACCOUNTID&gt;]<td>// <a href="mdiag-accounts.html"><b>diagnose accounts</b></a></tr>
+<td>&nbsp;<td>[ -b ]<td>&nbsp;<td>// <a href="diagnosequeue.html"><b>diagnose blocked queue</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -c ]<td>[&lt;CLASSID&gt;]<td>// <a href="diagnoseclass.html"><b>diagnose class</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -f ]<td>&nbsp;<td>// <a href="diagnosefairshare.html"><b>diagnose fairshare</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -g ]<td>[&lt;GROUPID&gt;]<td>// <a href="diagnosegroups.html"><b>diagnose groups</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -j ]<td>[&lt;JOBID&gt;]<td>// <a href="diagnosejobs.html"><b>diagnose jobs</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -m ]<td>&nbsp;<td>// <a href="diagnoseracks.html"><b>diagnose racks</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -n ]<td>[ -t &lt;PARTITION&gt;] [&lt;NODEID&gt;]<td>// <a href="diagnosenodes.html"><b>diagnose nodes</b></a></tr>
+<td>&nbsp;<td>[ -p ]<td>[ -t &lt;PARTITION&gt;]<td>// <a href="diagnosepriority.html"><b>diagnose priority</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -q ]<td>&nbsp;<td>// <a href="mdiag-qos.html"><b>diagnose QOS configuration</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -r ]<td>&nbsp;<td>// <a href="mdiag-reservations.html"><b>diagnose reservations</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -R ]<td>&nbsp;<td>// <a href="mdiag-rm.html"><b>diagnose resource managers</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -s ]<td>&nbsp;<td>// <a href="diagnosesreservations.html"><b>diagnose standing reservations</b></a></b>
+<tr>
+<td>&nbsp;<td>[ -S ]<td>&nbsp;<td>// <a href="mdiagsched.html"><b>diagnose scheduler</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -t ]<td>&nbsp;<td>// <a href="diagnosepartition.html"><b>diagnose partitions</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -u ]<td>[ &lt;USERID&gt;]<td>// <a href="diagnoseuser.html"><b>diagnose users</b></a></tr>
+</table>
+-->
+
+<h2>See Also</h2>
+
+<ul>
+<li><a href="../2.2installation.html#client">Moab Client Installation</a> - explains how to distribute this command to client nodes</li>
+<li><a href="checkjob.html">checkjob</a>
+<li><a href="checknode.html">checknode</a>
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

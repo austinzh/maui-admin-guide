@@ -1,0 +1,205 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>mdiag -p</h1>
+   <td valign=bottom nowrap><b>(Moab Priority Diagnostics)</b>
+<tr>
+</table>
+
+<h4>Synopsis</h4>
+
+<pre>
+mdiag -p [-t <i>partition</i>] [<a href="mdiag-priority.html#verbose">-v</a>]
+</pre>
+
+<h4>Overview</h4>
+
+&nbsp;&nbsp; The '<b>mdiag -p</b>' command is used to display <i>at a glance</i> information about the job priority configuration and its effects on the current eligible jobs.&nbsp; The information presented by this command includes priority weights, priority components, and the percentage contribution of each component to the total job priority.
+
+<p>&nbsp;&nbsp; The command hides information about priority components which
+have been deactivated (ie, by setting the corresponding component priority
+weight to 0).&nbsp; For each displayed priority component, this command gives a
+small amount of context sensitive information.&nbsp; The following table
+documents this information.&nbsp; In all cases, the output is of the form
+&lt;PERCENT&gt;(&lt;CONTEXT INFO&gt;) where &lt;PERCENT&gt; is the percentage
+contribution of the associated priority component to the job's total priority.
+
+<p><b>Note</b>: By default, this command only shows information for jobs which are eligible for immediate execution. &nbsp;Jobs which violate soft or hard policies, or have holds, job dependencies, or other job constraints in place will not be displayed. &nbsp;If priority information is needed for any of these jobs, use the '<a href="mdiag-priority.html#verbose">-v</a> flag or the <a href="checkjob.html">checkjob</a> command.
+
+<h4>Format</h4>
+
+<table BORDER WIDTH="100%" NOSAVE >
+<tr>
+<td valign=top><b>Flag</b></td>
+<td valign=top><b>Name</b></td>
+<td valign=top><b>Format</b></td>
+<td valign=top><b>Default</b></td>
+<td valign=top><b>Description</b></td>
+<td valign=top><b>Example</b></td>
+</tr>
+
+<tr>
+<td valign=top>-v</td>
+<td valign=top><a name="verbose"></a><b>VERBOSE</b></td>
+<td valign=top>---</td
+><td valign=top>---</td>
+<td valign=top>display verbose priority information. &nbsp;If specified, display priority breakdown information for blocked, eligible, and active jobs. &nbsp;<b>Note</b>: By default, only information for eligible jobs is displayed.</td>
+<td valign=top><fieldset><legend>mdiag -p -v</legend><pre>
+&gt; mdiag -p -v
+</pre></fieldset>
+<br>display priority summary information for blocked, eligible, and active jobs</td>
+</tr>
+</table>
+
+<h4>Output</h4>
+
+<p><table BORDER WIDTH="100%" NOSAVE >
+<tr>
+<td><b>Priority Component</b></td>
+<td><b>Format</b></td>
+<td><b>Description</b></td>
+</tr>
+
+<tr>
+<td>Target</td>
+<td>&lt;PERCENT&gt;()</td>
+<td></td>
+</tr>
+
+<tr>
+<td>QOS</td>
+<td>&lt;PERCENT&gt;(&lt;QOS&gt;:&lt;QOSPRI&gt;)</td>
+<td>QOS:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; QOS associated
+with job
+<br>QOSPRI:&nbsp; Priority assigned to the QOS</td>
+</tr>
+
+<tr>
+<td>FairShare</td>
+<td>&lt;PERCENT&gt;(&lt;USR&gt;:&lt;GRP&gt;:&lt;ACC&gt;:&lt;QOS&gt;:&lt;CLS&gt;)</td>
+<td>USR:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; user fs
+usage - user fs target
+<br>GRP:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; group fs
+usage - group fs target
+<br>ACC:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; account fs usage
+- account fs target
+<br>QOS:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; QOS fs usage
+- QOS fs target
+<br>CLS:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class fs usage
+- class fs target</td>
+
+
+</tr>
+<tr>
+<td>Service</td>
+<td>&lt;PERCENT&gt;(&lt;QT&gt;:&lt;XF&gt;:&lt;Byp&gt;)</td>
+<td>QTime:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; job queue time which is applicable towards priority (in minutes)
+<br>XF:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; current theoretical minimum XFactor is job were to start immediately
+<br>Byp:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; number of times job was bypassed by lower priority jobs via backfill
+</tr>
+
+<tr>
+<td>Resource</td>
+<td>&lt;PERCENT&gt;(&lt;NDE&gt;:&lt;PE&gt;:&lt;PRC&gt;:&lt;MEM&gt;)</td>
+<td>NDE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nodes requested
+by job
+<br>PE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Processor Equivalents as calculated by all resources requested by job
+<br>PRC:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; processors
+requested by job
+<br>MEM:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; real memory requested by job</td>
+</tr>
+
+</table>
+
+<h4>Example 1</h4>
+
+<p><fieldset><legend>mdiag -p</legend><pre>
+diagnosing job priority information (partition: ALL)
+ 
+Job                    PRIORITY*   Cred(  QOS)    FS(Accnt)  Serv(QTime)
+             Weights   --------       1(    1)     1(    1)     1(    1)
+ 
+13678                      1321*    7.6(100.0)   0.2(  2.7)  92.2(1218.)
+13698                       235*   42.6(100.0)   1.1(  2.7)  56.3(132.3)
+13019                      8699     0.6( 50.0)   0.3( 25.4)  99.1(8674.)
+13030                      8699     0.6( 50.0)   0.3( 25.4)  99.1(8674.)
+13099                      8537     0.6( 50.0)   0.3( 25.4)  99.1(8512.)
+13141                      8438     0.6( 50.0)   0.2( 17.6)  99.2(8370.)
+13146                      8428     0.6( 50.0)   0.2( 17.6)  99.2(8360.)
+13153                      8360     0.0(  1.0)   0.1( 11.6)  99.8(8347.)
+13177                      8216     0.0(  1.0)   0.1( 11.6)  99.8(8203.)
+13203                      8127     0.6( 50.0)   0.3( 25.4)  99.1(8102.)
+13211                      8098     0.0(  1.0)   0.1( 11.6)  99.8(8085.)
+...
+13703                       137    36.6( 50.0)  12.8( 17.6)  50.6( 69.2)
+13702                        79     1.3(  1.0)   5.7(  4.5)  93.0( 73.4)
+ 
+Percent Contribution   --------     0.9(  0.9)   0.4(  0.4)  98.7( 98.7)
+ 
+* indicates system prio set on job
+</pre></fieldset>
+
+<p>&nbsp;&nbsp; The <b>mdiag -p</b> command only displays information
+for priority components actually utilized.&nbsp; In the above example,
+QOS, Account Fairshare, and QueueTime components are
+utilized in determining a job's priority.&nbsp; Other components, such
+as Service Targets, and Bypass are not used and thus are not displayed.&nbsp;
+(See the '<a href="../5.1.1priorityoverview.html">Priority Overview</a>'
+for more information)&nbsp; The output consists of a header, a job by job
+analysis of jobs, and a summary section.
+
+<p>&nbsp;&nbsp; The header provides column labeling and provides configured
+priority component and subcomponent weights.&nbsp; In the above example,
+QOSWEIGHT is set to 1000 and FSWEIGHT is set to 100.&nbsp; When configuring
+fairshare, a site also has the option of weighting the individual components
+of a job's overall fairshare, including its user, group, and account fairshare
+components.&nbsp; In this output, the user, group, and account fairshare
+weights are set to 5, 1, and 1 respectively.
+
+<p>&nbsp;&nbsp; The job by job analysis displays a job's total priority
+and the percentage contribution to that priority of each of the priority
+components.&nbsp; In this example, job <tt>13019</tt> has a total priority
+of 8699.&nbsp; Both QOS and Fairshare contribute to the job's total priority although  these factors are quite small, contributing 0.6% and 0.3% respectively with the fairshare factor being contributed by an account fairshare target. &nbsp;For this job, the dominant factor is the <i>service</i> subcomponent <i>qtime</i> which is contributing 99.1% of the total priority since the job has been in the queue for approximately 8600 minutes.
+
+<p>&nbsp;&nbsp; At the end of the job by job description, a 'Totals'
+line is displayed which documents the average percentage contributions
+of each priority component to the current idle jobs.&nbsp; In this example,
+the QOS, Fairshare, and Service components contributed an average
+of 0.9%, 0.4%, and 98.7% to the jobs' total priorities.
+
+<h4>See Also</h4>
+
+<ul>
+<li><a href="../5.1jobprioritization.html">Job Priority Overview</a>
+<li><a href="http://www.adaptivecomputing.com/mcm">Moab Cluster Manager - Priority Manager</a>
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

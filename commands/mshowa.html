@@ -1,0 +1,739 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>mshow -a</h1>
+   <td valign=bottom nowrap><b>(Moab Show Available Resources)</b>
+<tr>
+</table>
+
+<big><p><b>Synopsis</b></p></big>
+
+<pre>
+mshow -a <!--[-d]-->[-i] [-o] [-p <i>profile</i>] [-T] [-w <i>where</i>] [-x] [--xml]
+</pre>
+
+<big><p><b>Overview</b></p>
+</big>
+
+The mshow -a command allows for querying of available system resources.<big>
+<p><b>Arguments</b></p></big>
+
+<table class="simpleTable">
+
+<tr>
+  <td class="contentLabels">[<a href="mshowa.html#i">-i</a>]</td>
+  <td class="contentDetails"><b>INTERSECTION</b></td>
+</tr>
+
+<tr>
+<td class="contentLabels">[<a href="mshowa.html#o">-o</a>]</td>
+<td class="contentDetails"><b>NO AGGREGATE</b></td>
+</tr>
+
+<tr>
+<td class="contentLabels">[<a href="mshowa.html#p">-p</a>]</td>
+<td class="contentDetails"><b>PROFILE</b></td>
+</tr>
+
+<tr>
+<td class="contentLabels">[<a href="mshowa.html#T">-T</a>]</td>
+<td class="contentDetails"><b>TIMELOCK</b></td>
+</tr>
+
+<tr>
+<td class="contentLabels">[<a href="mshowa.html#w">-w</a>]</td>
+<td class="contentDetails"><b>WHERE</b></td>
+</tr>
+
+<tr>
+<td class="contentLabels">[<a href="mshowa.html#x">-x</a>]</td>
+<td class="contentDetails"><b>EXCLUSIVE</b></td>
+</tr>
+</table>
+<br />
+<br />
+
+
+<p><b>Table 1: Argument Format</b></p>
+<table class="tblFormat01">
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="flags" id="flags"></a><strong>--flags</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><strong>Flags</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">--flags=[ future | policy | tid | timeflex | summary | verbose ]</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails"><strong><a name="future" id="future"></a>future</strong> will return resources available immediately and available in the future.<br />
+        <strong><a name="policy" id="policy"></a>policy</strong> will apply charging policies to determine the total cost of each reported solution (only enabled for XML responses).<br />
+        <strong><a name="summary" id="summary"></a>summary</strong> will assign all jointly allocated transactions as dependencies of the first transaction reported.<br />
+        <strong><a name="tid" id="tid"></a>tid</strong> will associate a transaction id with the reported results.<br />
+        <strong><a name="timeflex" id="timeflex"></a>timeflex</strong> allows the reservation to move in time (but not space) in order to start at an earlier time, if able.<br />
+      <strong><a name="verbose" id="verbose"></a>verbose</strong> will return diagnostic information.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">
+        <pre>&gt; mshow -a -w user=john --flags=tid --xml  </pre>
+      </div>
+Show resources available to john in XML format with a transaction ID.</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="xml" id="xml"></a><strong>--xml</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><strong>XML</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">--xml</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Report results in XML format.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">
+        <pre>&gt; mshow -a -w user=john --flags=tid --xml  </pre>
+      </div>
+Show resources available to john in XML format with a transaction ID.</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="i" id="i"></a><strong>-i</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><strong>INTERSECTION</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Specifies that an intersection should be performed during an mshow -a command with multiple requirements.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="o" id="o"></a><strong>-o</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><strong>NO AGGREGATE</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Specifies that the results of the command mshow -a with multiple requirements should not be aggregated together.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="p" id="p"></a><strong>-p</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><strong>PROFILE</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;VPCPROFILEID&gt;</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Specifies which virtual private cluster <a href="../20.1vpcprofiles.html">profile</a> should be used to adjust the explicit constraints of the request.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="T" id="T"></a><strong>-T</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><strong>TIMELOCK</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Specifies that the multiple requirements of an mshow -a command should be timelocked.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">
+<pre>&gt; mshow -a -w minprocs=1,os=linux,duration=1:00:00 \
+  -w minprocs=1,os=aix,duration=10:00 \
+  --flags=tid,future -x -T</pre></div></td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="w" id="w"></a><strong>-w</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><strong>WHERE</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;ATTR&gt;=&lt;VAL&gt; [,&lt;ATTR&gt;=&lt;VAL&gt;]... <br />
+        &nbsp; <br />
+      Attributes are listed below in <a href="mshowa.html#table2">table 2</a>.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Add a &quot;Where&quot; clause to the current command (currently supports up to six co-allocation clauses).</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>&gt; mshow -a -w minprocs=2,duration=1:00:00 -w nodemem=512,duration=1:00:00</pre></div></td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="x" id="x"></a><strong>-x</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><strong>EXCLUSIVE</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Specifies that the multiple requirements of an mshow -a command should be exclusive  (ie. each node may only be allocated to a single requirement)</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>&gt; mshow -a -w minprocs=1,os=linux -w minprocs=1,os=aix --flags=tid -x</pre></div></td>
+    </tr>
+  </tbody>
+</table>
+
+<br />
+<br />
+
+
+<p><a name="table2"></a><b>Table 2: Request Attributes</b></p>
+
+<table class="simpleTable">
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="account"></a><b>account</b>
+<td class="contentDetails">the account credential of the requestor
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="acl"></a><b>acl</b>
+<td class="contentDetails">ACL to attach to the reservation associated with the VPC<br><br>
+This ACL must be enclosed in quotation marks. For example:<br>
+<tt>$ mshow -a ... -w acl=\"user=john\" ...</tt>
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="arch"></a><b>arch</b>
+<td class="contentDetails">select only nodes with the specified architecture
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="cal"></a><b>cal</b>
+<td class="contentDetails">select resources subject to the constraints of the specified global calendar
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="class"></a><b>class</b>
+<td class="contentDetails">the class credential of the requestor
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="coalloc"></a><b>coalloc</b>
+<td class="contentDetails">the <i>co-allocation</i> group of the specific <i>Where</i> request (can be any string but must match co-allocation group of at least one other <i>Where</i> request)
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">The number of tasks requested in each <i>Where</i> request must be equal whether this taskcount is specified via <b>minprocs</b>, <b>mintasks</b>, or <b>gres</b>.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="count"></a><b>count</b>
+<td class="contentDetails">the number of profiles to apply to the resource request
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="displaymode"></a><b>displaymode</b>
+<td class="contentDetails">Possible value is <tt>future</tt>. (Example: <tt>displaymode=future</tt>). Constrains how results are presented; setting <tt>future</tt> evaluates which resources are available now and which resources will be available in the future that match the requested attributes.
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="duration"></a><b>duration</b>
+<td class="contentDetails">the duration for which the resources will be required in format <tt>[[[DD:]HH:]MM:]SS</tt>
+</tr>
+
+<tr>
+  <td class="contentLabels"><a name="exludehostlist"></a><strong>excludehostlist</strong>  
+  <td class="contentDetails">do not select any nodes from the given list</tr>
+<tr>
+<td class="contentLabels"><a name="gres"></a><b>gres</b>
+<td class="contentDetails">select only nodes which possess the specified generic resource
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="group"></a><b>group</b>
+<td class="contentDetails">the group credential of the requestor
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="hostlist"></a><b>hostlist</b>
+<td class="contentDetails">select only the specified resources
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="job"></a><b>job</b>
+<td class="contentDetails">use the resource, duration, and credential information for the job specified as a resource request template
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="jobfeature"></a><b>jobfeature</b>
+<td class="contentDetails">select only resources which would allow access to jobs with the specified job features
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="jobflags"></a><b>jobflags</b>
+<td class="contentDetails">select only resources which would allow access to jobs with the specified job flags. The jobflags attribute accepts a colon delimited list of multiple flags.</tr>
+
+<tr>
+<td class="contentLabels"><a name="label"></a><b>label</b>
+<td class="contentDetails">associate the specified label with all results matching this request
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="minnodes"></a><b>minnodes</b>
+<td class="contentDetails">return only results with at least the number of nodes specified. &nbsp;If used with TID's, return only solutions with exactly <i>minnodes</i> nodes available
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="minprocs"></a><b>minprocs</b>
+<td class="contentDetails">return only results with at least the number of processors specified. &nbsp;If used with TID's, return only solutions with exactly <i>minprocs</i> processors available </tr>
+
+
+<tr>
+  <td class="contentLabels"><a name="mintasks"></a><b>mintasks</b>
+<td class="contentDetails"><b>FORMAT</b>:  &lt;TASKCOUNT&gt;[@&lt;RESTYPE&gt;:&lt;COUNT&gt;[+&lt;RESTYPE&gt;:&lt;COUNT&gt;]...] where &lt;RESTYPE&gt; is one of <b>procs</b>, <b>mem</b>, <b>disk</b>, or <b>swap</b>. &nbsp; Return only results with at least the number of tasks specified. &nbsp;If used with TID's, return only solutions with exactly <i>mintasks</i> available </tr>
+
+<tr>
+  <td class="contentLabels"><a name="nodedisk"></a><b>nodedisk</b>
+  <td class="contentDetails">select only nodes with at least <i>nodedisk</i> MB of local disk configured
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="nodefeature"></a><b>nodefeature</b>
+<td class="contentDetails">select only nodes with all specified features present using format &lt;feature&gt;[:&lt;feature&gt;]...
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="nodemem"></a><b>nodemem</b>
+<td class="contentDetails">select only nodes with at least <i>nodemem</i> MB of memory configured
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="offset"></a><b>offset</b>
+<td class="contentDetails">select only resources which can be co-allocated with the specified time offset where offset is specified in the format [[[DD:]HH:]MM:]SS
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="os"></a><b>os</b>
+<td class="contentDetails">select only nodes with have, or can be provisioned to have, the specified operating system
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="partition"></a><b>partition</b>
+<td class="contentDetails">the partition in which the resources must be located
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="policylevel"></a><b>policylevel</b>
+<td class="contentDetails">enable policy enforcement at the specified policy constraint level
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="qos"></a><b>qos</b>
+<td class="contentDetails">the qos credential of the requestor
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="rsvprofile"></a><b>rsvprofile</b>
+<td class="contentDetails">use the specified profile if committing a resulting transaction id directly to a reservation
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="starttime"></a><b>starttime</b>
+<td class="contentDetails">constrain the timeframe for the returned results by specifying one or more ranges using the format &lt;STIME&gt;[-&lt;ENDTIME&gt;][;&lt;STIME&gt;[-&lt;ENDTIME&gt;]] where each <i>time</i> is specified in the format in absolute, relative, or epoch time format ([HH[:MM[:SS]]][_MO[/DD[/YY]]] or +[[[DD:]HH:]MM:]SS or &lt;EPOCHTIME&gt;). 
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">The starttime specified is not the exact time at which the returned range must start, but is rather the earliest possible time the range may start.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="taskmem"></a><b>taskmem</b>
+<td class="contentDetails">require <i>taskmem</i> MB of memory per task located
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="tpn"></a><b>tpn</b>
+<td class="contentDetails">require exactly <i>tpn</i> tasks per node on all discovered resources
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="user"></a><b>user</b>
+<td class="contentDetails">the user credential of the requestor
+</tr>
+<tr>
+  <td class="contentLabels"><a name="var" id="var"></a><b>var</b></td>
+  <td class="contentDetails">use associated variables in generating per transaction charging quotes </td>
+</tr>
+
+<tr>
+  <td class="contentLabels"><strong><a name="variables" id="variables"></a>variables</strong>  
+  <td class="contentDetails">takes a string of the format   <tt>variables='var[=attr]'[;'var[=attr]'</tt> and passes the variables onto the   reservation when used in conjunction with <tt>--flags=tid</tt> and <tt>mrsvctl -c -R &lt;tid&gt;</tt>.</tr>
+
+</table>
+
+<big><p><b>Usage Notes</b></p></big>
+
+The <i>mshow -a</i> command allows for querying of available system resources.&nbsp; When combined with the <i>--flags=tid</i> option these available resources can then be placed into a "packaged" reservation (using <a href="mrsvctl.html">mrsvctl -c -R</a>) or vpc (using <a href="mschedctl.html">mschedctl -c vpc -R</a>).&nbsp; This allows system administrators to grab and reserve available resources for whatever reason, without conflicting with jobs or reservations that may holding certain resources.<!--&nbsp; When combined with the -p flag (using the <a href="../a.fparameters.html#vcprofile">VCPROFILE</a> parameter, the <i>mshow -a</i> command becomes an integral part of implementing a powerful virtual cluster, co-allocation, utility based computing environment.-->
+
+<p>There are a few restrictions on which &lt;ATTR&gt; from the -w command can be placed in the same req: <i>minprocs</i>, <i>minnodes</i>, and <i>gres</i> are all mutually exclusive, only one may be used per -w request.
+
+<p>The allocation of available nodes will follow the global <a href="../a.fparameters.html#nodeallocationpolicy">NODEALLOCATIONPOLICY</a>.
+
+<p>When the '-o' flag is not used, multi-request results will be aggregated.&nbsp; This aggregation will negate the use of offsets and request-specific starttimes.
+
+<p>The config parameter <a href="../a.fparameters.html#resourcequerydepth">RESOURCEQUERYDEPTH</a> controls the maximum number of options that will be returned in response to a resource query.
+
+<big><p><b>Example 1: Basic Compute Node Query and Reservation</b></p></big>
+
+<p><div class="example"><pre>
+&gt; mshow <a href="mshowa.html#a">-a</a> <a href="mshowa.html#w">-w</a> <a href="mshowa.html#duration">duration</a>=10:00:00,<a href="mshowa.html#minprocs">minprocs</a>=1,<a href="mshowa.html#os">os</a>=AIX53,<a href="mshowa.html#jobfeature">jobfeature</a>=shared --flags=<a href="http://docs.adaptivecomputing.com/maui/commands/tid">tid</a>,<a href="mshowa.html#future">future</a>
+
+Partition     Tasks  Nodes      Duration   StartOffset       StartDate
+---------     -----  -----  ------------  ------------  --------------
+ALL               1      1      10:00:00      00:00:00  13:28:09_04/27  TID=4  ReqID=0
+ALL               1      1      10:00:00      10:00:00  17:14:48_04/28  TID=5  ReqID=0
+ALL               1      1      10:00:00      20:00:00  21:01:27_04/29  TID=6  ReqID=0
+
+&gt; <a href="mrsvctl.html">mrsvctl</a> -c -R 4
+
+Note:  reservation system.2 created
+</pre></div>
+
+<big><p><b>Example 2: Mixed Processor and License Query</b></p></big>
+
+Select one node with 4 processors and 1 matlab license where the matlab
+license is only available for the last hour of the reservation. &nbsp;Also, select 16
+additional processors which are available during the same timeframe but which can be
+located anywhere in the cluster. &nbsp;Group the resulting transactions together using
+transaction dependencies so only the first transaction needs to be committed to reserve all associated resources.
+
+<p><div class="example"><pre>
+&gt; mshow -a -i -o -x -w mintasks=1@PROCS:4,duration=10:00:00,coalloc=a \
+                    -w gres=matlab,offset=9:00:00,duration=1:00:00,coalloc=a \
+                    -w minprocs=16,duration=10:00:00 --flags=tid,future,summary
+
+Partition     Tasks  Nodes      Duration   StartOffset       StartDate
+---------     -----  -----  ------------  ------------  --------------
+ALL               1      1      10:00:00      00:00:00  13:28:09_04/27  TID=4  ReqID=0
+ALL               1      1      10:00:00      10:00:00  17:14:48_04/28  TID=5  ReqID=0
+ALL               1      1      10:00:00      20:00:00  21:01:27_04/29  TID=6  ReqID=0
+
+&gt; mrsvctl -c -R 4
+
+
+Note:  reservation system.2 created
+Note:  reservation system.3 created
+Note:  reservation system.4 created
+</pre></div>
+
+
+<big><p><b>Example 3: Request for Generic Resources</b></p></big>
+
+Query for a generic resource on a specific host (no processors, only a generic resource).
+
+<p><div class="example"><pre>
+&gt; mshow -a -i -x -o -w gres=dvd,duration=10:00,hostlist=node03 --flags=tid,future
+
+Partition     Tasks  Nodes   StartOffset      Duration       StartDate
+---------     -----  -----  ------------  ------------  --------------
+ALL               1      1      00:00:00      00:10:00  11:33:25_07/27  TID=16  ReqID=0
+ALL               1      1      00:10:00      00:10:00  11:43:25_07/27  TID=17  ReqID=0
+ALL               1      1      00:20:00      00:10:00  11:53:25_07/27  TID=18  ReqID=0
+
+&gt; mrsvctl -c -R 16
+
+Note:  reservation system.6 created
+
+&gt; mdiag -r system.6
+Diagnosing Reservations
+RsvID                      Type Par   StartTime     EndTime     Duration Node Task Proc
+-----                      ---- ---   ---------     -------     -------- ---- ---- ----
+system.6                   User loc   -00:01:02    00:08:35     00:09:37    1    1    0
+    Flags: ISCLOSED
+    ACL:   RSV==system.6=
+    CL:    RSV==system.6
+    Accounting Creds:  User:test
+    Task Resources: dvd: 1
+    Attributes (HostExp='^node03$')
+    Rsv-Group: system.6
+</pre></div>
+
+<big><p><b>Example 4: Allocation of Shared Resources</b></p></big>
+
+This example walks through a relatively complicated example in which a set of resources can be reserved to be allocated for <i>shared</i> requests. &nbsp;In the example below, the first <b>mshow</b> query looks for resources within an existing shared reservation. &nbsp;In the example, this first query fails because there is now existing reservation. &nbsp;The second <b>mshow</b> requests asks for resources outside of a shared reservation and finds the desired resources. &nbsp;These resources are then reserved as a <i>shared</i> pool. &nbsp;The third <b>mshow</b> request again asks for resources inside of a <i>shared</i> reservation and this time finds the desired resources.
+
+<p><div class="example"><pre>
+&gt; mshow -a -w duration=10:00:00,minprocs=1,<a href="mshowa.html#os">os</a>=AIX53,<a href="mshowa.html#jobflags">jobflags</a>=ADVRES,<a href="mshowa.html#jobfeature">jobfeature</a>=shared --flags=<a href="mshowa.html#tid">tid</a>
+
+Partition     Tasks  Nodes      Duration   StartOffset       StartDate
+---------     -----  -----  ------------  ------------  --------------
+
+&gt; mshow -a -w duration=100:00:00,minprocs=1,os=AIX53,jobfeature=shared --flags=tid
+
+Partition     Tasks  Nodes      Duration   StartOffset       StartDate
+---------     -----  -----  ------------  ------------  --------------
+ALL               1      1     100:00:00      00:00:00  13:20:23_04/27  TID=1  ReqID=0
+
+&gt; mrsvctl -c -R 1
+
+Note:  reservation system.1 created
+
+&gt; mshow -a -w duration=10:00:00,minprocs=1,os=AIX53,jobflags=ADVRES,jobfeature=shared --flags=tid
+
+Partition     Tasks  Nodes      Duration   StartOffset       StartDate
+---------     -----  -----  ------------  ------------  --------------
+ALL               1      1      10:00:00      00:00:00  13:20:36_04/27  TID=2  ReqID=0
+
+&gt; mrsvctl -c -R 2
+
+Note:  reservation system.2 created
+</pre></div>
+
+<big><p><b>Example 5: Full Resource Query in XML Format</b></p></big>
+
+The following command will report information on all available resources which meet at least the minimum specified processor and walltime constraints and which are available to the specified user. &nbsp;The results will be reported in XML to allow for easy system processing.
+
+<p><div class="example"><pre>
+&gt; mshow <a href="mshowa.html#a">-a</a> <a href="mshowa.html#w">-w</a> <a href="mshowa.html#class">class</a>=grid,<a href="mshowa.html#minprocs">minprocs</a>=8,<a href="mshowa.html#duration">duration</a>=20:00 --<a href="mshowa.html#format">format</a>=xml --<a href="mshowa.html#flags">flags</a>=<a href="mshowa.html#future">future</a>,<a href="mshowa.html#verbose">verbose</a>
+
+&lt;Data>
+  &lt;Object>cluster&lt;/Object>
+  &lt;job User="john" time="1162407604">&lt;/job>
+  &lt;par Name="template">
+    &lt;range duration="Duration" nodecount="Nodes" proccount="Procs" starttime="StartTime">&lt;/range>
+    &lt;/par>
+  &lt;par Name="ALL" feasibleNodeCount="131" feasibleTaskCount="163">
+    &lt;range duration="1200" hostlist="opt-001:1,opt-024:1,opt-025:1,opt-027:2,opt-041:1,opt-042:1,x86-001:1,P690-001:1,P690-021:1,P690-022:1" 
+        index="0" nodecount="10" proccount="8" reqid="0" starttime="1162407604">&lt;/range>
+    &lt;range duration="1200" hostlist="opt-001:1,opt-024:1,opt-025:1,opt-027:2,opt-039:1,opt-041:1,opt-042:1,x86-001:1,P690-001:1,P690-021:1,P690-022:1" 
+        index="0" nodecount="11" proccount="8"reqid="0" starttime="1162411204">&lt;/range>
+    &lt;range duration="1200" hostlist="opt-001:1,opt-024:1,opt-025:1,opt-027:2,opt-039:1,opt-041:1,opt-042:1,x86-001:1,x86-002:1,x86-004:1,
+        x86-006:1,x86-013:1,x86-014:1,x86-015:1,x86-016:1,x86-037:1,P690-001:1,P690-021:1,P690-022:1" 
+        index="0" nodecount="19" proccount="8" reqid="0" starttime="1162425519">&lt;/range>
+    &lt;/par>
+  &lt;par Name="SharedMem">
+    &lt;range duration="1200" hostlist="P690-001:1,P690-002:1,P690-003:1,P690-004:1,P690-005:1,P690-006:1,P690-007:1,P690-008:1,P690-009:1,
+        P690-010:1,P690-011:1,P690-012:1,P690-013:1,P690-014:1,P690-015:1,P690-016:1,P690-017:1,P690-018:1,P690-019:1,P690-020:1,P690-021:1,
+        P690-022:1,P690-023:1,P690-024:1,P690-025:1,P690-026:1,P690-027:1,P690-028:1,P690-029:1,P690-030:1,P690-031:1,P690-032:1" 
+        index="0" nodecount="32" proccount="8" reqid="0" starttime="1163122507">&lt;/range>
+    &lt;/par>
+  &lt;par Name="64Bit">
+    &lt;range duration="1200" hostlist="opt-001:1,opt-024:1,opt-025:1,opt-027:2,opt-039:1,opt-041:1,opt-042:1" 
+        index="0" nodecount="7" proccount="8" reqid="0" starttime="1162411204">&lt;/range>
+    &lt;range duration="1200" hostlist="opt-001:1,opt-024:1,opt-025:1,opt-027:2,opt-039:1,opt-041:1,opt-042:1,opt-043:1,opt-044:1,opt-045:1,
+        opt-046:1,opt-047:1,opt-048:1,opt-049:1,opt-050:1" 
+        index="0" nodecount="15" proccount="8" reqid="0" starttime="1162428996">&lt;/range>
+    &lt;range duration="1200" hostlist="opt-001:1,opt-006:1,opt-007:2,opt-008:2,opt-009:2,opt-010:2,opt-011:2,opt-012:2,opt-013:2,opt-014:2,
+        opt-015:2,opt-016:2,opt-017:2,opt-018:2,opt-019:2,opt-020:2,opt-021:2,opt-022:2,opt-023:2,opt-024:2,opt-025:1,opt-027:2,opt-039:1,
+        opt-041:1,opt-042:1,opt-043:1,opt-044:1,opt-045:1,opt-046:1,opt-047:1,opt-048:1,opt-049:1,opt-050:1" 
+        index="0" nodecount="33" proccount="8" reqid="0" starttime="1162876617">&lt;/range>
+    &lt;/par>
+  &lt;par Name="32Bit">
+    &lt;range duration="1200" hostlist="x86-001:1,x86-002:1,x86-004:1,x86-006:1,x86-013:1,x86-014:1,x86-015:1,x86-016:1,x86-037:1" 
+        index="0" nodecount="9" proccount="8" reqid="0" starttime="1162425519">&lt;/range>
+    &lt;range duration="1200" hostlist="x86-001:1,x86-002:1,x86-004:1,x86-006:1,x86-013:1,x86-014:1,x86-015:1,x86-016:1,x86-037:1,x86-042:1,x86-043:1" 
+        index="0" nodecount="11" proccount="8" reqid="0" starttime="1162956803">&lt;/range>
+    &lt;range duration="1200" hostlist="x86-001:1,x86-002:1,x86-004:1,x86-006:1,x86-013:1,x86-014:1,x86-015:1,x86-016:1,x86-027:1,x86-028:1,
+        x86-029:1,x86-030:1,x86-037:1,x86-041:1,x86-042:1,x86-043:1,x86-046:1,x86-047:1,x86-048:1,x86-049:1" 
+        index="0" nodecount="20" proccount="8" reqid="0" starttime="1163053393">&lt;/range>
+    &lt;/par>
+  &lt;/Data>
+<pre></div>
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">This command reports the original query, and the timeframe, resource size, and hostlist associated with each possible time slot.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<big><p><b>Example 6: Create a Virtual Private Cluster</b></p></big>
+
+<p>Request an exclusive five-node virtual private cluster using the Apache profile.</p>
+
+<p><div class="example"><pre>
+&gt; mshow -a -i -x -o --flags=summary,tid,future,timeflex -p apache -w
+&gt; duration=3000,minnodes=5
+
+Partition     Tasks  Nodes   StartOffset      Duration       StartDate
+---------     -----  -----  ------------  ------------  --------------
+ALL               5      5      00:00:00      00:50:00  09:59:07_07/03  
+TID=265
+ALL               5      5      00:50:00      00:50:00  10:49:07_07/03  
+TID=266
+ALL               5      5       1:40:00      00:50:00  11:39:07_07/03  
+TID=267
+
+&gt; mschedctl -c vpc -a resources=265
+
+vpc.69
+</pre></div>
+
+<h2>See Also</h2>
+
+<ul>
+<li><a href="../2.2installation.html#client">Moab Client Installation</a> - explains how to distribute this command to client nodes</li>
+<li><a href="mshowhostingusage.html">mshow in a hosting environment</a>
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

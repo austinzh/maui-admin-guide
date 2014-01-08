@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="12.0generalnodeadmin.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="12.0generalnodeadmin.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="12.2nodeattributes.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>12.1 Node Location</h1>
+
+          <p>Nodes can be assigned three types of location information based on partitions, frames, and/or queues.</p>
+
+          <ul>
+            <li><a href="12.1nodelocation.html#partitions">12.1.1 Partitions</a></li>
+
+            <li><a href="12.1nodelocation.html#frames">12.1.2 Frames</a></li>
+
+            <li>
+              <a href="12.1nodelocation.html#queues">12.1.3 Queues</a>
+
+              <ul>
+                <li><a href="12.1nodelocation.html#open">12.1.3.1 OpenPBS Queue to Node Mapping</a></li>
+              </ul>
+            </li>
+          </ul>
+          <hr>
+          <br>
+
+          <h2><a name="partitions" id="partitions"></a>12.1.1 Partitions</h2>
+
+          <p>The first form of location assignment, the partition, allows nodes to be grouped according to physical resource constraints or policy needs. By default, jobs are not allowed to span more than one partition so partition boundaries are often valuable if a underlying network topology make certain resource allocations undesirable. Additionally, per-partition policies can be specified to grant control over how scheduling is handled on a partition by partition basis. See the <a href="7.2partitions.html">Partition Overview</a> for more information.</p>
+
+          <h2><a name="frames" id="frames"></a>12.1.2 Frames</h2>
+
+          <p>Frame based location information is orthogonal to the partition based configuration and is mainly an organizational construct. In general frame based location usage, a node is assigned both a frame and a slot number. This approach has descended from the IBM SP2 organizational approach in which a frame can contain any number of slots but typically contains between 1 and 64. Using the frame and slot number combo, individual compute nodes can be grouped and displayed in a more ordered manner in certain Maui commands (i.e., <a href="commands/showstate.html">showstate</a>). Currently, frame information can only be specified directly by the system via the SDR interface on SP2/Loadleveler systems. In all other systems, this information must be manually specified via the <a href="a.fparameters.html#nodecfg">NODECFG</a> parameter.</p>
+
+          <p>Example:</p>
+
+          <p>---<br>
+          <tt># maui.cfg</tt></p>
+
+          <p><tt>NODECFG[node024] FRAME=1 SLOT=1</tt><br>
+          <tt>NODECFG[node025] FRAME=1 SLOT=2</tt><br>
+          <tt>NODECFG[node026] FRAME=2 SLOT=1 PARTITION=special</tt><br>
+          <tt>...</tt><br>
+          ---</p>
+
+          <p>When specifying node and frame information, slot values must be in the range of 1 to 32 (limited to 1 to 16 in Maui 3.0 and earlier). and frames must be in the range of 1 to 64.</p>
+
+          <h2><a name="queues" id="queues"></a>12.1.3 Queues</h2>
+
+          <p>Some resource managers allow queues (or classes) to be defined and then associated with a subset of available compute resources. With such systems, such as Loadleveler or PBSPro, these queue to node mappings are automatically detected. On resource managers which do not provide this service, Maui provides alternative mechanisms for enabling this feature.</p>
+
+          <h3><a name="open" id="open"></a>12.1.3.1 OpenPBS Queue to Node Mapping</h3>
+
+          <p>Under OpenPBS, queue to node mapping can be accomplished setting the queue <tt>acl_hosts</tt> parameter to the mapping hostlist desired within PBS. Further, the <tt>acl_host_enable</tt> parameter should be set to <tt>False</tt>. <b>NOTE</b>: Setting <tt>acl_hosts</tt> and then setting <tt>acl_host_enable</tt> to <tt>True</tt> will constrain the list of hosts from which jobs may be submitted to the queue. Prior to Maui 3.0.7p3, queue to node mapping was only enabled when <tt>acl_host_enable</tt> was set to <tt>True</tt>, thus, for these versions, the <tt>acl_host</tt> list should always include all submission hosts.</p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="12.0generalnodeadmin.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="12.0generalnodeadmin.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="12.2nodeattributes.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

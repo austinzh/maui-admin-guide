@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="index.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="11.8localqueue.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="12.1nodelocation.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>12.0 General Node Administration</h1>
+
+          <p>Since Maui interoperates with a number of resource managers of varying capabilities, it must possess a somewhat redundant set of mechanisms for specifying node attribute, location, and policy information. Maui determines a node's configuration through one or more of the following approaches:</p>
+
+          <p>- Direct resource manager specification</p>
+
+          <p>Some node attribute may be directly specified through the resource manager. For example, Loadleveler allows a site to assign a 'MachineSpeed' value to each node. If the site chooses to specify this value within the Loadleveler configuration, Maui will obtain this info via the Loadleveler scheduling API and use it in scheduling decisions. The list of node attributes supported in this manner varies from resource manager to resource manager and should be determined by consulting resource manager documentation.</p>
+
+          <p>- Translation of resource manager specified 'opaque' attributes</p>
+
+          <p>Many resource managers support the concept of opaque node attributes, allowing a site to assign arbitrary strings to a node. These strings are opaque in the sense that the resource manager passes them along to the scheduler without assigning any meaning to them. Nodes possessing these opaque attributes can then be requested by various jobs. Using certain Maui parameters, sites can assign a meaning within Maui to these opaque node attributes and extract specific node information. For example, setting the parameter '<a href="a.fparameters.html#featureprocspeedheader">FEATUREPROCSPEEDHEADER</a> xps' will cause a node with the opaque string 'xps950' to be a assigned a processor speed of 950 MHz within Maui.</p>
+
+          <p>- Default node attributes</p>
+
+          <p>Some default node attributes can be assigned on a frame or partition basis. Unless explicitly specified otherwise, nodes within the particular node or partition will be assigned these default attribute values. See the <a href="7.2partitions.html">Partition Overview</a> for more information.</p>
+
+          <p>- Direct Maui parameter specification</p>
+
+          <p>Maui also provides a parameter named <a href="a.fparameters.html#nodecfg">NODECFG</a> which allows direct specification of virtually all node attributes supported via other mechanisms and also provides a number of additional attributes not found elsewhere. For example, a site may wish to specify something like the following:</p>
+
+          <p>---<br>
+          <tt>NODECFG[node031] MAXJOB=2 PROCSPEED=600 PARTITION=small</tt><br>
+          ---</p>
+
+          <p><img src="note.png" height="24" width="20"> These approaches may be mixed and matched according to the site's local needs. Precedence for the approaches generally follows the order listed above in cases where conflicting node configuration information is specified through one or more mechanisms.</p>
+
+          <ul>
+            <li><a href="12.1nodelocation.html">12.1 Node Location (Partitions, Frames, Queues, etc.)</a></li>
+
+            <li><a href="12.2nodeattributes.html">12.2 Node Attributes (Node Features, Speed, etc.)</a></li>
+
+            <li><a href="12.3nodepolicies.html">12.3 Node Specific Policies (MaxJobPerNode, etc.)</a></li>
+          </ul>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="index.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="11.8localqueue.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="12.1nodelocation.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

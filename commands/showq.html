@@ -1,0 +1,689 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>showq</h1>
+   <td valign=bottom nowrap><b>(Show Queue)</b>
+<tr>
+</table>
+
+<big><p><b>Synopsis</b></p></big>
+
+<pre>
+showq [<a href="showq.html#b">-b</a>] [<a href="showq.html#g">-g</a>] [<a href="showq.html#l">-l</a>] [<a href="showq.html#c">-c</a>|<a href="showq.html#i">-i</a>|<a href="showq.html#r">-r</a>] [<a href="showq.html#p">-p</a> <i>partition</i>] [<a href="showq.html#R">-R</a> <i>rsvid</i>] [<a href="showq.html#v">-v</a>] [<a href="showq.html#w">-w &lt;CONSTRAINT&gt;</a>]
+</pre>
+
+<big><p><b>Overview</b></p></big>
+
+Displays information about active, eligible, blocked, and/or recently completed jobs.&nbsp; Since the resource manager is not actually scheduling jobs, the job ordering it displays is not valid. The <b>showq</b> command displays the actual job ordering under the Moab Workload Manager.&nbsp; When used without flags, this command displays all jobs in active, idle, and non-queued states.
+
+<big><p><b>Access</b></p></big>
+
+By default, this command can be run by any user.&nbsp; However, the <tt>-c</tt>, <tt>-i</tt>, and <tt>-r</tt> flags can only be used by level 1, 2, or 3 Moab administrators.
+
+<big><p><b>Flags</b></p></big>
+
+<table class="simpleTable">
+<tr>
+  <th>Flag</th>
+  <th>Description</th>
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="b"><b>-b</b></a>
+<td class="contentDetails">display blocked jobs only
+
+<tr>
+<td class="contentLabels"><a name="c"><b>-c</b></a>
+<td class="contentDetails">display details about recently <a href="../3.2environment.html#jobstates">completed</a> jobs (see <a href="showq.html#completedexample">example</a>, <a href="../a.fparameters.html#jobcpurgetime">JOBCPURGETIME</a>).
+
+<tr>
+<td class="contentLabels"><a name="g"><b>-g</b></a>
+<td class="contentDetails">display grid job and system id's for all jobs.
+
+<tr>
+<td class="contentLabels"><a name="i"><b>-i</b></a>
+<td class="contentDetails">display extended details about idle jobs. (see <a href="showq.html#idleexample">example</a>)
+
+<tr>
+<td class="contentLabels"><a name="l"><b>-l</b></a>
+<td class="contentDetails">display local/remote view. For use in a <a href="http://docs.adaptivecomputing.com/maui/17.0peertopeer.php">Grid</a> environment, displays job usage of both local and remote compute resources.
+
+<tr>
+<td class="contentLabels"><a name="p"><b>-p</b></a>
+<td class="contentDetails">display only jobs assigned to the specified partition.
+
+<tr>
+<td class="contentLabels"><a name="r"><b>-r</b></a>
+<td class="contentDetails">display extended details about active (running) jobs. (see <a href="showq.html#activeexample">example</a>)
+
+<tr>
+<td class="contentLabels"><a name="R"><b>-R</b></a>
+<td class="contentDetails">display only jobs which overlap the specified reservation.
+
+<tr>
+<td class="contentLabels"><a name="v"><b>-v</b></a>
+<td class="contentDetails">Display local and full resource manager job IDs as well as partitions. If specified with the '<b>-i</b>' option, will display job reservation time. <!-- and sort jobs in next to run order-->.
+
+<tr>
+<td class="contentLabels"><a name="w"><b>-w</b></a>
+<td class="contentDetails">display only jobs associated with the specified constraint. Valid constraints include <b>user</b>, <b>group</b>, <b>acct</b>, <b>class</b>, and <b>qos</b>. (see <a href="showq.html#whereexample">showq -w</a> example.)
+</table>
+
+<big><p><b>Details</b></p></big>
+
+&nbsp;&nbsp; Beyond job information, the <b>showq</b> command will also report if the scheduler is stopped or paused or if a system reservation is in place. Further, the showq command will also report public system messages.
+
+<big><p><b>Examples</b></p></big>
+
+<ul>
+<li><a href="showq.html#defaultexample">Example 1</a>: Default Report
+<li><a href="showq.html#activeexample">Example 2</a>: Detailed Active/Running Job Report
+<li><a href="showq.html#idleexample">Example 3</a>: Detailed Eligible/Idle Job Report
+<li><a href="showq.html#completedexample">Example 4</a>: Detailed Completed Job Report
+<li><a href="showq.html#whereexample">Example 5</a>: Filtered Job Report
+</ul>
+
+<big><p><b><a name="defaultexample"></a>Example 1: Default Report</b></p></big>
+
+&nbsp;&nbsp; The output of this command is divided into three parts, <a href="showq.html#active">Active</a> Jobs, <a href="showq.html#eligible">Eligible</a> Jobs, and <a href="showq.html#blocked">Blocked</a> Jobs.
+
+<p><div class="example"><pre>
+&gt; showq
+ 
+active jobs------------------------
+<a href="showq.html#jobid">JOBID</a>              <a href="showq.html#username">USERNAME</a>      <a href="showq.html#state">STATE</a>  <a href="showq.html#proc">PROC</a>   <a href="showq.html#remaining">REMAINING</a>            <a href="showq.html#starttime">STARTTIME</a>
+ 
+12941               sartois    Running    25     2:44:11  Thu Sep  1 15:02:50
+12954                tgates    Running     4     2:57:33  Thu Sep  1 15:02:52
+12944                 eval1    Running    16     6:37:31  Thu Sep  1 15:02:50
+12946                tgates    Running     2  1:05:57:31  Thu Sep  1 15:02:50
+ 
+4 active jobs             47 of 48 processors active (97.92%)
+                          32 of 32 nodes active      (100.00%)
+ 
+eligible jobs----------------------
+JOBID              USERNAME      STATE  PROC     WCLIMIT            QUEUETIME
+ 
+12956              cfosdyke       Idle    32     6:40:00  Thu Sep  1 15:02:50
+12969              cfosdyke       Idle     4     6:40:00  Thu Sep  1 15:03:23
+12939                 eval1       Idle    16     3:00:00  Thu Sep  1 15:02:50
+12940               mwillis       Idle     2     3:00:00  Thu Sep  1 15:02:50
+12947               mwillis       Idle     2     3:00:00  Thu Sep  1 15:02:50
+12949                 eval1       Idle     2     3:00:00  Thu Sep  1 15:02:50
+12953                tgates       Idle    10     4:26:40  Thu Sep  1 15:02:50
+12955                 eval1       Idle     2     4:26:40  Thu Sep  1 15:02:50
+12957                tgates       Idle    16     3:00:00  Thu Sep  1 15:02:50
+12963                 eval1       Idle    16  1:06:00:00  Thu Sep  1 15:02:52
+12964                tgates       Idle    16  1:00:00:00  Thu Sep  1 15:02:52
+12937               allendr       Idle     9  1:00:00:00  Thu Sep  1 15:02:50
+12962                aacker       Idle     6    00:26:40  Thu Sep  1 15:02:50
+12968               tamaker       Idle     1     4:26:40  Thu Sep  1 15:02:52
+ 
+14 eligible jobs
+ 
+blocked jobs-----------------------
+JOBID              USERNAME      STATE  PROC     WCLIMIT            QUEUETIME
+ 
+ 
+0 blocked jobs
+ 
+Total jobs:  18
+</pre></div>
+
+<p>The fields are as follows:
+<p><table class="simpleTable">
+<tr>
+  <th>Column</th>
+  <th>Description</th>
+</tr>
+<TR><td class="contentLabels"><a name="jobid"></a><b>JOBID</b></td><td class="contentDetails">job identifier.</td> </tr>
+
+<TR>
+<td class="contentLabels"><a name="username"></a><b>USERNAME</b></td>
+<td class="contentDetails"><a href="http://docs.adaptivecomputing.com/maui/3.5credoverview.php#user">User</a> owning job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><a name="state"></a><b>STATE</b></td>
+<td class="contentDetails"><a href="../3.2environment.html#jobstates">Job State</a>.&nbsp; Current batch state of the job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><a name="proc"></a><b>PROC</b></td>
+<td class="contentDetails">Number of processors being used by the job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><a name="remaining"></a><b>REMAINING/WCLIMIT</b></td>
+<td class="contentDetails">For active jobs, the time the job has until it has reached its wall clock limit or for idle/blocked jobs, the amount of time requested by the job. Time specified in [DD:]HH:MM:SS notation.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><a name="starttime"></a><b>STARTTIME</b></td>
+<td class="contentDetails">Time job started running.</td>
+</tr>
+</table>
+
+<p><a name="active"></a><b>Active Jobs</b>
+
+<p>Active jobs are those that are <a href="../3.2environment.html#jobstates">Running</a> or <a href="../3.2environment.html#jobstates">Starting</a> and consuming resources. Displayed are the job id*, the job's owner, and the job state.&nbsp; Also displayed are the number of processors allocated to the job, the amount of time remaining until the job completes (given in HH:MM:SS notation), and the time the job started. All active jobs are sorted in "Earliest Completion Time First" order.
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail"><p>*Job id's may be marked with a single character to to specify the following conditions:</p>
+      
+        <table class="simpleTable">
+        <tr>
+        <th>Character</th>
+        <th>Description</th>
+        <tr>
+        <td class="contentLabels">_ (underbar)
+        <td class="contentDetails">job violates usage limit
+        <tr>
+        <td class="contentLabels">* (asterisk)
+        <td class="contentDetails">job is backfilled AND is preemptible
+        <tr>
+        <td class="contentLabels">+ (plus)
+        <td class="contentDetails">job is backfilled AND is NOT preemptible
+        <tr>
+        <td class="contentLabels">- (hyphen)
+        <td class="contentDetails">job is NOT backfilled AND is preemptible
+        </table>
+        
+      </td>
+    </tr>
+  </tbody>
+</table></p> 
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">Detailed active job information can be obtained using the '<a href="showq.html#r">-r</a>' flag.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<p>
+
+<p><a name="eligible"></a><b>Eligible Jobs</b>
+
+<p>Eligible Jobs are those that are queued and eligible to be scheduled. They are 
+all in the Idle job state and do not violate any fairness policies or have 
+any job holds in place. The jobs in the Idle section display the same 
+information as the Active Jobs section except that the wall clock CPULIMIT
+is specified rather than job time REMAINING, and job QUEUETIME is displayed 
+rather than job STARTTIME. The jobs in this section are ordered by job 
+priority. Jobs in this queue are considered eligible for both scheduling 
+and backfilling. 
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">Detailed eligible job information can be obtained using the '<a href="showq.html#i">-i</a>' flag.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<p><a name="blocked"></a><b>Blocked Jobs</b>
+ 
+<p>Blocked jobs are those that are ineligible to be run or queued. Jobs 
+listed here could be in a number of states for the following reasons: 
+
+<P>
+<table class="simpleTable">
+<tr>
+  <th>State</th>
+  <th>Description</th>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>Idle</b></td>
+<td class="contentDetails">Job violates a fairness policy. Use <TT>diagnose -q</TT> for more 
+    information.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>UserHold</b></td>
+<td class="contentDetails">A <i>user</i> hold is in place.</td>
+
+<tr>
+<td class="contentLabels"><b>SystemHold</b></td>
+<td class="contentDetails">An administrative or <i>system</i> hold is in place.</td>
+
+<tr>
+<td class="contentLabels"><b>BatchHold</b></td>
+<td class="contentDetails">A scheduler <i>batch</i> hold is in place (used when the job cannot be run 
+    because the requested resources are not available in the system or because
+    the resource manager has repeatedly failed in attempts to start the job).</td>
+
+<tr>
+<td class="contentLabels"><b>Deferred</b></td>
+<td class="contentDetails">A scheduler <i>defer</i> hold is in place (a temporary hold used when a job 
+    has been unable to start after a specified number of attempts. This hold
+    is automatically removed after a short period of time).</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>NotQueued</b></td>
+<td class="contentDetails">Job is in the resource manager state NQ (indicating the job's controlling
+    scheduling daemon in unavailable).</td>
+</tr>
+</table>
+
+<p> A summary of the job queue's status is provided at the end of the output.
+
+<big><p><b><a name="activeexample"></a>Example 2: Detailed Active/Running Job Report</b></p></big>
+
+<div class="example"><pre>
+&gt; showq -r
+ 
+active jobs------------------------
+JOBID               S CCODE PAR  EFFIC  XFACTOR  Q      USER    GROUP        MHOST PROCS   REMAINING            STARTTIME
+ 
+12941               R     -   3 100.00      1.0  -   sartois   Arches       G5-014 25     2:43:31  Thu Sep  1 15:02:50
+12954               R     -   3 100.00      1.0 Hi    tgates   Arches       G5-016  4     2:56:54  Thu Sep  1 15:02:52
+12944               R     -   2 100.00      1.0 De     eval1  RedRock     P690-016 16     6:36:51  Thu Sep  1 15:02:50
+12946               R     -   3 100.00      1.0  -    tgates   Arches       G5-001  2  1:05:56:51  Thu Sep  1 15:02:50
+ 
+4 active jobs             47 of 48 processors active (97.92%)
+                          32 of 32 nodes active      (100.00%)
+ 
+Total jobs:  4
+</pre></div>
+
+<p> The fields are as follows:
+<p>
+<table class="simpleTable">
+<tr>
+  <th>Column</th>
+  <th>Description</th>
+</tr>
+<TR><td class="contentLabels"><a name="jobid"></a><b>JOBID</b></td><td class="contentDetails">Name of active job.</td> 
+  </tr>
+
+<TR>
+<td class="contentLabels"><b>S</b></td>
+<td class="contentDetails"><a href="../3.2environment.html#jobstates">Job State</a>. Either "R" for Running or "S" for Starting.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>PAR</b></td>
+<td class="contentDetails">Partition in which job is running.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>EFFIC</b></td>
+<td class="contentDetails">CPU efficiency of job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>XFACTOR</b></td>
+<td class="contentDetails">Current expansion factor of job, where XFactor = (QueueTime + 
+    WallClockLimit) / WallClockLimit</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>Q</b></td>
+<td class="contentDetails">Quality Of Service specified for job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><a name="username"></a><b>USERNAME</b></td>
+<td class="contentDetails">User owning job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>GROUP</b></td>
+<td class="contentDetails">Primary group of job owner.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>MHOST</b></td>
+<td class="contentDetails">Master Host running primary task of job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>PROC</b></td>
+<td class="contentDetails">Number of processors being used by the job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>REMAINING</b></td>
+<td class="contentDetails">Time the job has until it has reached its wall clock limit. Time 
+    specified in HH:MM:SS notation.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>STARTTIME</b></td>
+<td class="contentDetails">Time job started running.</td>
+</tr>
+</table>
+
+<p> After displaying the running jobs, a summary is provided indicating the number of jobs, the number of allocated processors, and the system utilization.<br> 
+<br>
+<table class="simpleTable">
+<tr>
+  <th>Column</th>
+  <th>Description</th>
+</tr>
+<TR>
+<TD class="contentLabels"><b>JobName</b></TD>
+<TD class="contentDetails">Name of active job.</TD>
+</TR>
+
+<TR>
+<TD class="contentLabels"><b>S</b></TD>
+<TD class="contentDetails">Job State.  Either "R" for Running or "S" for Starting.</TD>
+</TR>
+
+<TR>
+<TD class="contentLabels"><b>CCode</b></TD>
+<TD class="contentDetails">Completion Code. The return/completion code given when a job completes. (Only applicable to completed jobs.)</TD>
+</TR>
+
+<TR>
+<TD class="contentLabels"><b>Par</b></TD>
+<TD class="contentDetails">Partition in which job is running.</TD>
+</TR>
+
+<TR>
+<TD class="contentLabels"><b>Effic</b></TD>
+<TD class="contentDetails">CPU efficiency of job.</TD>
+</TR>
+
+<TR>
+<TD class="contentLabels"><b>XFactor</b></TD>
+<TD class="contentDetails">Current expansion factor of job, where XFactor = (QueueTime + 
+    WallClockLimit) / WallClockLimit</TD>
+</TR>
+
+<TR>
+<TD class="contentLabels"><b>Q</b></TD>
+<TD class="contentDetails">Quality Of Service specified for job.</TD>
+</TR>
+
+<TR>
+<TD class="contentLabels"><b>User</b></TD>
+<TD class="contentDetails">User owning job.</TD>
+</TR>
+
+<TR>
+<TD class="contentLabels"><b>Group</b></TD>
+<TD class="contentDetails">Primary group of job owner.</TD>
+</TR>
+
+<TR>
+<TD class="contentLabels"><b>Nodes</b></TD>
+<TD class="contentDetails">Number of processors being used by the job.</TD>
+</TR>
+
+<TR>
+<TD class="contentLabels"><b>Remaining</b></TD>
+<TD class="contentDetails">Time the job has until it has reached its wall clock limit. Time 
+    specified in HH:MM:SS notation.</TD>
+</TR>
+
+<TR>
+<TD class="contentLabels"><b>StartTime</b></TD>
+<TD class="contentDetails">Time job started running.</TD>
+</TR>
+</TABLE>
+
+
+<p><div class="example"><pre>
+&gt; showq -i
+ 
+eligible jobs----------------------
+JOBID                 PRIORITY  XFACTOR  Q      USER    GROUP  PROCS     WCLIMIT     CLASS      SYSTEMQUEUETIME
+ 
+12956*                      20      1.0  -  cfosdyke  RedRock     32     6:40:00     batch  Thu Sep  1 15:02:50
+12969*                      19      1.0  -  cfosdyke  RedRock      4     6:40:00     batch  Thu Sep  1 15:03:23
+12939                       16      1.0  -     eval1  RedRock     16     3:00:00     batch  Thu Sep  1 15:02:50
+12940                       16      1.0  -   mwillis   Arches      2     3:00:00     batch  Thu Sep  1 15:02:50
+12947                       16      1.0  -   mwillis   Arches      2     3:00:00     batch  Thu Sep  1 15:02:50
+12949                       16      1.0  -     eval1  RedRock      2     3:00:00     batch  Thu Sep  1 15:02:50
+12953                       16      1.0  -    tgates   Arches     10     4:26:40     batch  Thu Sep  1 15:02:50
+12955                       16      1.0  -     eval1  RedRock      2     4:26:40     batch  Thu Sep  1 15:02:50
+12957                       16      1.0  -    tgates   Arches     16     3:00:00     batch  Thu Sep  1 15:02:50
+12963                       16      1.0  -     eval1  RedRock     16  1:06:00:00     batch  Thu Sep  1 15:02:52
+12964                       16      1.0  -    tgates   Arches     16  1:00:00:00     batch  Thu Sep  1 15:02:52
+12937                        1      1.0  -   allendr  RedRock      9  1:00:00:00     batch  Thu Sep  1 15:02:50
+12962                        1      1.2  -    aacker  RedRock      6    00:26:40     batch  Thu Sep  1 15:02:50
+12968                        1      1.0  -   tamaker  RedRock      1     4:26:40     batch  Thu Sep  1 15:02:52
+ 
+14 eligible jobs
+ 
+Total jobs:  14
+</pre></div></p>
+
+<p>The fields are as follows:
+
+<p>
+<table class="simpleTable">
+<tr>
+  <th>Column</th>
+  <th>Description</th>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>JOBID</b></td>
+<td class="contentDetails">Name of job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>PRIORITY</b></td>
+<td class="contentDetails">Calculated job priority.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>XFACTOR</b></td>
+<td class="contentDetails">Current expansion factor of job, where XFactor = (QueueTime + WallClockLimit) / WallClockLimit</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>Q</b></td>
+<td class="contentDetails">Quality Of Service specified for job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>USER</b></td>
+<td class="contentDetails"><a href="http://docs.adaptivecomputing.com/maui/3.5credoverview.php#user">User</a> owning job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>GROUP</b></td>
+<td class="contentDetails">Primary <a href="http://docs.adaptivecomputing.com/maui/3.5credoverview.php#group">group</a> of job owner.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>PROCS</b></td>
+<td class="contentDetails">Minimum number of processors required to run job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>WCLIMIT</b></td>
+<td class="contentDetails">Wall clock limit specified for job. Time specified in HH:MM:SS 
+    notation.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>CLASS</b></td>
+<td class="contentDetails"><a href="http://docs.adaptivecomputing.com/maui/3.5credoverview.php#class">Class</a> requested by job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>SYSTEMQUEUETIME</b></td>
+<td class="contentDetails">Time job was admitted into the system queue.</td>
+</tr>
+</table>
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">An asterisk at the end of a job (job 12956* in this example) indicates that the job has a job <a href="../7.1advancereservations.html">reservation</a> created for it. The details of this reservation can be displayed using the <a href="checkjob.html">checkjob</a> command.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<!--
+<P> 
+After displaying the job listing, the command summarizes the workload in the 
+idle queue and indicates the total workload backlog in proc-hours. The value 
+in parenthesis indicates the minimum amount of time required to run this 
+workload using the currently available nodes on the system. 
+-->
+
+<big><p><b><a name="completedexample"></a>Example 4: Detailed Completed Job Report</b></p></big>
+
+<div class="example"><pre>
+&gt; showq -c
+
+completed jobs------------------------
+JOBID               <a href="showq.html#cs">S</a> <a href="showq.html#cccode">CCODE</a>  PAR  EFFIC  XFACTOR  Q  USERNAME    GROUP        MHOST PROC    <a name="cwalltime">WALLTIME</a>            STARTTIME
+
+13098               C     0  bas  93.17      1.0  -   sartois   Arches       G5-014    25    2:43:31  Thu Sep  1 15:02:50
+13102               C     0  bas  99.55      2.2 Hi    tgates   Arches       G5-016     4    2:56:54  Thu Sep  1 15:02:52
+13103               C     2  tes  99.30      2.9 De     eval1  RedRock     P690-016    16    6:36:51  Thu Sep  1 15:02:50
+13115               C     0  tes  97.04      1.0  -    tgates   Arches       G5-001     2 1:05:56:51  Thu Sep  1 15:02:50
+
+3 completed jobs
+</pre></div>
+
+<p> The fields are as follows:
+<p>
+
+<table class="simpleTable">
+<tr>
+  <th>Column</th>
+  <th>Description</th>
+</tr>
+
+<TR><td class="contentLabels"><a name="jobid"></a><b>JOBID</b></td><td class="contentDetails">job id for completed job.</td> </tr>
+
+<TR>
+<td class="contentLabels"><a name="cs"></a><b>S</b></td>
+<td class="contentDetails"><a href="../3.2environment.html#jobstates">Job State</a>. Either "C" for <a href="../3.2environment.html#completed">Completed</a> or "V" for <a href="../3.2environment.html#vacated">Vacated</a>.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><a name="cccode"></a><b>CCODE</b></td>
+<td class="contentDetails">Completion code reported by the job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>PAR</b></td>
+<td class="contentDetails">Partition in which job ran.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>EFFIC</b></td>
+<td class="contentDetails">CPU efficiency of job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>XFACTOR</b></td>
+<td class="contentDetails">Expansion factor of job, where XFactor = (QueueTime + WallClockLimit) / WallClockLimit</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>Q</b></td>
+<td class="contentDetails"><a href="../7.3qos.html">Quality of Service</a> specified for job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><a name="username"></a><b>USERNAME</b></td>
+<td class="contentDetails"><a href="http://docs.adaptivecomputing.com/maui/3.5credoverview.php#user">User</a> owning job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>GROUP</b></td>
+<td class="contentDetails">Primary <a href="http://docs.adaptivecomputing.com/maui/3.5credoverview.php#group">group</a> of job owner.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>MHOST</b></td>
+<td class="contentDetails">Master Host which ran the primary task of job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>PROC</b></td>
+<td class="contentDetails">Number of processors being used by the job.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><a name="cwalltime"></a><b>WALLTIME</b></td>
+<td class="contentDetails">Wallclock time used by the job.&nbsp; Time specified in [DD:]HH:MM:SS notation.</td>
+</tr>
+
+<TR>
+<td class="contentLabels"><b>STARTTIME</b></td>
+<td class="contentDetails">Time job started running.</td>
+</tr>
+</table>
+
+<p> After displaying the active jobs, a summary is provided indicating the number of jobs, the number of allocated processors, and the system utilization.
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">If the <a href="../a.fparameters.html#displayflags">DISPLAYFLAGS</a> parameter is set to <b>ACCOUNTCENTRIC</b>, job group information will be replaced with job account information.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<big><p><b><a name="whereexample"></a>Example 5: Filtered Job Report</b></p></big>
+
+&nbsp;&nbsp; Show only jobs associated with user <tt>john</tt> and class <tt>benchmark</tt>
+
+<p><div class="example"><pre>
+&gt; showq <a href="showq.html#w">-w</a> class=benchmark <a href="showq.html#w">-w</a> user=john
+
+...
+</pre></div>
+
+<big><p><b>See Also</b></p></big>
+
+<ul>
+<li><a href="../2.2installation.html#client">Moab Client Installation</a> - explains how to distribute this command to client nodes</li>
+<li><a href="showbf.html">showbf</a> - command to display resource availability.
+<li><a href="mdiag.html">mdiag -j</a> - command to display detailed job diagnostics.
+<li><a href="checkjob.html">checkjob</a> - command to check the status of a particular job.
+<li><a href="../a.fparameters.html#jobcpurgetime">JOBCPURGETIME</a> - parameter to adjust the duration of time Moab preserves information about completed jobs
+<li><a href="../a.fparameters.html#displayflags">DISPLAYFLAGS</a> - parameter to control what job information is displayed
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+
+

@@ -1,0 +1,65 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Maui Scheduler  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+<div class="navIcons topIcons">
+<a href="index.html"><img src="../home.png" title="Home" alt="Home" border="0"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" title="Up" alt="Up" border="0"></a>
+</div>
+
+<h1><b>schedctl</b></h1>
+<p><br>Overview:
+<p>The 'schedctl' command controls various aspects of scheduling behavior.  It is used to manage scheduling activity, kill the scheduler, and create resource trace files.
+<br>
+<p>Format:
+<p>&nbsp schedctl { -k | -n | -r [ &lt;RESUMETIME> ] | { -s | -S } [ &lt;ITERATION> ] }
+<br>
+<p>Flags: 
+<p>-k
+<p>shutdown the scheduler at the completion of the current scheduling iteration
+<p>-n
+<p>dump a node table trace to &lt;STDOUT> (for use in simulations)
+<p>-r [ &lt;RESUMETIME> ]
+<p>resume scheduling in &lt;RESUMETIME> seconds or immediately if not specified
+<p>-s [ &lt;ITERATION> ]
+<p>suspend scheduling at iteration &lt;ITERATION> or at the completion of the current scheduling iteration if not specified.  If &lt;ITERATION> is followed by the letter 'I', maui will not process client requests until this iteration is reached.
+<p>-S [ &lt;ITERATION> ]
+<p>suspend scheduling in &lt;ITERATION> more iterations or in one more iteration if not specified.  If &lt;ITERATION> is followed by the letter 'I', maui will not process client requests until &lt;ITERATION> more scheduling iterations have been completed.
+<p>Example:
+<p> Shut maui down
+<p><b>> schedctl -k
+<p>maui shutdown</b>
+<br>
+<p>Example:
+<p> Stop maui scheduling
+<p><b>> schedctl -s
+<p> maui will stop scheduling immediately</b>
+<br>
+<p>Example:
+<p> Resume maui scheduling
+<p><b> schedctl -r
+<p> maui will resume scheduling immediately</b>
+<br>
+<p>Example:
+<p> Stop maui scheduling in 100 more iterations.  Specify that maui should not respond to client requests until that point is reached.
+<p><b>> schedctl -S 100I
+<p> maui will stop scheduling in 100 iterations</b>
+
+<div class="navIcons topIcons">
+<a href="index.html"><img src="../home.png" title="Home" alt="Home" border="0"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" title="Up" alt="Up" border="0"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>

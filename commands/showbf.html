@@ -1,0 +1,278 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>showbf</h1>
+   <td valign=bottom nowrap><b>(Show Available Resources)</b>
+<tr>
+</table>
+
+<big><p><b>Synopsis</b></p></big>
+
+<pre>
+showbf [-A] [-a <i>account</i>] [-c <i>class</i>] [-d <i>duration</i>] [-D] [-f <i>features</i>] [-g <i>group</i>] [-L] 
+       [-m [==|&gt;|&gt;=|&lt;|&lt;=] <i>memory</i>] [-n <i>nodecount</i>] [-p <i>partition</i>] [-q <i>qos</i>] [-u <i>user</i>] [-v]
+</pre>
+
+<big><p><b>Overview</b></p></big>
+
+Shows what resources are available for immediate use. <p>This command can be used by any user to find out how many processors are available for immediate use on the system. It is anticipated that users will use this information to submit jobs that meet these criteria and thus obtain quick job turnaround times. This command incorporates down time, reservations, and node state information in determining the available backfill window.
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">If specific information is not specified, showbf will return information for the user and group running but with global access for other credentials. For example, if '-q qos' is not specified, Moab will return resource availability information for a job as if it were entitled to access <i>all</i> QOS based resources (i.e., resources covered by reservations with a QOS based ACL), if '-c class' is not specified, the command will return information for resources accessible by any class.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">The <b>showbf</b> command incorporates node configuration, node utilization, node state, and node reservation information into the results it reports. This command does <b>not</b> incorporate constraints imposed by credential based fairness policies on the results it reports.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<big><p><b>Access</b></p></big>
+
+By default, this command can be used by any user or administrator.
+
+<big><p><b>Parameters</b></p></big>
+
+<table class="simpleTable">
+<tr>
+  <th>Parameter</th>
+  <th>Description</th>
+</tr>
+
+<tr>
+
+<td class="contentLabels">ACCOUNT</td>
+
+<td class="contentDetails">Account name.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">CLASS</td>
+
+<td class="contentDetails">Class/queue required.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">DURATION</td>
+
+<td class="contentDetails">Time duration specified as the number of seconds or in [DD:]HH:MM:SS
+notation.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">FEATURELIST</td>
+
+<td class="contentDetails">Colon separated list of node features required.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">GROUP</td>
+
+<td class="contentDetails">Specify particular group.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">MEMCMP</td>
+
+<td class="contentDetails">Memory comparison used with the -m flag. Valid signs are >, >=, ==,
+&lt;=, and &lt;.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">MEMORY</td>
+
+<td class="contentDetails">Specifies the amount of required real memory configured on the node,
+(in MB), used with the -m flag.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">NODECOUNT</td>
+
+<td class="contentDetails">Specify number of nodes for inquiry with -n flag.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">PARTITION</td>
+
+<td class="contentDetails">Specify partition to check with -p flag.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">QOS</td>
+
+<td class="contentDetails">Specify QOS to check with -q flag.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">USER</td>
+
+<td class="contentDetails">Specify particular user to check with -u flag.</td>
+</tr>
+</table>
+
+<big><p><b>Flags</b></p></big>
+
+<table class="simpleTable">
+<tr>
+  <th>Flag</th>
+  <th>Description</th>
+</tr>
+
+<tr>
+<td class="contentLabels">-A</td>
+
+<td class="contentDetails">Show resource availability information for all users, groups, and accounts. By default, <b>showbf</b> uses the default user, group, and account ID of the
+user issuing the command.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">-a</td>
+
+<td class="contentDetails">Show resource availability information only for specified account.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">-d</td>
+<td class="contentDetails">Show resource availability information for specified duration.</td>
+
+<tr>
+<td class="contentLabels">-D</td>
+<td class="contentDetails">Display current and future resource availability notation.</td>
+
+<tr>
+<td class="contentLabels">-g</td>
+
+<td class="contentDetails">Show resource availability information only for specified group.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">-h</td>
+
+<td class="contentDetails">Help for this command.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">-L</td>
+
+<td class="contentDetails">Enforce Hard limits when showing available resources.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">-m</td>
+
+<td class="contentDetails">Allows user to specify the memory requirements for the backfill nodes
+of interest. It is important to note that if the optional <i>MEMCMP</i>
+and <i>MEMORY</i> parameters are used, they <b>MUST</b> be enclosed in
+single ticks (') to avoid interpretation by the shell. For example, enter
+<tt>showbf -m '==256'</tt> to request nodes with 256 MB memory.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">-n</td>
+
+<td class="contentDetails">Show resource availability information for a specified number of nodes. That is,
+this flag can be used to force <tt>showbf</tt> to display only blocks of resources with at least this many nodes available.
+</tr>
+
+<tr>
+<td class="contentLabels">-p</td>
+
+<td class="contentDetails">Show resource availability information for the specified partition.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">-q</td>
+<td class="contentDetails">Show information for the specified QOS.</td>
+</tr>
+
+<tr>
+<td class="contentLabels">-u</td>
+
+<td class="contentDetails">Show resource availability information only for specified user.</td>
+</tr>
+</table>
+
+<big><p><b>Example 1</b></p></big>
+
+In this example, a job requiring up to 2 processors could be submitted for immediate execution in partition <b>ClusterA</b> for any duration.  Additionally, a job requiring 1 processor could be submitted for immediate execution in partition <b>ClusterB</b>. Note that by default, each task is tracked and reported as a request for a single processor.
+
+<p><div class="example"><pre>
+&gt; showbf
+
+Partition     Tasks  Nodes   StartOffset      Duration       StartDate
+---------     -----  -----  ------------  ------------  --------------
+ALL               3      3      00:00:00      INFINITY  11:32:38_08/19
+ReqID=0
+ClusterA          1      1      00:00:00      INFINITY  11:32:38_08/19
+ReqID=0
+ClusterB          2      2      00:00:00      INFINITY  11:32:38_08/19
+ReqID=0
+</pre></div>
+
+<big><p><b>Example 2</b></p></big>
+
+<p>In this example, the output verifies that a backfill window exists for jobs requiring a 3 hour runtime and at least 16 processors. Specifying job duration is of value when time based access is assigned to reservations (i.e., using the <b>SRCFG</b> <b>TIMELIMIT</b> ACL)
+
+<div class="example"><pre>
+&gt; showbf -r 16 -d 3:00:00
+
+backFill window (user: 'john' group: 'staff' partition: ALL) Mon Feb 16 08:28:54
+
+partition ALL:
+  33 procs available with no time limit
+</pre></div>
+
+<big><p><b>Example 3</b></p></big>
+
+<p>In this example, a resource availability window is requested for processors located only on nodes with at least 512 MB of memory. In the example above, the command output reports that no processors are available for immediate use which meet this constraint. 
+
+<div class="example"><pre>
+&gt; showbf -m '&nbsp;=512'
+
+backfill window (user: 'john' group: 'staff' partition: ALL) Thu Jun 18 16:03:04
+
+no procs available
+</pre></div>
+
+<h2>See Also</h2>
+
+<ul>
+<li><a href="../2.2installation.html#client">Moab Client Installation</a> - explains how to distribute this command to client nodes</li>
+<li><a href="showq.html">showq</a>
+<li><a href="mdiag.html">mdiag -t</a>
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>

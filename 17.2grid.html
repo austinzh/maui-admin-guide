@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="17.0miscellaneous.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="17.1feedback.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="17.3ha.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>17.2 Grid Scheduling</h1>
+
+          <h2>17.2.1 Grid Scheduling Overview</h2>Maui can participate in a grid environment providing functionality and information critical to effective grid scheduling. <!--Using the G2 library included in the ClusterSuite package,--> Maui can provide information to grid schedulers about what resources are available, how much the resources cost, and when remote jobs can run. Maui also provides resource reservation and job staging facilities to allow grid scheduling systems integrated support with Maui facilities.
+
+          <p>Currently, the <a href="http://www.clusterresources.com/products/mgs/docs/">Silver Grid Scheduler</a> is the most advanced grid scheduler taking advantage of these capabilities. It provides automated data staging, account and allocation management, and resource reservation optimizations. It provides an intuitive interface for job submission and job management, using submission languages from popular resource management systems. The the <a href="http://www.clusterresources.com/products/mgs">Silver Home Page</a> for more information.</p>
+
+          <h2>17.2.2 Configuring Maui to Inter-Operate with Grid Schedulers</h2>To utilize cluster scheduler facilities, the grid scheduler must be authenticated and authorized. Grid scheduler authentication is enabled by adding an entry to the <tt>maui-private.cfg</tt> file as shown in the <a href="a.esecurity.html#interface">Interface Security</a> section of appendix E. Once authentication is setup, the level of grid scheduler authorization is configured. In most cases, the grid scheduler is assigned the role of a <i>level 1 admin</i> using the <a href="a.fparameters.html">ADMIN1</a> parameter.
+
+          <p>In most cases, not only must the grid scheduler be authenticated to Maui, but Maui must also be authenticated to the grid scheduler. In the case of Silver, this is accomplished by <i>naming</i> the instance of Maui by using the <a href="a.fparameters.html#schedcfg">SCHEDCFG</a> parameter and adding the shared secret key to silver's <tt>silver.cfg</tt> file.</p>
+
+          <h2>17.2.3 Specifying Cluster Level Policies for Grid Jobs</h2>The number and type of resources available for grid jobs can be constrained using policies and/or reservations. All grid workload is assigned the job attribute <strong>GRID</strong>. Reservations and policies can be configured to allow or deny access based on this attribute providing access to or exclusion from specific resources, limiting the quantity of grid jobs which can run at any given time, or constraining access to other special functions such as preemption.
+
+          <h2>17.2.4 Evaluating Performance Impact of Grid Workload</h2>Maui integrates the grid jobs into the standard job queue and, unless specifically directed by special grid policies, treats grid jobs just like ordinary workload. In fact, aside from having the <strong>GRID</strong> job attribute set, grid jobs are identical to locally submitted workload. &amp;nbps;When a grid job is received, Maui tracks two additional pieces of information. This information, <b>System Id</b> and <b>System Job Id</b> indicates the submitting grid scheduler and <i>global</i> job id respectively. To determine a job's global job id, the <a href="commands/showq.html">showq</a> command can be run with the '<b>-g</b>' flag.
+
+          <h2>17.2.5 Diagnosing Grid Based Issues</h2>To address various grid specific failures, Maui provides integrated diagnostic tools. Among the most useful is the <a href="commands/diagnose.html">diagnose -S</a> command. This command provides information about the status of required grid management modules and the status of grid scheduler interface. In addition, it also reports on any grid level failures or discrepancies it locates.
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="17.0miscellaneous.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="17.1feedback.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="17.3ha.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

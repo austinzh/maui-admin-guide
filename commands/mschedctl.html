@@ -1,0 +1,688 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>mschedctl</h1>
+   <td valign=bottom nowrap><b>(Moab Scheduler Control)</b>
+<tr>
+</table>
+
+<big><p><b>Synopsis</b></p></big>
+
+<pre>
+<a href="mschedctl.html#ANNOTATE">mschedctl -A</a> '&lt;MESSAGE&gt;'
+<a href="mschedctl.html#CREATE">mschedctl -c</a> <b>message</b> <i>messagestring</i> [-o <i>type</i>:<i>val</i>]
+<a href="mschedctl.html#CREATE">mschedctl -c</a> <b>trigger</b> <i>triggerid</i> -o <i>type</i>:<i>val</i>
+<a href="mschedctl.html#DESTROY">mschedctl -d</a> <b>trigger</b> <i>triggerid</i>
+<a href="mschedctl.html#DESTROY">mschedctl -d</a> <b>vpc:</b><i>vpcid</i>
+<a href="mschedctl.html#DESTROY">mschedctl -d</a> <b>message:</b><i>index</i>
+
+<a href="mschedctl.html#FLUSH">mschedctl -f</a> {all|estimates|fairshare|usage}
+
+<a href="mschedctl.html#KILL">mschedctl -k</a>
+<a href="mschedctl.html#LIST">mschedctl -l</a> {config|message|trigger|trans|vpc|vpcprofile} [--flags=verbose] [--xml]
+<a href="mschedctl.html#LOG">mschedctl -L</a> [<i>LOGLEVEL</i>]
+<a href="mschedctl.html#MODIFY">mschedctl -m</a> config <i>string</i> [-e] [--flags=persistent]
+<a href="mschedctl.html#MODIFY">mschedctl -m</a> trigger <i>triggerid</i> <i>attr</i>=<i>val</i>[,<i>attr</i>=<i>val</i>...]
+<a href="mschedctl.html#MODIFY">mschedctl -m</a> vpc <i>vpcid</i> <i>attr</i>=<i>val</i>[,<i>attr</i>=<i>val</i>...]
+
+<a href="mschedctl.html#NODETRACE">mschedctl -n</a>
+<a href="mschedctl.html#PAUSE">mschedctl -p</a>
+<a href="mschedctl.html#RESUME">mschedctl -r</a> [<i>resumetime</i>]
+<a href="mschedctl.html#RECYCLE">mschedctl -R</a>
+<a href="mschedctl.html#STOP">mschedctl -s</a> [<i>STOPITERATION</i>]
+<a href="mschedctl.html#STEP">mschedctl -S</a> [<i>STEPITERATION</i>]
+</pre>
+
+<big><p><b>Overview</b></p></big>
+
+The <b>mschedctl</b> command controls various aspects of scheduling behavior.  It is used to manage scheduling activity, shutdown the scheduler, and create resource trace files.&nbsp; It can also evaluate, modify, and create parameters, triggers, and messages.
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">With many flags, the '--msg=&lt;MSG&gt;' option can be specified to annotate the action in the <a href="../14.2logging.html#logevent">event log</a>.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<big><p><b>Format</b></p></big>
+
+<table class="tblFormat01">
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName">-A &mdash; <a name="ANNOTATE" id="ANNOTATE"></a><strong>ANNOTATE</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;STRING&gt; </td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Report the specified parameter modification to the event log and annotate it with the specified message.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">
+        <pre>&gt; mschedctl --flags=pers -A 'increase logging' -m 'LOGLEVEL 6'  </pre>
+      </div>
+Adjust the LOGLEVEL parameter and record an associated message.</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName">-c &mdash; <a name="CREATE" id="CREATE"></a><strong>CREATE</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">One of:
+        <ul>
+        <li>&nbsp;<strong>message</strong> &lt;STRING&gt; [-o &lt;TYPE&gt;:&lt;VAL&gt;] </li>
+        <li>&nbsp;<strong>trigger</strong> <a href="http://docs.adaptivecomputing.com/maui/19.1triggers.php">&lt;TRIGSPEC&gt;</a> -o &lt;OBJECTTYPE&gt;:&lt;OBJECTID&gt;</li>
+        <li>&nbsp;<strong>vpc</strong> [-a &lt;ATTR&gt;=&lt;VAL&gt;]...<br />
+          &nbsp;<br />
+          where &lt;ATTR&gt; is one of <strong>account</strong>, <strong>duration</strong>, <strong>messages</strong>, <strong>profile</strong>, <strong>reqresources</strong>, <strong>resources</strong>, <strong>rsvprofile</strong>, <strong>starttime</strong>, <strong>user</strong>, or <strong>variables</strong></li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Create a message or trigger and attach it to the specified object, or create a Virtual Private Cluster (VPC). To create a trigger on a default object, use the Moab configuration file (moab.cfg) rather than the <strong>mschedctl</strong> command.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><p><div class="example"><pre>mschedctl -c message tell the admin to be nice</pre></div>
+      Create a message on the system table.</p>
+      
+      
+      <p><div class="example"><pre>mschedctl -c trigger EType=start,AType=exec,Action="/tmp/email $OWNER $TIME" -o rsv:system.1</pre></div>
+      Create a trigger linked to system.1</p>
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">Creating triggers on default objects via <tt>mschedctl -c trigger</tt> does not propagate the triggers to individual objects. To propagate triggers to all objects, the triggers must be created within the moab.cfg file; for example: <tt>NODECFG[DEFAULT]&nbsp;TRIGGER</tt>.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+	  <p><div class="example"><pre>mschedctl -c vpc -a resources=6,7,8 -a profile=packageA</pre></div>
+      Create a vpc using TID's 6, 7, and 8 and based on profile packageA</p>
+      
+      <p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">VPC commands (such as mschedctl -c vpc) are only enabled on hosting center builds.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+Additional VPC attributes: <a href="mschedctl.html#example2">-a</a>
+
+</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName">-d &mdash; <a name="DESTROY" id="DESTROY"></a><strong>DESTROY</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">One of:
+        <ul><li><strong>trigger</strong>&nbsp;&lt;TRIGID&gt;</li>
+          <li><strong>message:&lt;INDEX&gt;</strong></li>
+          <li><strong>vpc:&lt;VPCID&gt;</strong></li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Delete a trigger, message, or VPC.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><p><div class="example"><pre>mschedctl -d trigger 3</pre></div>
+        Delete trigger 3.</p>
+        
+        <p><div class="example"><pre>mschedctl -d message:5</pre></div>
+        Delete message with index 5.</p>
+		
+        <p><div class="example"><pre>mschedctl -d vpc:vpc.5</pre></div>
+		Delete vpc.5.</p>
+		
+        <p><div class="example"><pre>mschedctl -d vpc:ALL</pre></div>
+		Delete all VPCs.</p></td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName">-f &mdash; <a name="FLUSH" id="FLUSH"></a><strong>FLUSH</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">{all|estimates|fairshare|usage}</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Flush (clear out) specified statistics</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>mschedctl -f usage</pre></div>
+		Flush usage statistics.</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName">-k &mdash; <a name="KILL" id="KILL"></a><strong>KILL</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Stop scheduling and exit the scheduler</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">mschedctl -k</div>
+		Kill the scheduler.</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName">-l &mdash; <a name="LIST" id="LIST"></a><strong>LIST</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">{<strong>config</strong> | <strong>gres</strong> | <strong>message</strong> | <strong>trans</strong> | <strong>trigger</strong> | <strong>vpc</strong> | <strong>vpcprofile</strong>} [--flags=verbose] [--xml]
+      
+
+        <table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">Using the <tt>--xml</tt> argument with the <strong>trans</strong> option returns XML that states if the queuried TID is valid or not.</td>
+    </tr>
+  </tbody>
+</table>
+
+      
+      </td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails"><strong>config</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">List the generic resources, scheduler configuration, 
+      system messages, triggers, transactions, <a href="http://docs.adaptivecomputing.com/maui/20.0vpc.php">virtual private clusters</a> or VPC profiles.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><p><div class="example"><pre>mschedctl -l config</pre></div>
+ 		List system parameters.</p>
+ 
+		<p><div class="example">
+        <pre>mschedctl -l gres</pre></div>
+        List all configured generic resources.</p>
+        
+        <p><div class="example"><pre>mschedctl -l trans 1</pre></div>
+        List transaction id 1.</p>
+        
+        <p><div class="example"><pre>mschedctl -l trigger</pre></div>
+        List triggers.</p>
+        
+        <p><div class="example"><pre>mschedctl -l vpc</pre></div>
+        List VPCs.</p>
+        
+        <p><div class="example"><pre>mschedctl -l vpc:vpc.1</pre></div>
+        List VPC vpc.1.</p>
+      </td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName">-L &mdash; <a name="LOG" id="LOG"></a><strong>LOG</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;INTEGER&gt;</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails"><strong>7</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Create a temporary log file with the specified loglevel.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">
+        <pre>&gt; mschedctl -L 7  </pre>
+      </div>
+Create temporary log file with naming convention '&lt;logfile&gt;.YYYYMMDDHHMMSS'.</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName">-m &mdash; <a name="MODIFY" id="MODIFY"></a><strong>MODIFY</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">One of:
+        <ul>
+          <li><strong>config</strong> [&lt;STRING&gt;] <br />
+            [-e] <br />
+            [--flags=pers] <br />
+            &lt;STRING&gt; is any string which would be acceptable in moab.cfg&gt;
+            <ul>
+              <li> If no string is specified, &lt;STRING&gt; is read from STDIN. </li>
+              <li> If '-e' is specified, the configuration string will be  evaluated for correctness but no configuration changes will take place.  &nbsp;Any issues with the provided string will be reported to STDERR. </li>
+              <li> If <strong>--flags=persistent</strong> is specified, changes will be made persistent by changing in memory configuration and modifying moab.cfg. </li>
+            </ul>
+          </li>
+          <li><strong>trigger</strong>:&lt;TRIGID&gt; &lt;ATTR&gt;=&lt;VAL&gt;<br />
+            &nbsp;<br />
+          where &lt;ATTR&gt; is one of <strong>action</strong>, <strong>atype</strong>, <strong>etype</strong>, <strong>iscomplete</strong>, <strong>oid</strong>, <strong>otype</strong>, <strong>offset</strong>, or <strong>threshold</strong></li>
+          <li><strong>vpc</strong>:&lt;VPCID&gt; &lt;ATTR&gt;=&lt;VAL&gt;<br />
+            &nbsp;<br />
+where &lt;ATTR&gt; is one of <strong>variables</strong>,    or &lt;<strong>user</strong>|<strong>group</strong>|<strong>owner</strong>|<strong>qos</strong>|<strong>account</strong>&gt;</li>
+
+<table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">Changing  the VPC user does not change the VPC owner, and vice versa. Additionally, the credential you want to change to must already exist in order to make the change. In other words, you cannot set <strong>user</strong> to a user that Moab doesn't know about.</td>
+    </tr>
+  </tbody>
+</table>
+
+      </ul></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Modify a system parameter, trigger, or VPC.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><p><div class="example"><pre>&gt; mschedctl -m config LOGLEVEL 9</pre></div>
+		Change the system loglevel to 9.</p>
+        
+        <p><div class="example">
+          <pre>&gt; mschedctl -m trigger:2 AType=exec,Offset=200,OID=system.1</pre></div>
+        Change aspects of trigger 2.</p>
+        
+        <p><div class="example">
+          <pre>&gt; mschedctl -m vpc:packageA.1 variables=blue=dog</pre></div>
+        Change aspects of vpc packageA.1.</p>
+         
+          
+          
+          
+      
+        <p><div class="example">
+          <pre>&gt; mschedctl -m vpc:vpc.10 user=craig
+          
+vpc USER set to craig</pre>
+        </div>
+Changes the user of vpc.10 to 'craig'</p>
+
+</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName">-n &mdash; <a name="NODETRACE" id="NODETRACE"></a><strong>NODE TRACE</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Output a <a href="http://docs.adaptivecomputing.com/maui/16.3.2resourcetrace.php">Resource Trace File</a> to STDOUT.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><p><div class="example"><pre>&gt; mschedctl -n &gt; /tmp/node.trace</pre></div></p></td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName">-p &mdash; <a name="PAUSE" id="PAUSE"></a><strong>PAUSE</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Disable scheduling but allow the scheduler to update its cluster and  workload state information.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><p><div class="example"><pre>&gt; mschedctl -p</pre></div></p></td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName">-R &mdash; <a name="RECYCLE" id="RECYCLE"></a><strong>RECYCLE</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Recycle scheduler immediately (shut it down and restart it using the  original execution environment and command line arguments).</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><p><div class="example"><pre>&gt; mschedctl -R</pre></div>
+      Recycle scheduler immediately.</p>
+      
+      <p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">To restart Moab with its last known scheduler state, use:<br />
+		<tt>mschedctl -R savestate</tt></td>
+    </tr>
+  </tbody>
+</table></p>
+
+</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName">-r &mdash; <a name="RESUME" id="RESUME"></a><strong>RESUME</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;INTEGER&gt;</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">0</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Resume scheduling at the specified time (or immediately if none is specified).</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><p><div class="example"><pre>&gt; mschedctl -r</pre></div>
+        Resume scheduling immediately.</p></td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName">-s &mdash; <a name="STOP" id="STOP"></a><strong>STOP</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;INTEGER&gt;</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">0</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Suspend/stop scheduling at specified iteration (or at the end of the current iteration if none is specified). If  the letter 'I' follows &lt;ITERATION&gt;, Moab till not process client requests until this iteration is reached.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><p><div class="example"><pre>&gt; mschedctl -s 100I</pre></div>
+      Stop scheduling at iteration 100 and ignore all client requests until then.</p></td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName">-S &mdash; <a name="STEP" id="STEP"></a><strong>STEP</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;INTEGER&gt;</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">0</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Step the specified number of iterations (or to the next iteration if none is specified) and suspend scheduling If the letter 'I' follows &lt;ITERATION&gt;, Moab will not process client requests until this iteration is reached.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><p><div class="example"><pre>&gt; mschedctl -S</pre></div>
+      Step to the next iteration and stop scheduling.</p></td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
+<big><p><b>Example 1</b></p></big>
+
+&nbsp;&nbsp; Evaluate configuration settings
+
+<p><div class="example"><pre>
+&gt; mdiag -C
+
+INFO:  line is valid:  'FSDEPTH                         7'
+INFO:  line is valid:  'FSINTERVAL                      2:00:00:00'
+INFO:  line is valid:  'FSDECAY                         0.80'
+INFO:  parameter SERVERPORT is deprecated, use SCHEDCFG (see documentation)
+INFO:  parameter SERVERMODE is deprecated, use SCHEDCFG (see documentation)
+INFO:  line is valid:  'RMPOLLINTERVAL                  00:01:00'
+INFO:  parameter RMTIMEOUT is deprecated, use RMCFG (see documentation)
+ALERT: cannot process parameter line 'QOSCFG[nih] PRIORITY=1000000 QTWEIGHT=5 TARGETQT=1:00:00:00' 
+  (cannot process QOSCFG[nih] attribute 'TARGETQT=1:00:00:00')
+ALERT: cannot process parameter line 'SYSTEMMAXSECONDPERJOB   259200' (invalid parameter specified)
+</pre></div>
+-->
+
+<big><p><b>Example 1</b></p>
+</big>
+
+Shutting down the Scheduler:
+
+<div class="example"><pre>
+&gt; mschedctl -k
+
+scheduler will be shutdown immediately
+</pre></div>
+
+<a name="example2"></a>
+<big><p><b>Example 2</b></p>
+</big>
+
+Creating a <a href="http://docs.adaptivecomputing.com/maui/20.2vpccommands.php#creating">virtual private cluster</a>:
+
+<div class="example"><pre>
+&gt; mschedctl -c vpc -a resources=14332 -a variables=os=rhel3
+
+vpc.98
+</pre></div>
+
+<h2>See Also</h2>
+
+<ul>
+<li><a href="../2.2installation.html#client">Moab Client Installation</a> - explains how to distribute this command to client nodes</li>
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+
+

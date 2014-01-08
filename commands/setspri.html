@@ -1,0 +1,124 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>setspri</h1>
+   <td valign=bottom nowrap><b>(Set System Priorities)</b>
+<tr>
+</table>
+
+<p><font color="#e63805"><b>Caution</b></font>: This command is deprecated. Use <a href="mjobctl.html#priority">mjobctl -p</a> instead.</p>
+
+<h4>Synopsis</h4>
+
+<pre>
+setspri [-r] <i>priority</i> <i>jobid</i>
+</pre>
+
+<h4>Overview</h4>
+
+(This command is deprecated by the <a href="mjobctl.html">mjobctl command</a>)
+
+<p>Set or remove absolute or relative system priorities for a specified job.
+
+<p>This command allows you to set or remove a system priority level for a 
+specified job. Any job with a system priority level set is guaranteed
+a higher priority than jobs without a system priority. Jobs with higher
+system priority settings have priority over jobs with lower system
+priority settings.
+
+<h4>Access</h4>
+This command can be run by any Moab Scheduler Administrator.
+
+<P>
+<B>Parameters</B>
+
+<P>
+<TABLE BORDER=0 CELLPADDING=5>
+
+<TR VALIGN=TOP>
+<TD><I>JOB</I></TD>
+<TD>Name of job.</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD><I><a name="priority">PRIORITY</a></I></TD>
+<TD><p>System priority level. By default, this priority is an absolute priority overriding the policy generated priority value. Range is 0 to clear, 1 for lowest, 1000 for highest. The given value is added onto the system priority (see 32-bit and 64-bit values below), except for a given value of zero. If the '-r' flag is specified, the system priority is relative, adding or subtracting the specified value from the policy generated priority.</p> 
+
+<p> If a relative priority is specified, any value in the range +/-
+  1,000,000,000 is acceptable.</p></TD>
+</TR>
+</TABLE>
+
+<P>
+<B>Flags</B>
+
+<P>
+<TABLE BORDER=0 CELLPADDING=5>
+
+<TR VALIGN=TOP>
+<TD>-r</TD>
+<TD>Set relative system priority on job.</TD>
+</TR>
+</TABLE>
+
+<h4>Example 1</h4>
+
+&nbsp;&nbsp; In this example, a system priority of 10 is set for job orion.4752
+
+<p><fieldset><pre>
+&gt; setspri 10 orion.4752 
+
+job system priority adjusted
+</pre></fieldset>
+
+<h4>Example 2</h4>
+
+&nbsp;&nbsp; In this example, system priority is cleared for job clusterB.1102
+
+<p><fieldset><pre>
+&gt; setspri 0 clusterB.1102
+
+job system priority adjusted
+</pre></fieldset>
+
+<h4>Example 3</h4>
+
+&nbsp;&nbsp; In this example, the job's priority will be increased by 100000 over the value determine by configured priority policy.
+
+<p><fieldset><pre>
+&gt; setspri -r 100000 job.00001
+
+job system priority adjusted
+</pre></fieldset>
+
+<p><b>Note</b>: This command is deprecated. &nbsp;Use <a href="mjobctl.html">mjobctl</a> instead.
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+
+

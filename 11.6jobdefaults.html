@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="11.0generaljobadmin.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="11.5jobdependencies.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="11.7generaljobpolicies.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>11.6 Job Defaults and Per Job Limits</h1>
+
+          <h2>11.6.1 Job Defaults</h2>Job defaults can be specified on a <i>per queue</i> basis. These defaults are specified using the <a href="a.fparameters.html#CLASSSCFG">CLASSCFG</a> parameter. The table below show the applicable attributes:
+
+          <table border="2">
+            <tr>
+              <td><b>Attribute</b></td>
+
+              <td><b>Format</b></td>
+
+              <td><b>Example</b></td>
+            </tr>
+
+            <tr>
+              <td>DEFAULT.FEATURES</td>
+
+              <td>comma delimited list of node features</td>
+
+              <td><tt>CLASSCFG[batch] DEFAULT.FEATURES=fast,io</tt><br>
+              (jobs submitted to class <tt>batch</tt> will request nodes features <tt>fast</tt> and <tt>io</tt></td>
+            </tr>
+
+            <tr>
+              <td>DEFAULT.WCLIMIT</td>
+
+              <td>[[[DD:]HH:]MM:]SS</td>
+
+              <td><tt>CLASSCFG[batch] DEFAULT.WCLIMIT=1:00:00</tt><br>
+              (jobs submitted to class <tt>batch</tt> will request one hour of walltime by default.)</td>
+            </tr>
+          </table>
+
+          <h2>11.6.2 Per Job Maximum Limits</h2>Job defaults can be specified on a <i>per queue</i> basis. These defaults are specified using t he <a href="a.fparameters.html#CLASSSCFG">CLASSCFG</a> parameter. The table below shows the applicable attributes:
+
+          <table border="2">
+            <tr>
+              <td><b>Attribute</b></td>
+
+              <td><b>Format</b></td>
+
+              <td><b>Example</b></td>
+            </tr>
+
+            <tr>
+              <td>MAX.WCLIMIT</td>
+
+              <td>[[[DD:]HH:]MM:]SS</td>
+
+              <td><tt>CLASSCFG[batch] MAX.WCLIMIT=1:00:00</tt><br>
+              (jobs submitted to class <tt>batch</tt> can request no more than one hour of walltime.)</td>
+            </tr>
+          </table>
+
+          <h2>11.6.3 Per Job Minimum Limits</h2>Furthermore, minimum job defaults can be specified on with the <a href="a.fparameters.html#classcfg">CLASSCFG</a> parameter. The table below shows the applicable attributes:
+
+          <table border="2">
+            <tr>
+              <td><b>Attribute</b></td>
+
+              <td><b>Format</b></td>
+
+              <td><b>Example</b></td>
+            </tr>
+
+            <tr>
+              <td>MIN.PROC</td>
+
+              <td>&lt;integer&gt;</td>
+
+              <td><tt>CLASSCFG[batch] MIN.PROC=10</tt><br>
+              (jobs submitted to class <tt>batch</tt> can request no less than ten processors.)</td>
+            </tr>
+          </table>
+
+          <p><img src="http://docs.adaptivecomputing.com/images/logo1.gif" height="24"> The <a href="http://docs.adaptivecomputing.com/mcm/index.html">Moab Cluster Manager</a><sup>TM</sup> provides an easy to use graphical interface to control job limits.</p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="11.0generaljobadmin.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="11.5jobdependencies.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="11.7generaljobpolicies.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

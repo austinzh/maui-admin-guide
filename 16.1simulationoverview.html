@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="16.0simulations.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="16.0simulations.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="16.2resourcetrace.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>16.1 Simulation Overview</h1>
+
+          <h2>16.1.1 Test Drive</h2>
+
+          <p>If you want to see what the scheduler is capable of, the simulated test drive is probably your best bet. This allows you to safely play with arbitrary configurations and issue otherwise 'dangerous' commands without fear of losing your job! :) In order to run a simulation, you need a simulated machine (defined by a <a href="trace.html#resourcetrace">resource trace file</a>) and a simulated set of jobs (defined by a <a href="trace.html#workloadtrace">workload trace file</a>). Rather than discussing the advantages of this approach in gory detail up front, let's just get started and discuss things along the way.</p>
+
+          <p><b>Issue the following commands:</b></p>
+
+          <p><b>&gt; vi maui.cfg</b><br>
+          <b>(change '<a href="a.fparameters.html#runmode">SERVERMODE</a> NORMAL' to 'SERVERMODE SIMULATION')</b><br>
+          <b>(add '<a href="a.fparameters.html#simresourcetracefile">SIMRESOURCETRACEFILE</a> traces/Resource.Trace1')</b><br>
+          <b>(add '<a href="a.fparameters.html#simworkloadtracefile">SIMWORKLOADTRACEFILE</a> traces/Workload.Trace1')</b><br>
+          <b>(add '<a href="a.fparameters.html#simstopiteration">SIMSTOPITERATION</a> 1')</b></p>
+
+          <p><b># the steps above specified that the scheduler should do the following:</b><br>
+          <b># 1) Run in 'Simulation' mode rather than in 'Normal' or live mode.</b><br>
+          <b># 2) Obtain information about the simulated compute resources in the</b><br>
+          <b># file 'traces/Resource.Trace1'.</b><br>
+          <b># 3) Obtain information about the jobs to be run in simulation in the</b><br>
+          <b># file 'traces/Workload.Trace1'</b><br>
+          <b># 4) Load the job and node info, start whatever jobs can be started on</b><br>
+          <b># the nodes, and then wait for user commands. Do not advance</b><br>
+          <b># simulated time until instructed to do so.</b></p>
+
+          <p><b>&gt; maui &amp;</b></p>
+
+          <p><b># give the scheduler a few seconds to warm up and then look at the</b><br>
+          <b># list of jobs currently in the queue. (To obtain a full description</b><br>
+          <b># of each of the commands used below, please see the command's man</b><br>
+          <b># page.)</b></p>
+
+          <p><b>&gt; showq</b></p>
+
+          <p><b># This command breaks the jobs in the queue into three groups, 'Active'</b><br>
+          <b># jobs which are currently running, 'Idle' jobs which can run as soon</b><br>
+          <b># as the required resources become available, and 'Non Queued' jobs</b><br>
+          <b># which are currently ineligible to be run because they violate some</b><br>
+          <b># configured policy.</b></p>
+
+          <p><b># By default, the simulator initially submits 100 jobs from the</b><br>
+          <b># workload trace file, 'Workload.Trace1'. Looking at the 'showq'</b><br>
+          <b># output, it can be seen that the simulator was able to start 11 of</b><br>
+          <b># these jobs on the 195 nodes described in the resource trace file,</b><br>
+          <b># 'Resource.Trace1'.</b></p>
+
+          <p><b># Look at the running jobs more closely.</b></p>
+
+          <p><b>&gt; showq -r</b></p>
+
+          <p><b># The output is sorted by job completion time. We can see that the</b><br>
+          <b># first job will complete in 5 minutes.</b></p>
+
+          <p><b># Look at the initial statistics to see how well the scheduler is</b><br>
+          <b># doing.</b></p>
+
+          <p><b>&gt; showstats</b></p>
+
+          <p><b># Look at the line 'Current Active/Total Procs' to see current system</b><br>
+          <b># utilization.</b></p>
+
+          <p><b># Determine the amount of time associated with each simulated time</b><br>
+          <b># step.</b></p>
+
+          <p><b>&gt; <a href="commands/showconfig.html">showconfig</a> | grep RMPOLLINTERVAL</b></p>
+
+          <p><b># This value is specified in seconds. Thus each time we advance the</b><br>
+          <b># simulator forward one step, we advance the simulation clock forward</b><br>
+          <b># this many seconds. 'showconfig' can be used to see the current</b><br>
+          <b># value of all configurable parameters. Advance the simulator forward</b><br>
+          <b># one step.</b></p>
+
+          <p><b>&gt; schedctl -S</b></p>
+
+          <p><b># 'schedctl' allows you to step forward any number of steps or to step</b><br>
+          <b># forward to a particular iteration number. You can determine what</b><br>
+          <b># iteration you are currently on using the 'showstats' command's '-v'</b><br>
+          <b># flag.</b></p>
+
+          <p><b>&gt; showstats -v</b></p>
+
+          <p><b># The line 'statistics for iteration &lt;X&gt;' specifies the iteration you</b><br>
+          <b># are currently on. You should now be on iteration 2. This means</b><br>
+          <b># simulation time has now advanced forward &lt;RMPOLLINTERVAL&gt; seconds.</b><br>
+          <b># use 'showq -r' to verify this change.</b></p>
+
+          <p><b>&gt; showq -r</b></p>
+
+          <p><b># Note that the first job will now complete in 4 minutes rather than</b><br>
+          <b># 5 minutes because we have just advanced 'now' by one minute. It is</b><br>
+          <b># important to note that when the simulated jobs were created both the</b><br>
+          <b># job's wallclock limit and its actual run time were recorded. The</b><br>
+          <b># wallclock time time is specified by the user indicating his best</b><br>
+          <b># estimate for an upper bound on how long the job will run. The run</b><br>
+          <b># time is how long the job actually ran before completing and</b><br>
+          <b># releasing its allocated resources. For example, a job with a</b><br>
+          <b># wallclock limit of 1 hour will be given the need resources for up to</b><br>
+          <b># an hour but may complete in only 20 minutes.</b></p>
+
+          <p><b># The output of 'showq -r' shows when the job will complete if it runs</b><br>
+          <b># up to its specified wallclock limit. In the simulation, jobs actually</b><br>
+          <b># complete when their recorded 'runtime' is reached. Let's look at</b><br>
+          <b># this job more closely.</b></p>
+
+          <p><b>&gt; <a href="commands/checkjob.html">checkjob</a> fr8n01.804.0</b></p>
+
+          <p><b># We can wee that this job has a wallclock limit of 5 minutes and</b><br>
+          <b># requires 5 nodes. We can also see exactly which nodes have been</b><br>
+          <b># allocated to this job. There is a lot of additional information</b><br>
+          <b># which the 'checkjob' man page describes in more detail.</b></p>
+
+          <p><b># Let's advance the simulation another step.</b></p>
+
+          <p><b>&gt; schedctl -S</b></p>
+
+          <p><b># Look at the queue again to see if anything has happened.</b></p>
+
+          <p><b>&gt; showq -r</b></p>
+
+          <p><b># No surprises. Everything is one minute closer to completion.</b></p>
+
+          <p><b>&gt; schedctl -S</b></p>
+
+          <p><b>&gt; showq -r</b></p>
+
+          <p><b># Job 'fr8n01.804.0' is still 2 minutes away from completing as</b><br>
+          <b># expected but notice that both jobs 'fr8n01.191.0' and</b><br>
+          <b># 'fr8n01.189.0' have completed early. Although they had almost 24</b><br>
+          <b># hours remaining of wallclock limit, they terminated. In reality,</b><br>
+          <b># they probably failed on the real world system where the trace file</b><br>
+          <b># was being created. Their completion freed up 40 processors which</b><br>
+          <b># the scheduler was able to immediately use by starting two more</b><br>
+          <b># jobs.</b></p>
+
+          <p><b># Let's look again at the system statistics.</b></p>
+
+          <p><b>&gt; showstats</b></p>
+
+          <p><b># Note that a few more fields are filled in now that some jobs have</b><br>
+          <b># completed providing information on which to generate statistics.</b></p>
+
+          <p><b># Advance the scheduler 2 more steps.</b></p>
+
+          <p><b>&gt; schedctl -S 2I</b></p>
+
+          <p><b># The '2I' argument indicates that the scheduler should advance '2'</b><br>
+          <b># steps and that it should (I)gnore user input until it gets there.</b><br>
+          <b># This prevents the possibility of obtaining 'showq' output from</b><br>
+          <b># iteration 5 rather than iteration 6.</b></p>
+
+          <p><b>&gt; <a href="commands/showq.html">showq</a> -r</b></p>
+
+          <p><b># It looks like the 5 processor job completed as expected while</b><br>
+          <b># another 20 processor job completed early. The scheduler was able</b><br>
+          <b># to start another 20 processor job and five serial jobs to again</b><br>
+          <b># utilize all idle resources. Don't worry, this is not a 'stacked'</b><br>
+          <b># trace, designed to make the Maui scheduler appear omniscient.</b><br>
+          <b># We have just gotten lucky so far and have the advantage of a deep</b><br>
+          <b># default queue of idle jobs. Things will get worse!</b></p>
+
+          <p><b># Let's look at the idle workload more closely.</b></p>
+
+          <p><b>&gt; <a href="commands/showq.html">showq</a> -i</b></p>
+
+          <p><b># This output is listed in priority order. We can see that we have</b><br>
+          <b># a lot of jobs from a small group of users, many larger jobs and a</b><br>
+          <b># few remaining easily backfillable jobs.</b></p>
+
+          <p><b># let's step a ways through time. To speed up the simulation, let's</b><br>
+          <b># decrease the default LOGLEVEL to avoid unnecessary logging.</b></p>
+
+          <p><b>&gt; <a href="commands/changeparam.html">changeparam</a> LOGLEVEL 0</b></p>
+
+          <p><b># 'changeparam' can be used to immediately change the value of any</b><br>
+          <b># parameter. The change is only made to the currently running Maui</b><br>
+          <b># and is not propagated to the config file. Changes can also be made</b><br>
+          <b># by modifying the config file and restarting the scheduler or</b><br>
+          <b># issuing 'schedctl -R' which forces the scheduler to basically</b><br>
+          <b># recycle itself.</b></p>
+
+          <p><b># Let's stop at an even number, iteration 60.</b></p>
+
+          <p><b>&gt; <a href="commands/schedctl.html">schedctl</a> -s 60I</b></p>
+
+          <p><b># The '-s' flag indicates that the scheduler should 'stop at' the</b><br>
+          <b># specified iteration.</b></p>
+
+          <p><b>&gt; <a href="commands/showstats.html">showstats</a> -v</b></p>
+
+          <p><b># This command may hang a while as the scheduler simulates up to</b><br>
+          <b># iteration 60.</b></p>
+
+          <p><b># The output of this command shows us the 21 jobs have now completed.</b><br>
+          <b># Currently, only 191 of the 195 nodes are busy. Lets find out why</b><br>
+          <b># the 4 nodes are idle.</b></p>
+
+          <p><b># First look at the idle jobs.</b></p>
+
+          <p><b>&gt; showq -i</b></p>
+
+          <p><b># The output shows us that there are a number of single processor</b><br>
+          <b># jobs which require between 10 hours and over a day of time. Lets</b><br>
+          <b># look at one of these jobs more closely.</b></p>
+
+          <p><b>&gt; checkjob fr1n04.2008.0</b></p>
+
+          <p><b># If a job is not running, checkjob will try to determine why it</b><br>
+          <b># isn't. At the bottom of the command output you will see a line</b><br>
+          <b># labeled 'Rejection Reasons'. It states that of the 195 nodes</b><br>
+          <b># in the system, the job could not run on 191 of them because they</b><br>
+          <b># were in the wrong state (i.e., busy running other jobs) and 4 nodes</b><br>
+          <b># could not be used because the configured memory on the node did</b><br>
+          <b># not meet the jobs requirements. Looking at the 'checkjob' output</b><br>
+          <b># further, we see that this job requested nodes with '&gt;= 512' MB of</b><br>
+          <b># RAM installed.</b></p>
+
+          <p><b># Let's verify that the idle nodes do not have enough memory</b><br>
+          <b># configured.</b></p>
+
+          <p><b>&gt; <a href="commands/diagnose.html#node">diagnose -n</a> | grep -e Idle -e Name</b></p>
+
+          <p><b># The grep gets the command header and the Idle nodes listed. All</b><br>
+          <b># idle nodes have only 256 MB of memory installed and cannot be</b><br>
+          <b># allocated to this job. The 'diagnose' command can be used with</b><br>
+          <b># various flags to obtain detailed information about jobs, nodes,</b><br>
+          <b># reservations, policies, partitions, etc. The command also</b><br>
+          <b># performs a number of sanity checks on the data provided and will</b><br>
+          <b># present warning messages if discrepancies are detected.</b></p>
+
+          <p><b># Let's see if the other single processor jobs cannot run for the</b><br>
+          <b># same reason.</b></p>
+
+          <p><b>&gt; <a href="commands/diagnose.html#job">diagnose -j</a> | grep Idle | grep " 1 "</b></p>
+
+          <p><b># The grep above selects single processor Idle jobs. The 14th</b><br>
+          <b># indicates that most single processor jobs currently in the queue</b><br>
+          <b># require '&gt;=256' MB of RAM, but a few do not. Let's examine job</b><br>
+          <b># 'fr8n01.1154.0'</b></p>
+
+          <p><b>&gt; checkjob fr8n01.1154.0</b></p>
+
+          <p><b># The rejection reasons for this job indicate that the four idle</b><br>
+          <b># processors cannot be used due to 'ReserveTime'. This indicates</b><br>
+          <b># that the processors are idle but that they have a reservation</b><br>
+          <b># in place that will start before the job being checked could</b><br>
+          <b># complete. Let's look at one of the nodes.</b></p>
+
+          <p><b>&gt; <a href="commands/checknode.html">checknode</a> fr10n09</b></p>
+
+          <p><b># The output of this command shows that while the node is idle,</b><br>
+          <b># it has a reservation in place that will start in a little over</b><br>
+          <b># 23 hours. (All idle jobs which did not require '&gt;=512' MB</b><br>
+          <b># required over a day to complete.) It looks like there is</b><br>
+          <b># nothing that can start right now and we will have to live with</b><br>
+          <b># four idle nodes.</b></p>
+
+          <p><b># Let's look at the reservation which is blocking the start of</b><br>
+          <b># our single processor jobs.</b></p>
+
+          <p><b>&gt; <a href="commands/showres.html">showres</a></b></p>
+
+          <p><b># This command shows all reservations currently on the system.</b><br>
+          <b># Notice that all running jobs have a reservation in place. Also,</b><br>
+          <b># there is one reservation for an idle job (Indicated by the 'I'</b><br>
+          <b># in the 'S', or 'State' column) This is the reservation that is</b><br>
+          <b># blocking our serial jobs. This reservation was actually created</b><br>
+          <b># by the backfill scheduler for the highest priority idle job as</b><br>
+          <b># a way to prevent starvation while lower priority jobs were being</b><br>
+          <b># backfilled. (The <a href="8.2backfill.html">backfill documentation</a> describes the</b><br>
+          <b># mechanics of the backfill scheduling more fully.)</b></p>
+
+          <p><b># Let's see which nodes are part of the idle job reservation.</b></p>
+
+          <p><b>&gt; showres -n fr8n01.963.0</b></p>
+
+          <p><b># All of our four idle nodes are included in this reservation.</b><br>
+          <b># It appears that everything is functioning properly.</b></p>
+
+          <p><b># Let's step further forward in time.</b></p>
+
+          <p><b>&gt; schedctl -s 100I</b></p>
+
+          <p><b>&gt; showstats -v</b></p>
+
+          <p><b># We now know that the scheduler is scheduling efficiently. So</b><br>
+          <b># far, system utilization as reported by 'showstats -v' looks</b><br>
+          <b># very good. One of the next questions is 'is it scheduling</b><br>
+          <b># fairly?' This is a very subjective question. Let's look at</b><br>
+          <b># the user and group stats to see if there are any glaring</b><br>
+          <b># problems.</b></p>
+
+          <p><b>&gt; showstats -u</b></p>
+
+          <p><b># Let's pretend we need to now take down the entire system for</b><br>
+          <b># maintenance on Thursday from 2 to 10 PM. To do this we would</b><br>
+          <b># create a reservation.</b></p>
+
+          <p><b>&gt; setres -S</b></p>
+
+          <p><b># Let's shutdown the scheduler and call it a day.</b></p>
+
+          <p><b>&gt; schedctl -k</b></p>
+
+          <p><b>Using sample traces</b><br>
+          <b>Collecting traces</b><br>
+          <b>using Maui</b><br>
+          <b>Understanding and manipulating workload traces</b><br>
+          <b>Understanding and manipulating resource traces</b><br>
+          <b>Running simulation 'sweeps'</b><br>
+          <b>The 'stats.sim' file</b><br>
+          <b>(Is not erased at the start of each simulation run. It must be</b><br>
+          <b>manually cleared or moved if statistics are not to be</b><br>
+          <b>concatenated)</b><br>
+          <b>Using the profiler tool</b><br>
+          <b>(profiler man page)</b></p>
+
+          <ul>
+            <li><a href="16.1simulationoverview.html">16.1 Simulation Overview</a></li>
+
+            <li><a href="16.2resourcetrace.html">16.2 Resource Traces</a></li>
+
+            <li><a href="16.3workloadtrace.html">16.3 Workload Traces</a></li>
+
+            <li><a href="16.4simspecconfig.html">16.4 Simulation Specific Configuration</a></li>
+          </ul>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="16.0simulations.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="16.0simulations.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="16.2resourcetrace.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

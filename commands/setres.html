@@ -1,0 +1,342 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>setres</h1>
+   <td valign=bottom nowrap><b>(Set Reservation)</b>
+<tr>
+</table>
+
+<p><table class="caution">
+  <tbody>
+    <tr>
+      <td class="cautionIMG"><img src="../caution.png" title="Note" alt="Note"></td>
+      <td class="cautionDetail">This command is deprecated. Use <a href="mrsvctl.html#CREATE">mrsvctl -c</a> instead.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<h4>Synopsis</h4>
+<pre>
+setres [<i>arguments</i>] <i>resourceexpression</i>
+</pre>
+
+<h4>Overview</h4>
+
+Reserve resources for use by jobs with particular credentials or attributes.
+
+<p><b>ARGUMENTS:</b>
+<p><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -a &lt;ACCOUNT_LIST ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -b &lt;SUBTYPE ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -c &lt;CHARGE_SPEC> ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -d &lt;DURATION> ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -e &lt;ENDTIME> ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -E ] &nbsp; // EXCLUSIVE</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -f &lt;FEATURE_LIST> ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -g &lt;GROUP_LIST> ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -n &lt;NAME> ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -o &lt;OWNER> ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -p &lt;PARTITION> ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -q &lt;QUEUE_LIST> ] &nbsp; // (ie CLASS_LIST)</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -Q &lt;QOSLIST> ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -r &lt;RESOURCE_DESCRIPTION> ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -R &lt;RESERVATION_PROFILE> ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -s &lt;STARTTIME> ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -T &lt;TRIGGER> ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -u &lt;USER_LIST> ]</b>
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ -x &lt;FLAGS> ]</b>
+<br>
+
+<h4>Access</h4>
+
+&nbsp;&nbsp; This command can be run by level 1 and level 2 Moab administrators.
+
+<h4>Parameters</h4>
+
+<table BORDER WIDTH="100%" NOSAVE >
+<tr>
+<td><b>Name</b></td>
+<td><b>Format</b></td>
+<td><b>Default</b></td>
+<td><b>Description</b></td>
+</tr>
+
+<tr>
+<td><b>ACCOUNT_LIST</b></td>
+<td>&lt;STRING&gt;[:&lt;STRING&gt;]...</td>
+<td>---</td>
+<td>list of accounts that will be allowed access to the reserved resources</td>
+</tr>
+
+<tr>
+<td><b>SUBTYPE</b></td>
+<td>&lt;STRING&gt;</td>
+<td>---</td>
+<td>specify the subtype for a reservation</td>
+</tr>
+
+<tr>
+<td><b>CHARGE_SPEC</b></td>
+<td>&lt;ACCOUNT&gt;[,&lt;GROUP&gt;[,&lt;USER&gt;]]</td>
+<td>---</td>
+<td>specifies which credentials will be accountable for unused resources
+dedicated to the reservation</td>
+</tr>
+
+<tr>
+<td><b>CLASS_LIST</b></td>
+<td>&lt;STRING&gt;[:&lt;STRING&gt;]...</td>
+<td>---</td>
+<td>list of classes that will be allowed access to the reserved resource</td>
+</tr>
+
+<tr>
+<td><b>DURATION</b></td>
+<td>[[[DD:]HH:]MM:]SS</td>
+<td>INFINITY</td>
+<td>duration of the reservation (not needed if ENDTIME is specified)</td>
+</tr>
+
+<tr>
+<td><b>ENDTIME</b></td>
+<td>[HH[:MM[:SS]]][_MO[/DD[/YY]]]&nbsp;
+<br>or&nbsp;
+<br>+[[[DD:]HH:]MM:]SS</td>
+<td>INFINITY</td>
+<td>absolute or relative time reservation will end (not required if Duration
+specified)</td>
+</tr>
+
+<tr>
+<td><b>EXCLUSIVE</b>
+<td>N/A
+<td>N/A
+<td>requests exclusive access to resources
+
+<tr>
+<td><b>FEATURE_LIST</b></td>
+<td>&lt;STRING&gt;[:&lt;STRING&gt;]...</td>
+<td>---</td>
+<td>list of node features which must be possessed by the reserved resources</td>
+</tr>
+
+<tr>
+<td><b>FLAGS</b></td>
+<td>&lt;STRING&gt;[:&lt;STRING&gt;]...</td>
+<td>---</td>
+<td>list of reservation flags (See <a href="../7.1.5managingreservations.html">Managing
+Reservations</a> for details)</td>
+</tr>
+
+<tr>
+<td><b>GROUP_LIST</b></td>
+<td>&lt;STRING&gt;[:&lt;STRING&gt;]...</td>
+<td>---</td>
+<td>list of groups that will be allowed access to the reserved resources</td>
+</tr>
+
+<tr>
+<td><b>NAME</b>
+<td>&lt;STRING&gt;
+<td>name set to first name listed in ACL or <tt>SYSTEM</tt> if no ACL specified
+<td>name for new reservation
+
+<tr>
+<td><b>OWNER</b>
+<td>&lt;CREDTYPE&gt;:&lt;CREDID&gt; where CREDTYPE is one of user, group, acct, class, or qos
+<td>N/A
+<td>specifies which credential is granted reservation  ownership privileges
+</tr>
+
+<tr>
+<td><b>PARTITION</b></td>
+<td>&lt;STRING&gt;</td>
+<td>[ANY]</td>
+<td>partition in which resources must be located</td>
+</tr>
+
+<tr>
+<td><b>QOS_LIST</b></td>
+<td>&lt;STRING&gt;[:&lt;STRING&gt;]...</td>
+<td>---</td>
+<td>list of QOS's that will be allowed access to the reserved resource</td>
+</tr>
+
+<tr>
+<td><b>RESERVATION_</b>
+<br><b>PROFILE</b>
+<td>existing reservation profile ID
+<td>N/A
+<td>requests that default reservation attributes be loaded from the specified reservation profile (see <a href="../a.fparameters.html#rsvprofile">RSVPROFILE</a>)
+</tr>
+
+<tr>
+<td><b>RESOURCE_</b>
+<br><b>DESCRIPTION</b></td>
+
+<td>colon delimited list of zero or more of the following &lt;ATTR&gt;=&lt;VALUE&gt;
+pairs
+<br><b>PROCS</b>=&lt;INTEGER&gt;
+<br><b>MEM</b>=&lt;INTEGER&gt;
+<br><b>DISK</b>=&lt;INTEGER&gt;
+<br><b>SWAP</b>=&lt;INTEGER&gt;
+<gr><b>GRES</b>=&lt;STRING&gt;</td>
+<td>PROCS=-1</td>
+<td>specifies the resources to be reserved per task.&nbsp; (-1 indicates
+all resources on node)</td>
+</tr>
+
+<tr>
+<td><b>RESOURCE_</b>
+<br><b>EXPRESSION</b></td>
+<td>
+<br><b>ALL&nbsp;</b>
+<br>or
+<br><b>TASKS</b>{<b>==</b>|&gt;=}&lt;TASKCOUNT&gt;&nbsp;
+<br>or&nbsp;
+<br>&lt;HOST_REGEX&gt;</td>
+<td>Required Field.&nbsp; No Default</td>
+<td>specifies the tasks to reserve.&nbsp; <b>ALL</b> indicates all resources available
+should be reserved.
+<br><b>Note</b>:&nbsp;&nbsp; If <b>ALL</b> or a host expression
+is specified, Moab will apply the reservation regardless of existing reservations
+and exclusive issues. If <b>TASKS</b> is used, Moab will only allocate
+accessible resources.</td>
+</tr>
+
+<tr>
+<td><b>STARTTIME</b></td>
+<td>[HH[:MM[:SS]]][_MO[/DD[/YY]]]&nbsp;
+<br>or&nbsp;
+<br>+[[[DD:]HH:]MM:]SS</td>
+<td>NOW</td>
+<td>absolute or relative time reservation will start</td>
+</tr>
+
+<tr>
+<td><b>TRIGGER</b>
+<td>&lt;STRING&gt;
+<td>N/A
+<td>comma delimited reservation trigger list following format described in the <a href="../7.1.5managingreservations.html#TRIGGER">trigger format</a> section of the reservation configuration overview.
+
+<tr>
+<td><b>USER_LIST</b></td>
+<td>&lt;STRING&gt;[:&lt;STRING&gt;]...</td>
+<td>---</td>
+<td>list of users that will be allowed access to the reserved resources</td>
+</table>
+
+<h4>Description</h4>
+
+&nbsp;&nbsp; The <b>setres</b> command allows an arbitrary
+block of resources to be reserved for use by jobs which meet the specified
+access constraints.&nbsp; The timeframe covered by the reservation can
+be specified on either an absolute or relative basis.&nbsp; Only jobs with
+credentials listed in the reservation ACL (i.e., <b>USERLIST</b>, <b>GROUPLIST</b>,...)
+can utilize the reserved resources.&nbsp; However, these jobs still have
+the freedom to utilize resources outside of the reservation.&nbsp; The
+reservation will be assigned a name derived from the ACL specified.&nbsp;
+If no reservation ACL is specified, the reservation is created as a <i>system</i>
+reservation and no jobs will be allowed access to the resources during
+the specified timeframe (valuable for system maintenance, etc).&nbsp; See
+the <a href="../7.1.1resoverview.html">Reservation Overview</a> for more
+information.
+
+<p>&nbsp;&nbsp; Reservations can be viewed using the <a href="showres.html">showres</a>
+command and can be released using the <a href="releaseres.html">releaseres</a>
+command.
+
+<h4>Example 1</h4>
+
+&nbsp;&nbsp; Reserve two nodes for use by users john and mary for a period of 8 hours starting in 24 hours
+
+<p><fieldset><pre>
+&gt; setres -u john:mary -s +24:00:00 -d 8:00:00 TASKS==2
+
+reservation 'john.1' created on 2 nodes (2 tasks)
+
+node001:1
+node005:1
+</pre></fieldset>
+
+<h4>Example 2</h4>
+
+&nbsp;&nbsp; Schedule a system wide reservation to allow a system maintenance on Jun 20, 8:00 AM until Jun 22, 5:00 PM.
+
+<p><fieldset><pre>
+&gt; setres -s 8:00:00_06/20 -e 17:00:00_06/22 ALL
+
+reservation 'system.1' created on 8 nodes (8 tasks)
+
+node001:1
+node002:1
+node003:1
+node004:1
+node005:1
+node006:1
+node007:1
+node008:1
+</pre></fieldset>
+
+<h4>Example 3</h4>
+
+&nbsp;&nbsp; Reserve one processor and 512 MB of memory on nodes node003 through node 006 for members of the group staff and jobs in the interactive class.
+
+<p><fieldset><pre>
+&gt; setres -r PROCS=1:MEM=512 -g staff -l interactive 'node00[3-6]'
+
+reservation 'staff.1' created on 4 nodes (4 tasks)
+
+node003:1
+node004:1
+node005:1
+node006:1
+</pre></fieldset>
+
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

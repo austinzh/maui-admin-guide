@@ -1,0 +1,221 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Maui Scheduler  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+<div class="navIcons topIcons">
+<a href="../index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.acasestudy.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+<a href="../a.acasestudy.html"><img src="../prevArrow.png" border=0 title="Previous" alt="Previous"></a>
+<a href="case2.html"><img src="../nextArrow.png" border=0 title="Next" alt="Next"></a>
+  </div>
+
+
+<h1>A.1&nbsp; Case Study: Mixed Parallel/Serial Homogeneous Cluster</h1>
+
+<big><p><b>Overview</b></p></big>
+<p>
+A multi-user site wishes to control the distribution of compute cycles while
+minimizing job turnaround time and maximizing overall system utilization.&nbsp;
+</p>
+
+<big><p><b>Resources</b></p></big>
+
+<table class="navTable" width=100%>
+<tr valign="top">
+  <td class="contentLabels">Compute Nodes:</td>
+  <td class="contentDetails">64 2-way SMP Linux&#0174; nodes with 512 MB RAM and 16 GB local scratch space</td>
+</tr>
+<tr valign="top">
+  <td class="contentLabels">Resource Manager:&nbsp;&nbsp;</td>
+  <td class="contentDetails">OpenPBS 2.3</td>
+</tr>
+<tr valign="top">
+  <td class="contentLabels">Network:</td>
+  <td class="contentDetails">100 MB switched Ethernet</td>
+</tr>
+</table>
+
+<big><p><b>Workload</b></p></big>
+<table class="simpleTable">
+<tr valign="top">
+  <td class="contentLabels">Job Size:</td>
+  <td class="contentDetails">Range in size from 1 to 32 processors with approximate quartile job
+      frequency distribution of:<br>1 - 2, 3 - 8, 9 - 24, and 25 - 32 nodes</td>
+</tr>
+<tr valign="top">
+  <td class="contentLabels">Job Length:</td>
+  <td class="contentDetails">Jobs range in length from 1 to 24 hours</td>
+</tr>
+<tr valign="top">
+  <td nowrap class="contentLabels">Job Owners:&nbsp;&nbsp;</td>
+  <td class="contentDetails">Six major groups consisting of about 50 users in total</td>
+</tr>
+<tr valign="top">
+  <td class="contentLabels">Notes:</td>
+  <td class="contentDetails">During prime time hours, the majority of jobs submitted are smaller,
+      short running development jobs where users are testing out new code and
+      new data sets.&nbsp; The owners of these jobs are often unable to proceed
+      with their work until a job they have submitted completes.&nbsp; Many of
+      these jobs are interactive in nature.&nbsp; Throughout the day, large,
+      longer running production workload is also submitted but these jobs do
+      not have comparable turnaround time pressure.</td>
+</tr>
+</table>
+
+<big><p><b>Goals</b></p></big>
+<p>
+The groups 'Meteorology' and 'Statistics' must receive approximately 45% and
+35% of the total computing resources respectively.&nbsp; Nodes cannot be shared
+among tasks from different jobs.&nbsp;
+</p>
+<p>
+The system should attempt to minimize turnaround time during prime hours
+(Mon - Fri, 8:00 AM to 5:00 PM) and maximize system utilization during all other
+times.&nbsp; System maintenance should be scheduled efficiently within these
+constraints.&nbsp;
+
+<big><p><b>Analysis</b></p></big>
+<p>The network topology is flat and nodes are homogeneous.&nbsp; This makes
+life significantly simpler.&nbsp; The focus for this site is controlling
+distribution of compute cycles without negatively impacting overall system
+turnaround and utilization.&nbsp; Currently, the best mechanism for doing this
+is <a href="../6.3fairshare.html">Fairshare</a>.&nbsp;
+</p>
+<p>
+Fairshare can be used to adjust the priority of jobs to favor or disfavor jobs
+based on fairshare targets and historical usage.&nbsp; In essence, this feature
+improves the turnaround time of the jobs not meeting their fairshare target at
+the expense of those that are.&nbsp; Depending on the criticality of the
+resource distribution constraints, an allocation bank such as <a href="http://www.adaptivecomputing.com/gold">Gold</a>,
+which enables more stringent control over the amount of resources which
+can be delivered to various users, may be desirable.&nbsp;
+</p>
+<p>
+To manage the prime time job turnaround constraints, a
+<a href="../7.1.3standingreservations.html">standing reservation</a>
+would probably be the best approach.&nbsp; A standing reservation can be used
+to set aside a subset of the nodes for quick turnaround jobs.&nbsp; This
+reservation can be configured with a time based access point to allow only
+jobs which will complete within some time X to utilize these resources.&nbsp;
+The reservation has advantages over a typical queue based solution in this case
+in that these quick turnaround jobs can be run anywhere resources are
+available, either inside, or outside the reservation, or even crossing
+reservation boundaries.&nbsp; The site does not have any hard constraints about
+what is acceptable turnaround time so the best approach would probably be to
+analyze the site's workload under a number of configurations using the
+<a href="../16.0simulations.html">simulator</a> and observe the
+corresponding scheduling behavior.
+</p>
+<p>
+For general optimization, there are a number of scheduling aspects to consider,
+scheduling algorithm, reservation policies, node allocation policies, and job
+prioritization.&nbsp; It is almost always a good idea to utilize the scheduler's
+<a href="../8.2backfill.html">backfill</a> capability since this has a tendency
+to increase average system utilization and decrease average turnaround time in a
+surprisingly fair manner.&nbsp; It does tend to favor somewhat small and short
+jobs over others which is exactly what this site desires.&nbsp; Reservation
+policies are often best left alone unless rare starvation issues arise or
+quality of service policies are desired.&nbsp; Node allocation policies are
+effectively meaningless since the system is homogeneous.&nbsp; The final
+scheduling aspect, job prioritization, can play a significant role in meeting
+site goals.&nbsp;
+</p>
+<p>
+To maximize overall system utilization, maintaining a significant
+<a href="../5.1.4prioritystrategies.html">Resource</a> priority factor will favor
+large resource (processor) jobs, pushing them to the front of the queue.&nbsp;
+Large jobs, though often only a small portion of a site's job count, regularly
+account for the majority of a site's delivered compute cycles.&nbsp; To
+minimize job turnaround, the <a href="../5.1.2priorityfactors.html">XFactor</a>
+priority factor will favor short running jobs.&nbsp; Finally, in order for
+fairshare to be effective, a significant <a href="../6.3fairshare.html">Fairshare</a>
+priority factor must be included.&nbsp;
+</p>
+
+<big><p><b>Configuration</b></p></big>
+<p>
+For this scenario, a resource manager configuration consisting of a single,
+global queue/class with no constraints would allow Moab the maximum flexibility
+and opportunities for optimization.&nbsp;
+</p>
+<p>
+The following Moab configuration would be a good initial stab:
+</p>
+
+<p><div class="example">
+
+<pre>
+# reserve 16 processors during prime time for jobs requiring less than 2 hours to complete
+SRNAME[0]          fast
+SRTASKCOUNT[0]     16
+SRDAYS[0]          MON TUE WED THU FRI
+SRSTARTTIME[0]     8:00:00
+SRENDTIME[0]       17:00:00
+SRMAXTIME[0]       2:00:00
+
+# prioritize jobs for Fairshare, XFactor, and Resources
+RESOURCEWEIGHT     20
+XFACTORWEIGHT      100
+FAIRSHAREWEIGHT    100
+
+# disable SMP node sharing
+NODEACCESSPOLICY   DEDICATED
+</pre>
+</div></p>
+
+<p><div class="example">
+
+<pre>
+Group:Meteorology  FSTARGET=45
+Group:Statistics   FSTARGET=35
+</pre>
+</div></p>
+
+<big><p><b>Monitoring</b></p></big>
+
+The <a href="../commands/mdiag-fairshare.html">mdiag -f</a> command will allow
+you to monitor the effectiveness of the fairshare component of your job
+prioritization.&nbsp; Adjusting the Fairshare priority factor will make
+fairshare more or less effective.&nbsp; A trade off must occur between
+fairshare and other goals managed via job prioritization.&nbsp;
+</p>
+
+<p>
+The <a href="../commands/mdiag-priority.html">mdiag -p</a> command will help you
+analyze the priority distributions of the currently idle jobs.&nbsp; The
+<a href="../commands/showstatsf.html">showstats -f AVGXFACTOR</a> command will
+provide a good indication of average job turnaround while the
+<a href="../commands/showstats.html">showstats</a> command will give an excellent
+analysis of longer term historical performance statistics.&nbsp;
+</p>
+
+<big><p><b>Conclusions</b></p></big>
+
+Any priority configuration will need to be tuned over time because the effect
+of priority weights is highly dependent upon the site specific workload.&nbsp;
+Additionally, the priority weights themselves are part of a feedback loop
+which adjust the site workload.&nbsp; However, most sites quickly stabilize and
+significant priority tuning is unnecessary after a few days.&nbsp;
+</p>
+
+<div class="navIcons bottomIcons">
+<a href="../index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.acasestudy.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+<a href="../a.acasestudy.html"><img src="../prevArrow.png" border=0 title="Previous" alt="Previous"></a>
+<a href="case2.html"><img src="../nextArrow.png" border=0 title="Next" alt="Next"></a>
+</div>
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

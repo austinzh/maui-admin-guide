@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="2.0installation.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="2.1installation.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="2.3initialtesting.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>2.2 Initial Maui Configuration</h1>
+
+          <p>After you install Maui, there are a few decisions which must be made and some corresponding information which will need to be provided in the Maui configuration file, <b>maui.cfg</b>. The <b>configure</b> script automatically sets most of these parameters for you. However, this document provides some additional information to allow further initial configuration. If you are satisfied with the values specified in <b>configure</b> then you can probably skip this section. The parameters needed for proper initial startup include the following:</p>
+
+          <p>- <b>SERVERHOST</b></p>
+
+          <p>This specifies where Maui will run. It allows Maui client commands to locate the Maui server. It must specify the fully qualified hostname of the machine on which Maui will run. (Example: <tt>SERVERHOST cw.psu.edu</tt>)</p>
+
+          <p>- <b>SERVERPORT</b></p>
+
+          <p>This specifies the port on which the Maui server will listen for client connections. Unless the default port of 40559 is unacceptable, this parameter need not be set. (Example: <tt>SERVERPORT 50001</tt>)</p>
+
+          <p>- <b>ADMIN1</b></p>
+
+          <p>Maui has 3 major levels of admin access. Users which are to be granted full control of all Maui functions should be indicated by setting the <b>ADMIN1</b> parameter. The first user in this list is considered the <i>primary</i> admin. It is the ID under which Maui should always run. Maui will only run under the primary admin user id and will shut itself down otherwise. In order for Maui to properly interact with both PBS and Loadleveler, it is important that the primary Maui admin also be configured as a resource manager admin within each of those systems. (Example: <tt>ADMIN1 joe charles</tt>)</p>
+
+          <p>- <b>RMTYPE[X]</b></p>
+
+          <p>Maui must be told which resource manager(s) to talk to. Maui currently has interfaces to Loadleveler, Wiki, and PBS. To specify a resource manager, typically only the resource manager type needs to be indicated using the keywords LL, WIKI, or PBS (Example: <tt>RMTYPE[0] PBS</tt>). The array index in the parameter name allows more than one resource manager to be specified. In these multiple resource manager situations, additional parameters may need to be specified depending on the resource manager type. Some of the related resource management parameters are listed below. Further information about each is available in the <a href="a.fparameters.html">parameters</a> documentation.</p>
+
+          <p><a href="a.fparameters.html#rmport">RMPORT</a><br>
+          <a href="a.fparameters.html#rmserver">RMSERVER</a><br>
+          <a href="a.fparameters.html#rmtype">RMTYPE</a><br>
+          <a href="a.fparameters.html#rmauthtype">RMAUTHTYPE</a><br>
+          <a href="a.fparameters.html#rmconfigfile">RMCONFIGFILE</a><br></p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="2.0installation.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="2.1installation.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="2.3initialtesting.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,318 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+<hr>
+
+<h3>Wiki Socket Protocol Description</h3>
+
+<p class=body>
+The Moab scheduler uses a simple protocol for socket connections
+to the user client and the resource manager as described below:
+</p>
+<p class=body>
+
+&lt;SIZE&gt;&lt;CHAR&gt;CK=&lt;CKSUM&gt;&lt;WS&gt;TS=&lt;TIMESTAMP&gt;&lt;WS&gt;AUTH=&lt;AUTH&gt;&lt;WS&gt;DT=&lt;DATA&gt;
+</p>
+<p class=body>
+
+<table class="navTable" width=100%>
+<tr>
+<td> &lt;SIZE&gt;       
+</td>
+<td>8 character decimal ASCII representation of the size of the 
+             packet following '&lt;SIZE&gt;&lt;CHAR&gt;'  Leading zeroes must be used
+             to pad this value to 8 characters if necessary.
+</td>
+</tr>
+<tr>
+<td> &lt;CHAR&gt;       
+</td>
+<td>A single ASCII character
+</td>
+</tr>
+<tr>
+<td> &lt;CKSUM&gt;      
+</td>
+<td>A 16 character hexadecimal ASCII DES-based checksum 
+             calculated using the algorithm below* and &lt;SEED&gt; selected 
+             and kept secret by the site admins.  The checksum is
+             performed on the line from 'TS=' to the end of the message
+             including &lt;DATA&gt;.
+</td>
+</tr>
+<tr>
+<td> &lt;WS&gt;         
+</td>
+<td>a series of 'white space' characters consisting of either 
+             'tabs' and/or 'space' characters.
+</td>
+</tr>
+<tr>
+<td> &lt;TIMESTAMP&gt;  
+</td>
+<td>ASCII representation of epoch time
+</td>
+</tr>
+<tr>
+<td> &lt;AUTH&gt;         
+</td>
+<td>Identifier of user requesting service (i.e., USERNAME)
+</td>
+</tr>
+<tr>
+<td> &lt;DT&gt;         
+</td>
+<td>Data to be sent
+</td>
+</tr>
+</table>
+</p>
+<p class=body>
+
+An example header follows:
+</p>
+<p class=body>
+
+<tt>00001057 CK=cdf6d7a7ad45026f TS=922401962 AUTH=sched DT=&lt;DATA&gt;</tt>
+</p>
+<p class=body>
+
+  where '<tt>&lt;DATA&gt;</tt>' is replaced by actual message data.
+</p>
+<h3 class=subhead>
+Checksum Algorithm ('C' version)
+</h3>
+<p class=body>
+<xmp>
+
+#define MAX_CKSUM_ITERATION 4
+
+
+int GetChecksum(
+
+  char *Buf,
+  int   BufSize,
+  char *Checksum,
+  char *CSKey)      /* Note:  pass in secret key */
+
+  {
+  unsigned int crc;
+  unsigned int lword;
+  unsigned int irword;
+
+  int          index;
+
+  unsigned int Seed;
+
+  Seed = (unsigned int)strtoul(CSKey,NULL,0);
+
+  crc = 0;
+
+  for (index = 0;index < BufSize;index++)
+    {
+    crc = (unsigned int)DoCRC((unsigned short)crc,Buf[index]);
+    }
+
+  lword  = crc;
+  irword = Seed;
+
+  PSDES(&lword,&irword);
+
+  sprintf(Checksum,"%08x%08x",
+    lword,
+    irword);
+
+  return(SUCCESS);
+  }
+
+
+
+
+unsigned short DoCRC(
+
+  unsigned short crc,
+  unsigned char  onech)
+
+  {
+  int            index;
+
+  unsigned int ans;
+
+  ans = (crc ^ onech << 8);
+
+  for (index = 0;index < 8;index++)
+    {
+    if (ans & 0x8000)
+      ans = (ans <<= 1) ^ 4129;
+    else
+      ans <<= 1;
+    }
+
+  return((unsigned short)ans);
+  }
+
+
+
+
+
+int PSDES(
+
+  unsigned int *lword,
+  unsigned int *irword)
+
+  {
+  int index;
+
+  unsigned int ia;
+  unsigned int ib;
+  unsigned int iswap;
+  unsigned int itmph;
+  unsigned int itmpl;
+
+  static unsigned int c1[MAX_CKSUM_ITERATION] = {
+    0xcba4e531, 0x537158eb, 0x145cdc3c, 0x0d3fdeb2 };
+  static unsigned int c2[MAX_CKSUM_ITERATION] = {
+    0x12be4590, 0xab54ce58, 0x6954c7a6, 0x15a2ca46 };
+
+  itmph = 0;
+  itmpl = 0;
+
+  for (index = 0;index < MAX_CKSUM_ITERATION;index++)
+    {
+    iswap = *irword;
+
+    ia = iswap ^ c1[index];
+
+    itmpl = ia & 0xffff;
+    itmph = ia >> 16;
+
+    ib = (itmpl * itmpl) + ~(itmph*itmph);
+    ia = (ib >> 16) | ((ib & 0xffff) << 16);
+
+    *irword = (*lword) ^ ((ia ^ c2[index]) + (itmpl * itmph));
+
+    *lword = iswap;
+    }
+
+  return(SUCCESS);
+  }
+</xmp>
+</p>
+<h3 class=subhead>
+Header Creation (PERL code)
+</h3>
+<p class=body>
+(taken from PNNL's QBank client code)<br><br>
+<xmp>
+
+################################################################################
+#
+# subroutine wiki($COMMAND)
+#
+# Sends command to Moab server and returns the parsed result and status
+#
+################################################################################
+
+sub wiki
+{
+  my($COMMAND,$REQUEST,$result);
+  my($sockaddr,$hostname);
+  my($name,$aliases,$proto,$port,$type,$len,$thisaddr);
+  my($thisport,$thatport,$response,$result);
+
+  $COMMAND = shift;
+
+  #
+  # Establish socket connection
+  #
+  $sockaddr = 'S n a4 x8';
+  chop ($hostname = `hostname`);
+  ($name,$aliases,$proto)=getprotobyname('tcp');
+  ($name,$aliases,$type,$len,$thisaddr)=gethostbyname($hostname);
+  ($name,$aliases,$type,$len,$thataddr)=gethostbyname($BANKHOST);
+  $thisport=pack($sockaddr, &AF_INET,0,$thisaddr);
+  $thatport=pack($sockaddr, &AF_INET,$BANKPORT,$thataddr);
+  socket(S, &PF_INET,&SOCK_STREAM,$proto) || die "cannot create socket\n";
+  bind(S,$thisport) || die "cannot bind socket\n";
+  connect(S,$thatport) || die "cannot connect socket\n";
+
+  select(S); $| = 1;              # Turn on autoflushing
+  select(stdout); $| = 1;         # Select STDOUT as default output
+
+  #
+  # Build  and send command
+  #
+  $REQUEST="COMMAND=$COMMAND AUTH=$AUTH";
+  chomp($CHECKSUM = `$QSUM "$REQUEST"`);
+  $REQUEST .= " CHECKSUM=$CHECKSUM";
+  my $command=pack "a8 a1 A*",sprintf("%08d",length($REQUEST))," ",$REQUEST;
+  print S "$command";             # Send Command to server
+  @REPLY=();
+  while (<S>) { push(@REPLY,$_); }        # Listen for Reply
+  $STATUS=grep(/STATUSCODE=(\d*)/&&$1,@REPLY);    # STATUSCODE stored in $STATUS
+  grep(s/.*RESULT=//,@REPLY);             # Parse out the RESULT
+  return @REPLY;
+}
+</xmp>
+</p>
+<h3 class=subhead>
+Header Processing (PERL code)
+</h3>
+<p class=body>
+<xmp>
+
+sysread(NS,$length,8);                          # Read length string
+sysread(NS,$delimiter,1);                       # Read delimiter byte
+$DEBUG && print STDERR "length=[$length]\tdelimiter=[$delimiter]\n";
+
+while($length) {
+        $DEBUG && print STDERR "Awaiting $length bytes -- ".`date`;
+        $length-=sysread(NS,$request,$length);  # Read request
+        sleep 1;
+        }
+
+%REQUEST=();
+chomp($request);
+foreach (@REQUEST=&shellwords($request))        # Parse arguments into array
+        {
+        ($key,$value)=split(/=/,$_);
+        $REQUEST{$key}=$value unless defined $REQUEST{$key};
+        }
+
+$request =~ s/\s+CHECKSUM=.*//;         # Strip off the checksum
+print STDERR "REQUEST=$request\n";
+chomp($checksum=`$QSUM "$request"`);
+$me=$REQUEST{AUTH};
+$command=$REQUEST{COMMAND};
+
+if (!grep($command eq $_,@VALIDCMDS))
+        { $REPLY = "STATUSCODE=0 RESULT=$command is not a valid command\n";}
+elsif ($checksum ne $REQUEST{CHECKSUM})
+        { $REPLY = "STATUSCODE=0 RESULT=Invalid Checksum\n";}
+else
+        { $REPLY = do $command(@REQUEST); }
+
+$len=sprintf("%08d",length($REPLY)-1);
+$delim=' ';
+$DEBUG && print STDERR "REPLY=${len}${delim}$REPLY\n";
+$buf="$len"."$delim"."$REPLY";
+syswrite(NS,$buf,length($buf));
+close NS;
+</xmp>
+</p>
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

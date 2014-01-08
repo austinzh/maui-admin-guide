@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <center>
+            <h1>Event Driven LL Interface</h1>
+          </center><b>Creating an event driven interface for Loadleveler requires two steps.</b>
+
+          <p><b>1) Create and enable the Loadleveler submit filter</b><br>
+          <b>2) Create a suid wrapper to allow global use of the 'schedctl -r' command</b><br></p>
+
+          <p><b>Step 1) Create a submit filter.</b></p>
+
+          <p><b>The LL submit filter functions by taking a users job command file as STDIN and sending the command file LL should process to STDOUT. If the submit filter is successful, it should exit with a status of 0. A simple sample script is provided below:</b></p>
+
+          <p><b>-----------</b><br>
+          <b><tt>#!/bin/perl -w</tt></b><br>
+          <br>
+          <b><tt>while (&lt;STDIN&gt;)</tt></b><br>
+          <b><tt>{</tt></b><br>
+          <b><tt>$line = $_;</tt></b><br>
+          <b><tt>print STDOUT $line;</tt></b><br>
+          <b><tt>}</tt></b><br>
+          <br>
+          <b><tt># Call wakeup script to maui scheduler</tt></b></p>
+
+          <p><b><tt>system("/usr/local/sbin/wakeup &gt; /dev/null");</tt></b><br>
+          <br>
+          <b><tt>exit(0);</tt></b><br>
+          <b>------------</b></p>
+
+          <p><b>1) create file 'wakeup.c'</b></p>
+
+          <p><b>To enable use of this script you must set SUBMITFILTER parameter in the LoadL_config file.</b><br></p>
+
+          <p><b>Step 2) Create wrapper</b></p>
+
+          <p><b>The maui command 'schedctl' is not normally available to general end users. The wrapper allows users to issue a command to request that scheduling resume to process a newly submitted job.</b></p>
+
+          <p>wakeup.c<br>
+          -----<br>
+          #include &lt;sys/types.h&gt;<br>
+          #include &lt;pwd.h&gt;</p>
+
+          <p>#define MAUIADMIN "loadl"<br>
+          #define SCHEDCTLCMD /usr/local/bin/schedctl</p>
+
+          <p>void main()</p>
+
+          <p>{<br>
+          struct passwd *buf;</p>
+
+          <p>if ((buf = getpwnam(MAUIADMIN)) == NULL)<br>
+          exit(1);</p>
+
+          <p>setuid(buf-&gt;pw_uid);</p>
+
+          <p>system("SCHEDCTLCMD -r 1");</p>
+
+          <p>exit(0);<br>
+          }<br>
+          -----</p>
+
+          <p><b>2) edit 'MAUIADMIN' and 'SCHEDCTLCMD' #defines in 'wakeup.c' as needed</b></p>
+
+          <p><b>3) compile code</b></p>
+
+          <p><b>4) make 'wakeup' owned by MAUIADMIN</b></p>
+
+          <p><b>&gt; chown loadl wakeup</b></p>
+
+          <p><b>5) make 'wakeup' setuid for owner</b></p>
+
+          <p><b>&gt; chmod 4711 wakeup</b></p>
+
+          <p><b>6) verify non-admin users can successfully run 'wakeup'</b></p>
+
+          <p><br>
+          <b>Now submit a job. If all works correctly, Maui should detect and, if resources are available, start the job within one second.</b></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

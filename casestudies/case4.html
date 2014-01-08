@@ -1,0 +1,146 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Maui Scheduler  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+<div class="navIcons topIcons">
+<a href="../index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.acasestudy.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+<a href="case3.html"><img src="../prevArrow.png" border=0 title="Previous" alt="Previous"></a>
+<a href="case5.html"><img src="../nextArrow.png" border=0 title="Next" alt="Next"></a>
+</div>
+  
+
+
+<h1>A.4&nbsp; Case Study: Data Staging</h1>
+
+<big><p><b>Overview</b></p></big>
+<p>
+NCSA has an existing cluster where a significant portion of submitted jobs
+require input data to be staged from an hierarchical storage manager (HSM).&nbsp;
+Currently, each user must stage the input data for each job manually before
+submitting the job.&nbsp; Also, each job must be intelligent enough to determine
+if its input data is present before beginning execution.&nbsp; Not only is this
+inconvenient for users, it can lead to scheduling inefficiencies as "running"
+jobs sit idle waiting for input data to arrive.&nbsp;
+</p>
+<p>
+NCSA's cluster consists of 100 single processor nodes connected by a switched
+gigabit network.&nbsp; The storage manager is a 200 terabyte tape storage
+system with 4 terabyte disk cache.&nbsp;
+</p>
+
+<big><p><b>Goals</b></p></big>
+<p>
+The goals of allowing Moab to manage the data staging requirements of a cluster
+include:
+</p>
+<dl>
+<dt><i>Efficiency</i></dt>
+  <dd>The scheduler must not start a job until its input data has been staged
+      to the appropriate location.</dd>
+<dt><i>Adaptation</i></dt>
+  <dd>The scheduler must make intelligent decisions based on the estimated
+      completion time of data staging operations.</dd>
+<dt><i>Space Allocation</i><dt>
+  <dd>The scheduler must maintain enough free disk space to accommodate the
+      stage-out data of currently running jobs.</dt>
+</dl>
+
+<big><p><b>Analysis</b></p></big>
+<p>
+Moab supports a <a href="../13.3rmextensions.html#STAGEIN">STAGEIN</a>
+resource manager extension that allows the user to specify stage-in requirements
+for a job.&nbsp; If this extension is present, Moab will not attempt to start
+the job until the specified file is present.&nbsp; Additionally, if a size is
+given, Moab will wait until the file exists and is at least as big as the
+specified size.&nbsp;
+</p>
+<p>
+Moab will estimate the time required for a staging operation to complete if the
+<a href="../13.2rmconfiguration.html#bandwidth">BANDWIDTH</a> parameter in
+<tt>moab.cfg</tt> is set.&nbsp; This allows Moab to make properly timed,
+pre-execution data stage requests from the storage manager.&nbsp;
+</p>
+<p>
+The <a href="../13.2rmconfiguration.html#targetusage">TARGETUSAGE</a>
+parameter can be used to set the desired storage manager disk cache utilization
+level.&nbsp; It should be set below 100% to allow for unexpected external usage
+and job stage-out files with sizes that are not known in advance.&nbsp;
+</p>
+
+<big><p><b>Configuration</b></p></big>
+<p>
+A resource manager named <tt>hsm</tt> will be created to monitor and manage the
+storage manager load and resources.&nbsp;
+</p>
+<p>
+<i>FIX: Where does transfer rate info go???</i>
+</p>
+<br>
+
+<div class="example">
+
+<pre>
+# configure the storage manager
+RMCFG[hsm] TYPE=NATIVE
+RMCFG[hsm] RESOURCETYPE=STORAGE TARGETUSAGE=80%
+
+# gives Moab information about the storage manager
+RMCFG[hsm] CLUSTERQUERYURL=exec:///$TOOLSDIR/dstage.clusterquery.pl
+
+# allow Moab to check for the existence of a file and its size
+RMCFG[hsm] SYSTEMQUERYURL=exec:///$TOOLSDIR/dstage.systemquery.pl
+
+# allow Moab to request a staging operation
+RMCFG[hsm] SYSTEMMODIFYURL=exec:///$TOOLSDIR/dstage.systemmodify.pl
+</pre>
+</div>
+
+<p>
+The following script files are provided with Moab.&nbsp; They can be
+customized to work with any type of data staging solution.&nbsp; In addition,
+there are many scripts provided with Moab that work with 3rd party storage
+solutions without the need for any customization.&nbsp;
+</p>
+<ul>
+<li><a href="http://docs.adaptivecomputing.com/maui/dstage.clusterquery.pl">dstage.clusterquery.pl</a></li>
+<li><a href="http://docs.adaptivecomputing.com/maui/dstage.systemquery.pl">dstage.systemquery.pl</a></li>
+<li><a href="http://docs.adaptivecomputing.com/maui/dstage.systemmodify.pl">dstage.systemmodify.pl</a></li>
+</ul>
+<p>
+More information about these resource manager interfaces can be found in the
+<a href="http://docs.adaptivecomputing.com/maui/18.1datastaging.html">data staging</a> documentation.&nbsp;
+</p>
+
+<big><p><b>Monitoring</b></p></big>
+
+The <a href="../commands/checkjob.html">checkjob</a> command will print the
+data staging requirements of a job, if any, and the status of the data staging
+operation.&nbsp;
+
+<big><p><b>Conclusions</b></p></big>
+<p>
+Moab will make the best use of computing resources when it understands the data
+staging needs of its jobs and the speed at which staging requests can be met
+by the storage manager.&nbsp;
+</p>
+
+<div class="navIcons bottomIcons">
+<a href="../index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.acasestudy.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+<a href="case3.html"><img src="../prevArrow.png" border=0 title="Previous" alt="Previous"></a>
+<a href="case5.html"><img src="../nextArrow.png" border=0 title="Next" alt="Next"></a>
+</div>
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>

@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="14.0troubleshootingandsysmaintenance.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="14.0troubleshootingandsysmaintenance.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="14.2logging.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>14.1 Internal Diagnostics/Diagnosing System Behavior and Problems</h1>
+
+          <p>Maui provides a number of commands for diagnosing system behavior. These diagnostic commands present detailed state information about various aspects of the scheduling problem, summarize performance, and evaluate current operation reporting on any unexpected or potentially erroneous conditions found. Where possible, Maui's diagnostic commands even correct detected problems if desired.</p>
+
+          <p>At a high level, the diagnostic commands are organized along functionality and object based delineations. Diagnostic command exist to help prioritize workload, evaluate fairness, and determine effectiveness of scheduling optimizations. Commands are also available to evaluate reservations reporting state information, potential reservation conflicts, and possible corruption issues. Scheduling is a complicated task. Failures and unexpected conditions can occur as a result of resource failures, jobs failures, or conflicting policies.</p>
+
+          <p>Maui's diagnostics can intelligently organize information to help isolate these failures and allow them to be resolved quickly. Another powerful use of the diagnostic commands is to address the situation in which there are no <i>hard</i> failures. In these cases, the jobs, compute nodes, and scheduler are all functioning properly, but the cluster is not behaving exactly as desired. Maui diagnostics can help a site determine how the current configuration is performing and how it can be changed to obtain the desired behavior.</p>
+
+          <h2>14.1.1Diagnose Command</h2>
+
+          <p>The cornerstone of Maui's diagnostics is a command named, aptly enough, <a href="commands/diagnose.html">diagnose</a>. This command provides detailed information about scheduler state and also performs a large number of internal sanity checks presenting problems it finds as warning messages.</p>
+
+          <p>Currently, the diagnose command provides in depth analysis of the following objects and subsystems<br></p>
+
+          <table border width="100%" nosave="">
+            <tr>
+              <td><b>Object/Subsystem</b></td>
+
+              <td><b>Diagnose Flag</b></td>
+
+              <td><b>Use</b></td>
+            </tr>
+
+            <tr>
+              <td>Account</td>
+
+              <td>-a</td>
+
+              <td>shows detailed account configuration information</td>
+            </tr>
+
+            <tr>
+              <td>FairShare</td>
+
+              <td><a href="commands/diagnosefairshare.html">-f</a></td>
+
+              <td>shows detailed fairshare configuration information as well as current fairshare usage</td>
+            </tr>
+
+            <tr>
+              <td>Frame</td>
+
+              <td>-m</td>
+
+              <td>shows detailed frame information</td>
+            </tr>
+
+            <tr>
+              <td>Group</td>
+
+              <td>-g</td>
+
+              <td>shows detailed group information</td>
+            </tr>
+
+            <tr>
+              <td>Job</td>
+
+              <td><a href="commands/diagnosejob.html">-j</a></td>
+
+              <td>shows detailed job information. Reports on corrupt job attributes, unexpected states, and excessive job failures</td>
+            </tr>
+
+            <tr>
+              <td>Node</td>
+
+              <td>-n</td>
+
+              <td>shows detailed node information. Reports on unexpected node states and resource allocation conditions.</td>
+            </tr>
+
+            <tr>
+              <td>Partition</td>
+
+              <td>-t</td>
+
+              <td>shows detailed partition information</td>
+            </tr>
+
+            <tr>
+              <td>Priority</td>
+
+              <td><a href="commands/diagnosepriority.html">-p</a></td>
+
+              <td>shows detailed job priority information including priority factor contributions to all idle jobs</td>
+            </tr>
+
+            <tr>
+              <td>QOS</td>
+
+              <td>-Q</td>
+
+              <td>shows detailed QOS information</td>
+            </tr>
+
+            <tr>
+              <td>Queue</td>
+
+              <td><a href="commands/diagnosequeue.html">-q</a></td>
+
+              <td>indicates why ineligible jobs or not allowed to run</td>
+            </tr>
+
+            <tr>
+              <td>Reservation</td>
+
+              <td><a href="commands/diagnosereservations.html">-r</a></td>
+
+              <td>shows detailed reservation information. Reports on reservation corruption of unexpected reservation conditions</td>
+            </tr>
+
+            <tr>
+              <td>Resource Manager</td>
+
+              <td><a href="commands/diagnoserm.html">-R</a></td>
+
+              <td>shows detailed resource manager information. Reports configured and detected state, configuration, performance, and failures of all configured resource manager interfaces.</td>
+            </tr>
+
+            <tr>
+              <td>Scheduler</td>
+
+              <td><a href="commands/diagnose.html">-S</a></td>
+
+              <td>shows detailed scheduler state information. Indicates if scheduler is stopped, reports status of grid interface, identifies and reports high-level scheduler failures.</td>
+            </tr>
+
+            <tr>
+              <td>User</td>
+
+              <td>-u</td>
+
+              <td>shows detailed user information</td>
+            </tr>
+          </table>
+
+          <h2>14.1.2 Other Diagnostic Commands</h2>
+
+          <p>Beyond <b>diagnose</b>, the <a href="commands/checkjob.html">checkjob</a> and <a href="commands/checknode.html">checknode</a> commands also provide detailed information and sanity checking on individual jobs and nodes respectively. These commands can indicate why a job cannot start, which nodes can be available, and information regarding the recent events impacting current job or nodes state.</p>
+
+          <h4>14.1.3Using Maui Logs for Troubleshooting</h4>
+
+          <p>Maui logging is extremely useful in determining the cause of a problem. Where other systems may be cursed for not providing adequate logging to diagnose a problem, Maui may be cursed for the opposite reason. If the logging level is configured too high, huge volumes of log output may be recorded, potentially obscuring the problems in a flood of data. Intelligent searching, combined with the use of the <a href="a.fparameters.html#loglevel">LOGLEVEL</a> and <a href="a.fparameters.html#logfacility">LOGFACILITY</a> parameters can mine out the needed information. Key information associated with various problems is generally marked with the keywords WARNING, ALERT, or ERROR. See the <a href="14.2logging.html">Logging Overview</a> for further information.</p>
+
+          <h2>14.1.4Using a Debugger</h2>
+
+          <p>If other methods do not resolve the problem, the use of a debugger can provide missing information. While output recorded in the Maui logs can specify which routine is failing, the debugger can actually locate the very source of the problem. Log information can help you pinpoint exactly which section of code needs to be examined and which data is suspicious. Historically, combining log information with debugger flexibility have made locating and correcting Maui bugs a relatively quick and straightforward process.</p>
+
+          <p>To use a debugger, you can either <i>attach</i> to a running Maui process or start Maui under the debugger. Starting Maui under a debugger requires that the MAUIDEBUG environment variable be set to the value 'yes' to prevent Maui from daemonizing and backgrounding itself. The following example shows a typical debugging start up using gdb.</p>
+          <pre>
+----
+&gt; export MAUIDEBUG=yes
+&gt; cd &lt;MAUIHOMEDIR&gt;/src/moab
+&gt; gdb ../../bin/maui
+&gt; b MQOSInitialize
+&gt; r
+&gt;----
+</pre>
+
+          <p>The gdb debugger has the ability to specify conditional breakpoints which make debugging much easier. For debuggers which do not have such capabilities, the '<b>TRAP*</b>' parameters are of value allowing breakpoints to be set which only trigger when specific routines are processing particular nodes, jobs or reservations. See the <a href="a.fparameters.html#trapnode">TRAPNODE</a>, <a href="a.fparameters.html#trapjob">TRAPJOB</a>, <a href="a.fparameters.html#trapres">TRAPRES,</a> and <a href="a.fparameters.html#trapfunction">TRAPFUNCTION</a> parameters for more information.</p>
+
+          <h2>14.1.5 Controlling behavior after a 'crash'</h2>
+
+          <p>The <b>MAUICRASHMODE</b> environment variable can be set to control scheduler action in the case of a catastrophic internal failure. Valid valus include <b>trap</b>, <b>ignore</b>, and <b>die</b>.</p>
+
+          <p><b>See also:</b></p>
+
+          <p><b><a href="14.7troubleshootingjobs.html">Troubleshooting Individual Jobs</a>.</b></p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="14.0troubleshootingandsysmaintenance.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="14.0troubleshootingandsysmaintenance.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="14.2logging.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

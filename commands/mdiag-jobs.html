@@ -1,0 +1,74 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>mdiag -j</h1>
+   <td valign=bottom nowrap><b>(Moab Job Diagnostics)</b>
+<tr>
+</table>
+
+<p><big><b><a name="synopsis"></a>Synopsis</b></big></p>
+
+<pre>
+mdiag -j [<i>jobid</i>] [-t &lt;<i>partition</i>&gt;] [-v] [-w] [--flags=policy] [<a href="mdiag-jobs.html#xml">--format=xml</a>]
+</pre>
+
+<p><big><b>Overview</b></big></p>
+
+<p>The <b>mdiag -j</b> command provides detailed information about the state of jobs Moab is currently tracking. This command also performs a large number of sanity and state checks. The job configuration and status information, as well as the results of the various checks, are presented by this command. If the <tt><b>-v</b></tt> (verbose) flag is specified, additional information about less common job attributes is displayed. If <tt><b>--flags=policy</b></tt> is specified, information about job templates is displayed.</p>
+
+<p>If used with the <tt>-t &lt;partition&gt;</tt> option on a running job, the only thing <b>mdiag -j</b> shows is if the job is running on the specified partition. If used on job that is not running, it shows if the job is able to run on the specified partition.</p>
+
+<p>The <tt><strong>-w</strong></tt> flag enables you to select only jobs associated with a given credential (user, acct, class, group, qos). For example:</p>
+
+<p><div class="example"><pre>mdiag -j -w user=david</pre></div>
+
+<p>Output from the preceding example displays only the user named David's jobs.</p>
+
+<p><big><b><a name="xml"></a>XML Output</b></big></p>
+
+<p>If XML output is requested (via the <a href="mdiag-jobs.html#synopsis">--format=xml</a> argument), XML based node information
+ will be written to STDOUT in the following format:</p>
+
+<p><div class="example"><pre>
+&lt;Data&gt;
+  &lt;job ATTR="VALUE" ... &gt; &lt;/job&gt;
+  ...
+&lt;/Data&gt;
+</pre></div>
+
+<p>For information about legal attributes, refer to the <a href="mjobctl.html#xml">XML Attributes</a> table.
+
+<h2>See Also</h2>
+
+<ul>
+<li><a href="checkjob.html">checkjob</a>
+<li><a href="mdiag.html">mdiag</a>
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>

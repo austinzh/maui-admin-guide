@@ -1,0 +1,335 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>showres</h1>
+   <td valign=bottom nowrap><b>(Show Reservation)</b>
+<tr>
+</table>
+
+<big><p><b>Synopsis</b></p></big>
+
+<pre>
+showres [-f] [-n [-g]] [<a href="showres.html#o">-o</a>] [<a href="showres.html#r">-r</a>]<!-- [-s]--> [<i>reservationid</i>]
+</pre>
+
+<big><p><b>Overview</b></p></big>
+
+This command displays all reservations currently in place within Moab. The default behavior is to display reservations on a reservation-by-reservation basis.
+
+<big><p><b>Access</b></p></big>
+By default, this command can be run by any Moab administrator, or by any valid user if the parameter <a href="../a.fparameters.html#rsvctlpolicy">RSVCTLPOLICY</a> is set to <b>ANY</b>.
+
+<p><table class="simpleTable">
+
+  <th>Flag</th>
+
+<th>Description</th>
+
+</tr>
+
+<tr>
+<td class="contentLabels"><b>-f</b></td>
+<td class="contentDetails">show <i>free</i> (unreserved) resources rather than reserved resources. &nbsp;The
+  '<b>-f</b>' flag cannot be used in conjunction with the any other flag</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>-g</b></td>
+<td class="contentDetails">when used with the '-n' flag, shows '<i>grep</i>'-able output with nodename on every line</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>-n</b></td>
+<td class="contentDetails">display information regarding all <i>nodes</i> reserved by &lt;RSVID&gt;</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="o"></a><b>-o</b></td>
+<td class="contentDetails">display all reservations which <i>overlap</i> &lt;RSVID&gt; (in time and space) &nbsp;<b>Note</b>: not supported with '-n' flag</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><a name="r"></a><b>-r</b></td>
+<td class="contentDetails">display reservation timeframes in <i>relative</i> time mode</td>
+</tr>
+<!--
+<tr>
+<td><b>-s</b></td>
+<td>display <i>summary</i> reservation information</td>
+<td></td>
+</tr>
+-->
+<tr>
+<td class="contentLabels"><b>-v</b></td>
+
+<td class="contentDetails">show <i>verbose</i> output.  If used with the '<b>-n</b>' flag, the command will
+  display all reservations found on nodes contained in &lt;RSVID&gt;.  Otherwise, it will show long reservation start dates including the reservation year.</td>
+
+</tr>
+</table></p>
+
+
+<p><table class="simpleTable">
+<tr>
+<th>Parameter</b></td>
+
+<th>Description</b></td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>RSVID</b></td>
+
+<td class="contentDetails">ID of reservation of interest - optional</td>
+</tr>
+</table></p>
+
+<big><p><b>Example 1</b></p></big>
+
+<p><div class="example"><pre>
+&gt; showres
+ 
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+ 
+12941                Job R   -00:05:01     2:41:39     2:46:40   13/25   Thu Sep  1 15:02:50
+12944                Job R   -00:05:01     6:34:59     6:40:00   16/16   Thu Sep  1 15:02:50
+12946                Job R   -00:05:01  1:05:54:59  1:06:00:00    1/2    Thu Sep  1 15:02:50
+12954                Job R   -00:04:59     2:55:01     3:00:00    2/4    Thu Sep  1 15:02:52
+12956                Job I  1:05:54:59  1:12:34:59     6:40:00   16/32   Fri Sep  2 21:02:50
+12969                Job I     6:34:59    13:14:59     6:40:00    4/4    Thu Sep  1 21:42:50
+ 
+6 reservations located
+ 
+</pre></div>
+
+<p>The above example shows all reservations on the system. The fields are as follows:</p>
+
+<table class="simpleTable">
+<tr>
+  <th>Column</th>
+  <th>Description</th>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>Type</b></td>
+<td class="contentDetails">Reservation Type. This will be one of the following: Job, User, Group,
+Account, or System.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>ReservationID</b></td>
+<td class="contentDetails">This is the name of the reservation. Job reservation names are identical
+to the job name. User, Group, or Account reservations are the user, group,
+or account name followed by a number. System reservations are given the
+name SYSTEM followed by a number.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>S</b></td>
+<td class="contentDetails">State. This field is valid only for job reservations. It indicates
+whether the job is (S)tarting, (R)unning, or (I)dle.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>Start</b></td>
+<td class="contentDetails">Relative start time of the reservation. Time is displayed in HH:MM:SS
+notation and is relative to the present time.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>End</b></td>
+<td class="contentDetails">Relative end time of the reservation. Time is displayed in HH:MM:SS
+notation and is relative to the present time. Reservation that will not
+complete in 1,000 hours are marked with the keyword INFINITY.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>Duration</b></td>
+<td class="contentDetails">Duration of the reservation in HH:MM:SS notation. Reservations lasting
+more than 1,000 hours are marked with the keyword INFINITY.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>Nodes</b></td>
+<td class="contentDetails">Number of nodes involved in reservation.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>StartTime</b></td>
+<td class="contentDetails">Time Reservation became active.</td>
+</tr>
+</table>
+
+<big><p><b>Example 2</b></p></big>
+
+<div class="example"><pre>
+&gt; showres -n
+reservations on Thu Sep  1 16:49:59
+ 
+NodeName        Type      ReservationID   JobState Task       Start    Duration  StartTime
+ 
+G5-001           Job              12946    Running    2    -1:47:09  1:06:00:00  Thu Sep  1 15:02:50
+G5-001           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-002           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-002           Job              12953    Running    2   -00:29:37     4:26:40  Thu Sep  1 16:20:22
+G5-003           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-003           Job              12953    Running    2   -00:29:37     4:26:40  Thu Sep  1 16:20:22
+G5-004           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-004           Job              12953    Running    2   -00:29:37     4:26:40  Thu Sep  1 16:20:22
+G5-005           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-005           Job              12953    Running    2   -00:29:37     4:26:40  Thu Sep  1 16:20:22
+G5-006           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-006           Job              12953    Running    2   -00:29:37     4:26:40  Thu Sep  1 16:20:22
+G5-007           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-007           Job              12939    Running    2   -00:29:37     3:00:00  Thu Sep  1 16:20:22
+G5-008           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-008           Job              12939    Running    2   -00:29:37     3:00:00  Thu Sep  1 16:20:22
+G5-009           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-009           Job              12939    Running    2   -00:29:37     3:00:00  Thu Sep  1 16:20:22
+G5-010           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-010           Job              12939    Running    2   -00:29:37     3:00:00  Thu Sep  1 16:20:22
+G5-011           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-011           Job              12939    Running    2   -00:29:37     3:00:00  Thu Sep  1 16:20:22
+G5-012           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-012           Job              12939    Running    2   -00:29:37     3:00:00  Thu Sep  1 16:20:22
+G5-013           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-013           Job              12939    Running    2   -00:29:37     3:00:00  Thu Sep  1 16:20:22
+G5-014           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-014           Job              12939    Running    2   -00:29:37     3:00:00  Thu Sep  1 16:20:22
+G5-015           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-015           Job              12949    Running    2   -00:08:57     3:00:00  Thu Sep  1 16:41:02
+G5-016           Job              12956       Idle    2  1:04:12:51     6:40:00  Fri Sep  2 21:02:50
+G5-016           Job              12947    Running    2   -00:08:57     3:00:00  Thu Sep  1 16:41:02
+P690-001         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-002         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-003         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-004         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-005         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-006         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-007         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-008         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-009         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-010         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-011         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-012         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-013         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-013         Job              12969       Idle    1     4:52:51     6:40:00  Thu Sep  1 21:42:50
+P690-014         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-014         Job              12969       Idle    1     4:52:51     6:40:00  Thu Sep  1 21:42:50
+P690-015         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-015         Job              12969       Idle    1     4:52:51     6:40:00  Thu Sep  1 21:42:50
+P690-016         Job              12944    Running    1    -1:47:09     6:40:00  Thu Sep  1 15:02:50
+P690-016         Job              12969       Idle    1     4:52:51     6:40:00  Thu Sep  1 21:42:50
+ 
+52 nodes reserved
+</pre></div>
+
+<p>This example shows reservations for nodes. The fields are as follows:</p>
+
+<table class="simpleTable">
+<tr>
+  <th>Column</th>
+  <th>Description</th>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>NodeName</b></td>
+
+<td class="contentDetails">Node on which reservation is placed.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>Type</b></td>
+
+<td class="contentDetails">Reservation Type. This will be one of the following: Job, User, Group,
+Account, or System.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>ReservationID</b></td>
+
+<td class="contentDetails">This is the name of the reservation. Job reservation names are identical
+to the job name. User, Group, or Account reservations are the user, group,
+or account name followed by a number. System reservations are given the
+name SYSTEM followed by a number.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>JobState</b></td>
+
+<td class="contentDetails">This field is valid only for job reservations. It indicates the state
+of the job associated with the reservation.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>Start</b></td>
+
+<td class="contentDetails">Relative start time of the reservation. Time is displayed in HH:MM:SS
+notation and is relative to the present time.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>Duration</b></td>
+
+<td class="contentDetails">Duration of the reservation in HH:MM:SS notation. Reservations lasting
+more than 1000 hours are marked with the keyword INFINITY.</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>StartTime</b></td>
+
+<td class="contentDetails">Time Reservation became active.</td>
+</tr>
+</table>
+
+<big><p><b>Example 3</b></p></big>
+
+<div class="example"><pre>
+&gt; showres 12956
+ 
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+ 
+12956                Job I  1:04:09:32  1:10:49:32     6:40:00   16/32   Fri Sep  2 21:02:50
+ 
+1 reservation located
+ 
+</pre></div>
+
+<p>In this example, information for a specific reservation (job) is displayed.
+
+<h2>See Also:</h2>
+
+<ul>
+<li><a href="../2.2installation.html#client">Moab Client Installation</a> - explains how to distribute this command to client nodes</li>
+<li><a href="mrsvctl.html">mrsvctl -c</a> - create new reservations.
+<li><a href="mrsvctl.html">mrsvctl -r</a> - release existing reservations.
+<li><a href="mdiag.html">mdiag -r</a> - diagnose/view the state of existing reservations.
+<li><a href="../7.1.1resoverview.html">Reservation Overview</a> - description of reservations and their use.
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>

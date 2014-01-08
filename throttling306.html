@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <center>
+            <b><font size="+1">Throttling Policies (Maui 2.3.0 - 3.0.6)</font></b>
+          </center>
+
+          <p>Maui's early style throttling policies are controlled via a large number of independent parameters. Throttling policies control and constrain <i>instantaneous</i> resource usage. They would, for example, allow a site to limit a user to running only 6 jobs at any given time or prevent a group from utilizing more than 40 total processors at any given time. They DONOT control historical usage. This is handled using Maui's <a href="6.3fairshare.html">Fairshare</a> facility. Also, unlike Maui 3.0.7 and higher, early style throttling did not allow credential specific limits.</p>
+
+          <p>Subject to the above constraints, Maui's early throttling policy facility is still a very useful tool in establishing <i>fair</i><br>
+          resource usage and may be used in conjunction with Fairshare, <a href="7.3qos.html">QOS</a>, and <a href="5.1jobprioritization.html">Priority</a> features to establish significant control over cluster behavior. The table below lists the parameters associated with Maui's early style throttling.</p>
+
+          <p><b>NOTE</b>: In all cases, three parameters are grouped together. The first, '<b>MAX*POLICY</b>' must be set to <b>ON</b> in order for the policy to be enforced. The second, '<b>MAX*COUNT</b>', constrains the '<i>hard limit</i>' which the scheduler must never violate under any conditions. The third, '<b>SMAX*COUNT</b>', is called a '<i>soft limit</i>' and if specified, will set a lower, more constraining limit which the scheduler should never violate unless no other jobs are available.<br></p>
+
+          <table border width="100%" nosave="">
+            <tr>
+              <td><b>Parameter</b></td>
+
+              <td><b>Details</b></td>
+
+              <td><b>Example</b></td>
+            </tr>
+
+            <tr>
+              <td><b>MAXJOBPERUSERPOLICY</b><br>
+              <b>MAXJOBPERUSERCOUNT</b><br>
+              <b>SMAXJOBPERUSERCOUNT</b></td>
+
+              <td>limits the maximum total number of jobs any given user may have active (running) simultaneously</td>
+
+              <td>
+                <tt>MAXJOBPERUSERPOLICY ON</tt><br>
+                <tt>MAXJOBPERUSERCOUNT 4</tt>
+
+                <p>(allow each user to run up to 4 jobs simultaneously)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXPROCPERUSERPOLICY</b><br>
+              <b>MAXPROCPERUSERCOUNT</b><br>
+              <b>SMAXPROCPERUSERCOUNT</b></td>
+
+              <td>limits the maximum total number of processors any given user may have active (allocated to running jobs) simultaneously</td>
+
+              <td>
+                <tt>MAXPROCPERUSERPOLICY ON</tt><br>
+                <tt>MAXPROCPERUSERCOUNT 32</tt>
+
+                <p>(allow each user to utilize up to 32 processors simultaneously)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXNODEPERUSERPOLICY</b><br>
+              <b>MAXNODEPERUSERCOUNT</b><br>
+              <b>SMAXNODEPERUSERCOUNT</b></td>
+
+              <td>limits the maximum total number of nodes any given user may have active (allocated to running jobs) simultaneously</td>
+
+              <td>
+                <tt>MAXNODEPERUSERPOLICY ON</tt><br>
+                <tt>MAXNODEPERUSERCOUNT 16</tt><br>
+                <tt>SMAXNODEPERUSERCOUNT 8</tt>
+
+                <p>(allow each user to utilize up to 8 nodes simultaneously by default. If no other jobs can run and idle nodes are available, allow each user to utilize up to 16 nodes simultaneously.)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXPROCSECONDPERUSERPOLICY</b><br>
+              <b>MAXPROCSECONDPERUSERCOUNT</b><br>
+              <b>SMAXPROCSECONDPERUSERCOUNT</b></td>
+
+              <td>limits the maximum total number of processor-seconds any given user may have active (allocated to running jobs) simultaneously. NOTE: processor-seconds associated with any given job is calculated as PROCESSORS * REMAININGWALLTIME</td>
+
+              <td>
+                <tt>MAXPROCSECONDPERUSERPOLICY ON</tt><br>
+                <tt>MAXPROCSECONDPERUSERCOUNT 20000</tt>
+
+                <p>(allow each user to utilize up to 20000 processor-seconds simultaneously)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXJOBQUEUEDPERUSERPOLICY</b><br>
+              <b>MAXJOBQUEUEDPERUSERCOUNT</b><br>
+              <b>SMAXJOBQUEUEDPERUSERCOUNT</b></td>
+
+              <td>limits the maximum total number of idle jobs associated with each user which Maui will consider eligible for scheduling</td>
+
+              <td>
+                <tt>MAXJOBQUEUEDPERUSERPOLICY ON</tt><br>
+                <tt>MAXJOBQUEUEDPERUSERCOUNT 3</tt>
+
+                <p>(Maui will only consider 3 idle jobs per user in each scheduling iteration)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXPEPERUSERPOLICY</b><br>
+              <b>MAXPEPERUSERCOUNT</b><br>
+              <b>SMAXPEPERUSERCOUNT</b></td>
+
+              <td>limits the maximum total number of <a href="3.2environment.html#PEoverview">processor-equivalents</a> any given user may have active (running) simultaneously</td>
+
+              <td>
+                <tt>MAXPEPERUSERPOLICY ON</tt><br>
+                <tt>MAXPEPERUSERCOUNT 48</tt>
+
+                <p>(allow each user have up to 48 PE's allocated to active jobs simultaneously)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXJOBPERGROUPPOLICY</b><br>
+              <b>MAXJOBPERGROUPCOUNT</b><br>
+              <b>SMAXJOBPERGROUPCOUNT</b></td>
+
+              <td>limits the maximum total number of jobs any given group may have active (running) simultaneously</td>
+
+              <td>
+                <tt>MAXJOBPERGROUPPOLICY ON</tt><br>
+                <tt>MAXJOBPERGROUPCOUNT 4</tt>
+
+                <p>(allow each group to run up to 4 jobs simultaneously)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXPROCPERGROUPPOLICY</b><br>
+              <b>MAXPROCPERGROUPCOUNT</b><br>
+              <b>SMAXPROCPERGROUPCOUNT</b></td>
+
+              <td>limits the maximum total number of processors any given group may have active (allocated to running jobs) simultaneously</td>
+
+              <td>
+                <tt>MAXPROCPERGROUPPOLICY ON</tt><br>
+                <tt>MAXPROCPERGROUPCOUNT 32</tt>
+
+                <p>(allow each group to utilize up to 32 processors simultaneously)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXNODEPERGROUPPOLICY</b><br>
+              <b>MAXNODEPERGROUPCOUNT</b><br>
+              <b>SMAXNODEPERGROUPCOUNT</b></td>
+
+              <td>limits the maximum total number of nodes any given group may have active (allocated to running jobs) simultaneously</td>
+
+              <td>
+                <tt>MAXNODEPERGROUPPOLICY ON</tt><br>
+                <tt>MAXNODEPERGROUPCOUNT 16</tt><br>
+                <tt>SMAXNODEPERGROUPCOUNT 8</tt>
+
+                <p>(allow each group to utilize up to 8 nodes simultaneously by default. If no other jobs can run and idle nodes are available, allow each group to utilize up to 16 nodes simultaneously.)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXPROCSECONDPERGROUPPOLICY</b><br>
+              <b>MAXPROCSECONDPERGROUPCOUNT</b><br>
+              <b>SMAXPROCSECONDPERGROUPCOUNT</b></td>
+
+              <td>limits the maximum total number of processor-seconds any given group may have active (allocated to running jobs) simultaneously. NOTE: processor-seconds associated with any given job is calculated as PROCESSORS * REMAININGWALLTIME</td>
+
+              <td>
+                <tt>MAXPROCSECONDPERGROUPPOLICY ON</tt><br>
+                <tt>MAXPROCSECONDPERGROUPCOUNT 20000</tt>
+
+                <p>(allow each group to utilize up to 20000 processor-seconds simultaneously)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXJOBQUEUEDPERGROUPPOLICY</b><br>
+              <b>MAXJOBQUEUEDPERGROUPCOUNT</b><br>
+              <b>SMAXJOBQUEUEDPERGROUPCOUNT</b></td>
+
+              <td>limits the maximum total number of idle jobs associated with each group which Maui will consider eligible for scheduling</td>
+
+              <td>
+                <tt>MAXJOBQUEUEDPERGROUPPOLICY ON</tt><br>
+                <tt>MAXJOBQUEUEDPERGROUPCOUNT 3</tt>
+
+                <p>(Maui will only consider 3 idle jobs per group in each scheduling iteration)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXPEPERGROUPPOLICY</b><br>
+              <b>MAXPEPERGROUPCOUNT</b><br>
+              <b>SMAXPEPERGROUPCOUNT</b></td>
+
+              <td>limits the maximum total number of <a href="3.2environment.html#PEoverview">processor-equivalents</a> any given group may have active (running) simultaneously</td>
+
+              <td>
+                <tt>MAXPEPERGROUPPOLICY ON</tt><br>
+                <tt>MAXPEPERGROUPCOUNT 48</tt>
+
+                <p>(allow each group have up to 48 PE's allocated to active jobs simultaneously)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXJOBPERACCOUNTPOLICY</b><br>
+              <b>MAXJOBPERACCOUNTCOUNT</b><br>
+              <b>SMAXJOBPERACCOUNTCOUNT</b></td>
+
+              <td>limits the maximum total number of jobs any given account may have active (running) simultaneously</td>
+
+              <td>
+                <tt>MAXJOBPERACCOUNTPOLICY ON</tt><br>
+                <tt>MAXJOBPERACCOUNTCOUNT 4</tt>
+
+                <p>(allow each account to run up to 4 jobs simultaneously)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXPROCPERACCOUNTPOLICY</b><br>
+              <b>MAXPROCPERACCOUNTCOUNT</b><br>
+              <b>SMAXPROCPERACCOUNTCOUNT</b></td>
+
+              <td>limits the maximum total number of processors any given account may have active (allocated to running jobs) simultaneously</td>
+
+              <td>
+                <tt>MAXPROCPERACCOUNTPOLICY ON</tt><br>
+                <tt>MAXPROCPERACCOUNTCOUNT 32</tt>
+
+                <p>(allow each account to utilize up to 32 processors simultaneously)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXNODEPERACCOUNTPOLICY</b><br>
+              <b>MAXNODEPERACCOUNTCOUNT</b><br>
+              <b>SMAXNODEPERACCOUNTCOUNT</b></td>
+
+              <td>limits the maximum total number of nodes any given account may have active (allocated to running jobs) simultaneously</td>
+
+              <td>
+                <tt>MAXNODEPERACCOUNTPOLICY ON</tt><br>
+                <tt>MAXNODEPERACCOUNTCOUNT 16</tt><br>
+                <tt>SMAXNODEPERACCOUNTCOUNT 8</tt>
+
+                <p>(allow each account to utilize up to 8 nodes simultaneously by default. If no other jobs can run and idle nodes are available, allow each account to utilize up to 16 nodes simultaneously.)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXPROCSECONDPERACCOUNTPOLICY</b><br>
+              <b>MAXPROCSECONDPERACCOUNTCOUNT</b><br>
+              <b>SMAXPROCSECONDPERACCOUNTCOUNT</b></td>
+
+              <td>limits the maximum total number of processor-seconds any given account may have active (allocated to running jobs) simultaneously. NOTE: processor-seconds associated with any given job is calculated as PROCESSORS * REMAININGWALLTIME</td>
+
+              <td>
+                <tt>MAXPROCSECONDPERACCOUNTPOLICY ON</tt><br>
+                <tt>MAXPROCSECONDPERACCOUNTCOUNT 20000</tt>
+
+                <p>(allow each account to utilize up to 20000 processor-seconds simultaneously)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXJOBQUEUEDPERACCOUNTPOLICY</b><br>
+              <b>MAXJOBQUEUEDPERACCOUNTCOUNT</b><br>
+              <b>SMAXJOBQUEUEDPERACCOUNTCOUNT</b></td>
+
+              <td>limits the maximum total number of idle jobs associated with each account which Maui will consider eligible for scheduling</td>
+
+              <td>
+                <tt>MAXJOBQUEUEDPERACCOUNTPOLICY ON</tt><br>
+                <tt>MAXJOBQUEUEDPERACCOUNTCOUNT 3</tt>
+
+                <p>(Maui will only consider 3 idle jobs per account in each scheduling iteration)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>MAXPEPERACCOUNTPOLICY</b><br>
+              <b>MAXPEPERACCOUNTCOUNT</b><br>
+              <b>SMAXPEPERACCOUNTCOUNT</b></td>
+
+              <td>limits the maximum total number of <a href="3.2environment.html#PEoverview">processor-equivalents</a> any given account may have active (running) simultaneously</td>
+
+              <td>
+                <tt>MAXPEPERACCOUNTPOLICY ON</tt><br>
+                <tt>MAXPEPERACCOUNTCOUNT 48</tt>
+
+                <p>(allow each account have up to 48 PE's allocated to active jobs simultaneously)</p>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

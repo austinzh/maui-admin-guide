@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="index.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="a.ddevelopment.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="a.fparameters.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>Appendix E: Security</h1>
+
+          <h2>E.1 Role Based Security Configuration</h2>
+
+          <p>Maui provides access control mechanisms to limit how the scheduling environment is managed. The primary means of accomplishing this is through limiting the users and hosts which are trusted and have access to privileged commands and data.</p>
+
+          <p>With regards to users, Maui breaks access into three distinct levels.</p>
+
+          <h3>E.1.1 Level 1 Maui Admin (Administrator Access)</h3>
+
+          <p>A level 1 Maui Admin has global access to information and unlimited control over scheduling operations. He is allowed to control scheduler configuration, policies, jobs, reservations, and all scheduling functions. He is also granted access to all available statistics and state information. Level 1 admins are specified using the <a href="a.fparameters.html#admin1">ADMIN1</a> parameter.</p>
+
+          <h3>E.1.2 Level 2 Maui Admin (Operator Access)</h3>
+
+          <p>Level 2 Maui Admins are specified using the <a href="a.fparameters.html#admin2">ADMIN2</a> parameter. The users listed under this parameter are allowed to change all job attributes and are granted access to all informational Maui commands.</p>
+
+          <h3>E.1.3 Level 3 Maui Admin (Help Desk Access)</h3>
+
+          <p>Level 3 administrators users a specified via the <a href="a.fparameters.html#admin3">ADMIN3</a> parameter. They are allowed access to all informational Maui commands. They cannot change scheduler or job attributes.</p>
+
+          <h2><a name="interface" id="interface"></a>E.2 Interface Security</h2>
+
+          <p>As part of the U.S Department of Energy SSS Initiative, Maui interface security is being enhanced to allow full encryption of data and GSI-like security.</p>
+
+          <p>If these mechanisms are not enabled, Maui also provides a <i>shared secret key</i> based security model. Under this model, each client request is packaged with the client ID, a timestamp, and a encrypted key of the entire request generated using a secret site selected key (checksum seed). A default key is selected when the Maui <b>configure</b> script is run and may be regenerated at any time by rerunning <b>configure</b> and rebuilding Maui.</p>
+
+          <h3>E.2.1 Configuring Peer Specific Keys</h3>Peer-specific secret keys can be specified using the <a href="a.fparameters.html#clientcfg">CLIENTCFG</a> parameter. This key information must be kept secret and consequently can only be specified in the <tt>maui-private.cfg</tt> file. With regards to security, there are two key attributes which can be set. These attributes are listed in the table below:
+
+          <table border="2">
+            <tr>
+              <td><b>Attribute</b></td>
+
+              <td><b>Format</b></td>
+
+              <td><b>Description</b></td>
+
+              <td><b>Example</b></td>
+            </tr>
+
+            <tr>
+              <td><b>CSALGO</b></td>
+
+              <td>one of <b>DES</b>, <b>HMAC</b>, or <b>MD5</b>.</td>
+
+              <td>specifies the encryption algorithm to use when generating the message checksum.</td>
+
+              <td>
+                <pre>
+CLIENTCFG[AM:bank] CSALGO=HMAC
+</pre>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>CSKEY</b></td>
+
+              <td>STRING</td>
+
+              <td>specifies the shared secret key to be used to generate the message checksum.</td>
+
+              <td>
+                <pre>
+CLIENTCFG[RM:clusterA] CSKEY=banana6
+</pre>
+              </td>
+            </tr>
+          </table>
+
+          <p>The <b>CLIENTCFG</b> parameter takes a string index indicating which peer service will use the specified attributes. In most cases, this string is simply the defined name of the peer service. However, for the special cases of resource and allocation managers, the peer name should be prepended with the prefix <b>RM:</b> or <b>AM:</b> respectively, as in <tt>CLIENTCFG[AM:bank]</tt> or <tt>CLIENTCFG[RM:devcluster]</tt>.</p>
+
+          <h3>E.2.2 Interface Development Notes</h3>
+
+          <p>Details about the checksum generation algorithm can be found in the <a href="wiki/socket.html">Socket Protocol Description</a> document.</p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="index.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="a.ddevelopment.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="a.fparameters.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

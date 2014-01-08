@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="6.0managingfairness.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="6.2throttlingpolicies.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="6.4allocationmanagement.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>6.3 Fairshare</h1>
+
+          <p>Fairshare is a mechanism which allows historical resource utilization information to be incorporated into job feasibility and priority decisions. Maui's fairshare implementation allows site administrators to set system utilization targets for users, groups, accounts, classes, and QOS levels.</p>
+
+          <ul>
+            <li><a href="6.3fairshare.html#overview">6.3.1 Overview</a></li>
+
+            <li><a href="6.3fairshare.html#parameters">6.3.2 Fairshare Parameters</a></li>
+
+            <li><a href="6.3fairshare.html#using">6.3.3 Using Fairshare Information</a></li>
+          </ul>
+
+          <p><img src="http://docs.adaptivecomputing.com/images/logo1.gif" height="24"> The <a href="http://docs.adaptivecomputing.com/mcm/index.php">Moab Cluster Manager</a><sup>TM</sup> <a href="http://docs.adaptivecomputing.com/mcm/fairshare.html">graphically organizes</a> the fairshare values by credential for easy navigation and provides a <a href="http://docs.adaptivecomputing.com/mcm/fairshare.html">GUI</a> to specify the Decay Factor, Depth, Interval Length and Usage Metric.</p>
+
+          <h2><a name="overview" id="overview"></a>6.3.1 Overview</h2>
+
+          <p>Fairshare allows historical resource utilization information to be incorporated into job feasibility and priority decisions. This feature allows site administrators to set system utilization targets for users, groups, accounts, classes, and QOS levels. Administrators can also specify the timeframe over which resource utilization is evaluated in determining whether or not the goal is being reached. Parameters allow sites to specify the utilization metric, how historical information is aggregated, and the effect of fairshare state on scheduling behavior. Fairshare targets can be specified for any credentials (i.e., user, group, class, etc) which administrators wish to have affected by this information.</p>
+
+          <h2><a name="parameters" id="parameters"></a>6.3.2 Fairshare Parameters</h2>
+
+          <p>Fairshare is configured at two levels. First, at a system level, configuration is required to determine how fairshare usage information is to be collected and processed. Secondly, some configuration is required at the credential level to determine how this fairshare information affects particular jobs. The system level parameters are listed below:</p>
+
+          <table border="0">
+            <tr>
+              <td>Parameter</td>
+
+              <td><b>Description</b></td>
+            </tr>
+
+            <tr>
+              <td><a href="a.fparameters.html#fsinterval">FSINTERVAL</a></td>
+
+              <td>duration of each fairshare window</td>
+            </tr>
+
+            <tr>
+              <td><a href="a.fparameters.html#fsdepth">FSDEPTH</a></td>
+
+              <td>number of fairshare windows factored into current fairshare utilization</td>
+            </tr>
+
+            <tr>
+              <td><a href="a.fparameters.html#fsdecay">FSDECAY</a></td>
+
+              <td>decay factor applied to weighting the contribution of each fairshare window</td>
+            </tr>
+
+            <tr>
+              <td><a href="a.fparameters.html#fspolicy">FSPOLICY</a></td>
+
+              <td>metric to use when tracking fairshare usage</td>
+            </tr>
+          </table>
+
+          <p>Credential level configuration consists of specifying fairshare utilization targets using the <b>*CFG</b> suite of parameters, i.e., <a href="a.fparameters.html#accountcfg">ACCOUNTCFG</a>, <a href="a.fparameters.html#classcfg">CLASSCFG</a>, <a href="a.fparameters.html#groupcfg">GROUPCFG</a>, <a href="a.fparameters.html#qoscfg">QOSCFG</a>, and <a href="a.fparameters.html#usercfg">USERCFG</a>.</p>
+
+          <h3><a name="fspolicy" id="fspolicy"></a>6.3.2.1 Metric of Consumption</h3>
+
+          <p>As Maui runs, it records how available resources are being utilized. Each iteration (<b>RMPOLLINTERVAL</b> seconds) it updates fairshare resource utilization statistics. Resource utilization is tracked in accordance with the <a href="a.fparameters.html#fspolicy">FSPOLICY</a> parameter allowing various aspects of resource consumption information to be measured. This parameter allows selection of both the types of resources to be tracked and the method of tracking. It provides the option of tracking usage by <i>dedicated</i> or <i>consumed</i> resources, where dedicated usage tracks what the scheduler assigns to the job and consumed usage tracks what the job actually uses.</p>
+
+          <p>An example may clarify the use of the <b>FSPOLICY</b> parameter. Assume a 4 processor job is running a parallel '/bin/sleep' for 15 minutes. It will have a dedicated fairshare usage of 1 proc-hour but a consumed fairshare usage of essentially nothing since it did not consume anything. Most often, dedicated fairshare usage is used on dedicated resource platforms while consumed tracking is used in shared SMP environments.</p>
+
+          <p><a name="percentfs" id="percentfs"></a><b>Percentage Based Fairshare</b></p>
+
+          <p>By default, when comparing fairshare usage against fairshare targets, Maui will calculate the fairshare component of priority as a difference between fairshare target and fairshare usage. To change the fairshare priority component to be calculated as a ratio (1 - fairshare usage/fairshare target) a '%' (percent) character can be specified at the end of the <b>FSPOLICY</b> value.</p>
+
+          <h3><a name="fswindow" id="fswindow"></a>6.3.2.2 Specifying Fairshare Timeframe</h3>
+
+          <p>When configuring fairshare, it is important to determine the proper timeframe that should be considered. Many sites choose to incorporate historical usage information from the last one to two weeks while others are only concerned about the events of the last few hours. The correct setting is very site dependent and usually incorporates both average job turnaround time and site mission policies.</p>
+
+          <p>With Maui's fairshare system, time is broken into a number of distinct fairshare windows. Sites configure the amount of time they wish to consider by specifying two parameters, <a href="a.fparameters.html#fsinterval">FSINTERVAL</a>, and <a href="a.fparameters.html#fsdepth">FSDEPTH</a>. The <b>FSINTERVAL</b> parameter specifies the duration of each window while the <b>FSDEPTH</b> parameter indicates the number of windows to consider. Thus, the total time evaluated by fairshare is simply <b>FSINTERVAL</b> * <b>FSDEPTH</b>.</p>
+
+          <p>Many sites want to limit the impact of fairshare data according to its age. The <a href="a.fparameters.html#fsdecay">FSDECAY</a> parameters allows this to be done, causing the most recent fairshare data to contribute more to a credential's total fairshare usage than older data. This parameter is specified as a standard decay factors which is applied to the fairshare data. Generally, decay factors are specified as a value between 1 and 0 where a value of <b>1</b> (the default) indicates no decay should be specified. The smaller the number, the more rapid the decay using the calculation <i>WeightedValue = Value * &lt;DECAY&gt; ^ &lt;N&gt;</i> where &lt;N&gt; is the window number. The table below shows the impact of a number of commonly used decay factors on the percentage contribution of each fairshare window.</p>
+
+          <table border="2">
+            <tr>
+              <td><b>Decay Factor</b></td>
+
+              <td><b>Window0</b></td>
+
+              <td><b>Window1</b></td>
+
+              <td><b>Window2</b></td>
+
+              <td><b>Window3</b></td>
+
+              <td><b>Window4</b></td>
+
+              <td><b>Window5</b></td>
+
+              <td><b>Window6</b></td>
+
+              <td><b>Window7</b></td>
+            </tr>
+
+            <tr>
+              <td>1.00</td>
+
+              <td>100%</td>
+
+              <td>100%</td>
+
+              <td>100%</td>
+
+              <td>100%</td>
+
+              <td>100%</td>
+
+              <td>100%</td>
+
+              <td>100%</td>
+
+              <td>100%</td>
+            </tr>
+
+            <tr>
+              <td>0.80</td>
+
+              <td>100%</td>
+
+              <td>80%</td>
+
+              <td>64%</td>
+
+              <td>51%</td>
+
+              <td>41%</td>
+
+              <td>33%</td>
+
+              <td>26%</td>
+
+              <td>21%</td>
+            </tr>
+
+            <tr>
+              <td>0.75</td>
+
+              <td>100%</td>
+
+              <td>75%</td>
+
+              <td>56%</td>
+
+              <td>42%</td>
+
+              <td>31%</td>
+
+              <td>23%</td>
+
+              <td>17%</td>
+
+              <td>12%</td>
+            </tr>
+
+            <tr>
+              <td>0.50</td>
+
+              <td>100%</td>
+
+              <td>50%</td>
+
+              <td>25%</td>
+
+              <td>13%</td>
+
+              <td>6%</td>
+
+              <td>3%</td>
+
+              <td>2%</td>
+
+              <td>1%</td>
+            </tr>
+          </table>
+
+          <p>While selecting how the total fairshare timeframe is broken up between the number and length of windows is a matter of preference, it is important to note that more windows will cause the decay factor to degrade the contribution of aged data more quickly.</p>
+
+          <h3><a name="fsdata" id="fsdata"></a>6.3.2.3 Managing Fairshare Data</h3>
+
+          <p>Using the selected fairshare usage metric, Maui continues to update the current fairshare window until it reaches a fairshare window boundary, at which point it rolls the fairshare window and begins updating the new window. The information for each window is stored in its own file located in the Maui statistics directory. Each file is named '<tt>FS.&lt;EPOCHTIME&gt;</tt>' where <tt>&lt;EPOCHTIME&gt;</tt> is the time the new fairshare window became active. Each window contains utilization information for each entity as well as for total usage. A sample fairshare data file is shown below:</p>
+
+          <p><tt>-----</tt><br>
+          <tt># Fairshare Data File (Duration: 172800 Seconds) Starting: Fri Aug 18 18:00:00</tt></p>
+
+          <p><tt>User USERA 150000.000</tt><br>
+          <tt>User USERB 150000.000</tt><br>
+          <tt>User USERC 200000.000</tt><br>
+          <tt>User USERD 100000.000</tt><br>
+          <tt>Group GROUPA 350000.000</tt><br>
+          <tt>Group GROUPB 250000.000</tt><br>
+          <tt>Account ACCTA 300000.000</tt><br>
+          <tt>Account ACCTB 200000.000</tt><br>
+          <tt>Account ACCTC 100000.000</tt><br>
+          <tt>QOS 0 50000.000</tt><br>
+          <tt>QOS 1 450000.000</tt><br>
+          <tt>QOS 2 100000.000</tt><br>
+          <tt>TOTAL 600000.00</tt><br>
+          <tt>-----</tt></p>
+
+          <p>Note that the total processor hours consumed in this time interval is 600,000 processor seconds. Since every job in this example scenario had a user, group, account, and QOS assigned to it, the sum of the usage of all members of each category should equal the total usage value (i.e., USERA + USERB + ... + USERD = GROUPA + GROUPB = ACCTA + ... + ACCTC = QOS0 + ... + QOS2 = TOTAL)</p>
+
+          <p>When Maui needs to determine current fairshare usage for a particular credential, it calculates a <i>decay-weighted</i> average of the usage information for that credential using the most recent fairshare intervals where the number of windows evaluated is controlled by the <a href="a.fparameters.html#fsdepth">FSDEPTH</a> parameter. For example, if the credential of interest is user <i>John</i> and the following parameters are set,</p>
+
+          <p><b><tt>FSINTERVAL 12:00:00</tt></b><br>
+          <b><tt>FSDEPTH 4</tt></b><br>
+          <b><tt>FSDECAY 0.5</tt></b></p>
+
+          <p>and the fairshare data files contain the following usage amounts for the entity of interest:</p>
+
+          <p><b><tt>John[0] 60.0</tt></b><br>
+          <b><tt>Total[0] 110.0</tt></b></p>
+
+          <p><b><tt>John[1] 0.0</tt></b><br>
+          <b><tt>Total[1] 125.0</tt></b></p>
+
+          <p><b><tt>John[2] 10.0</tt></b><br>
+          <b><tt>Total[2] 100.0</tt></b></p>
+
+          <p><b><tt>John[3] 50.0</tt></b><br>
+          <b><tt>Total[3] 150.0</tt></b></p>
+
+          <p>The current fairshare usage for user John would calculated as follows:</p>
+
+          <p><b>Usage = (60 + .5^1 * 0 + .5^2 * 10 + .5^3 * 50) / (110 + .5^1*125 + .5^2*100 + .5^3*150)</b></p>
+
+          <p>Note that the current fairshare usage is relative to the actual resources delivered by the system over the timeframe evaluated, not the resources available or configured during that time.</p>
+
+          <p><img src="note.png" height="24" width="20"> Historical fairshare data is organized into a number of data files, each file containing the information for a length of time as specified by the <a href="a.fparameters.html#fsinterval">FSINTERVAL</a> parameter. Although <b>FSDEPTH</b>, <b>FSINTERVAL</b>, and <b>FSDECAY</b> can be freely and dynamically modified, such changes may result in unexpected fairshare status for a period of time as the fairshare data files with the old <b>FSINTERVAL</b> setting are rolled out.</p>
+
+          <h2><a name="using" id="using"></a>6.3.3 Using Fairshare Information</h2>
+
+          <p>With the mechanism used to determine current fairshare usage explained above, the next step is using this information to affect scheduling behavior. As mentioned in the Fairshare Overview, sites have the ability to configure how fairshare information impacts scheduling behavior. This is done through specification of the fairshare targets. These targets allow fairshare information to either affect job feasibility or job priority.</p>
+
+          <h3>6.3.3.1 Priority Based Fairshare</h3>
+
+          <p>The most commonly used type of fairshare is priority based fairshare. In this mode, fairshare information does not affect whether or not a job can run, but rather only affects the job's priority relative to other jobs. In most cases, this is the desired behavior. Using the standard fairshare target, the priority of jobs of a particular user which has used too many resources over the specified fairshare window is lowered. Also, the standard fairshare target will increase the priority of jobs which have not received enough resources.</p>
+
+          <p>While the standard fairshare target is the most commonly used, Maui also provides the ability to specify fairshare caps and floors. These targets are like the default target <b>only</b> caps only adjust priority down when usage is too high and floors <b>only</b> adjust priority up when usage is too low.</p>
+
+          <p>Since fairshare usage information must be integrated with with Maui's overall priority mechanism, it is critical that the corresponding fairshare priority weights be set. Specifically, the <a href="a.fparameters.html#fsweight">FSWEIGHT</a> component weight parameter and the target type subcompoent weight (i.e., <a href="a.fparameters.html#fsuserweight">FSUSERWEIGHT</a>, <a href="a.fparameters.html#fsgroupweight">FSGROUPWEIGHT</a>, etc) be specified. <b>If these weights are not set, the fairshare mechanism will be enabled but have no effect on scheduling behavior!</b> See the <a href="5.1.2priorityfactors.html">Priority Component Overview</a> for more information on setting priority weights.</p>
+
+          <h3>6.3.3.2 Feasibility Based Fairshare</h3>
+
+          <p>In addition to the standard priority fairshare targets, Maui also allows a site to specify fairshare <i>caps</i>. A cap is specified as either a hard absolute number of cycles allowed during the fairshare window or as a percentage of total cycles delivered. If the fairshare cap is reached or exceeded, the job is not allowed to run even if there are resources available.</p>
+
+          <h2>See Also:</h2>
+
+          <p>The '<a href="commands/diagnosefairshare.html">diagnose -f</a>' command was created to allow diagnosis and monitoring of the fairshare facility.<br>
+          <b><a href="a.fparameters.html#fsenforcement">FSENFORCEMENT</a></b></p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="6.0managingfairness.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="6.2throttlingpolicies.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="6.4allocationmanagement.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

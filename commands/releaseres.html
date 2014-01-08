@@ -1,0 +1,89 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>releaseres</h1>
+   <td valign=bottom nowrap><b>(Release Reservation)</b>
+<tr>
+</table>
+
+<p><table class="caution">
+  <tbody>
+    <tr>
+      <td class="cautionIMG"><img src="../caution.png" title="Note" alt="Note"></td>
+      <td class="cautionDetail">This command is deprecated. Use <a href="mrsvctl.html#RELEASE">mrsvctl -r</a> instead.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<h4>Synopsis</h4>
+
+<pre>
+releaseres [<i>arguments</i>] <i>reservationid</i> [<i>reservationid</i>...]
+</pre>
+
+<h4>Overview</h4>
+
+Release existing reservation.
+<p>This command allows Moab Scheduler Administrators to release any user,
+group, account, job, or system reservation. Users are allowed to release
+reservations on jobs they own. Note that releasing a reservation on an
+active job has no effect since the reservation will be automatically recreated.
+
+<h4>Access</h4>
+Users can use this command to release any reservation they own.&nbsp; Level 1 and level 2 Moab administrators may use this command to release any reservation.
+
+<p><b>Parameters</b>
+<br><b></b>&nbsp;
+<table BORDER=0 CELLPADDING=5 >
+<tr VALIGN=TOP>
+<td>RESERVATION ID</td>
+
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Name of reservation to release.</td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+</tr>
+</table>
+
+<h4>Example 1</h4>
+
+&nbsp;&nbsp; Release two existing reservations.
+
+<p><fieldset><pre>
+&gt; releaseres system.1 bob.2
+
+released User reservation 'system.1'
+released User reservation 'bob.2'
+</pre></fieldset>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>

@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <center>
+            <b><font size="+1">Job Attributes/Flags Overview</font></b>
+          </center>
+
+          <p><br></p>
+
+          <p><b>Job Attributes</b><br></p>
+
+          <table border width="100%" nosave="">
+            <tr>
+              <td><b>Attribute</b></td>
+
+              <td><b>Format</b></td>
+
+              <td><b>Default</b></td>
+
+              <td><b>Description</b></td>
+
+              <td><b>Example</b></td>
+            </tr>
+
+            <tr>
+              <td><b>FLAGS</b></td>
+
+              <td>&lt;FLAG&gt;[;&lt;FLAG&gt;]...</td>
+
+              <td>[NONE]</td>
+
+              <td>specifies job specific flags</td>
+
+              <td>
+                <tt>FLAGS=ADVRES;DEDICATED</tt>
+
+                <p>(The job should only utilize reserved resources and should only use resources on hosts which can be exclusively dedicated)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>PDEF</b></td>
+
+              <td>&lt;PARTITION_NAME&gt;</td>
+
+              <td><b>[DEFAULT]</b></td>
+
+              <td>specifies the default partition associated with the object.</td>
+
+              <td>
+                <tt>PDEF=P1</tt>
+
+                <p>(The object is assigned the default partition <tt>P1</tt>)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>PLIST*</b></td>
+
+              <td>&lt;PARTITION_NAME&gt;[^|&amp;]<br>
+              [:&lt;PARTITION_NAME&gt;[^|&amp;]]...</td>
+
+              <td><b>[ALL]</b></td>
+
+              <td>specifies the list of partitions the object can access. If no partition list is specified, the object is granted default access to all partitions.</td>
+
+              <td>
+                <tt>PLIST=OldSP:Cluster1:O3K</tt>
+
+                <p>(The object can access resources located in the <tt>OldSP</tt>, <tt>Cluster1</tt>, and/or <tt>O3K</tt> partitions)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>QDEF</b></td>
+
+              <td>&lt;QOS_NAME&gt;</td>
+
+              <td>[DEFAULT]</td>
+
+              <td>specifies the default QOS associated with the object.</td>
+
+              <td>
+                <tt>QDEF=premium</tt>
+
+                <p>(The object is assigned the default QOS <tt>premium</tt>)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>QLIST*</b></td>
+
+              <td>&lt;QOS_NAME&gt;[^|&amp;]<br>
+              [:&lt;QOS_NAME&gt;[^|&amp;]]...</td>
+
+              <td>&lt;QDEF&gt;</td>
+
+              <td>specifies the list of QoS's the object can access. If no QOS list is specified, the object is granted access only to its default partition/</td>
+
+              <td>
+                <tt>QLIST=premium:express:bottomfeeder</tt>
+
+                <p>(The object can access any of the 3 QOS's listed)</p>
+              </td>
+            </tr>
+          </table>
+
+          <p><b>*NOTE</b>: By default, jobs may access QOS's based on the 'logical or' of the access lists associated with all job credentials. For example, a job associated with user <i>John</i>, group <i>staff</i>, and class <i>batch</i> may utilize QOS's accessible by any of the individual credentials. Thus the job's QOS access list, or QLIST, equals the 'or' of the user, group, and class QLIST's. (i.e., JOBQLIST = USERQLIST | GROUPQLIST | CLASSQLIST). If the ampersand symbol, '&amp;', is associated with any list, this list is logically and'd with the other lists. If the carat symbol, '^', is associated with any object QLIST, this list is exclusively set, regardless of other object access lists using the following order of precedence user, group, account, QOS, and class. These special symbols affect the behavior of both QOS and partition access lists.</p>
+          <hr width="100%">
+          <br>
+          <b>Job Flags</b><br>
+
+          <table border width="100%" nosave="">
+            <tr>
+              <td><b>Flag</b></td>
+
+              <td><b>Format</b></td>
+
+              <td><b>Default</b></td>
+
+              <td><b>Description</b></td>
+
+              <td><b>Example</b></td>
+            </tr>
+
+            <tr>
+              <td><b>ADVRES</b></td>
+
+              <td>ADVRES[:&lt;RESID&gt;]</td>
+
+              <td>Use available resources where ever found, whether inside a reservation or not.</td>
+
+              <td>specifies the job may only utilize accessible, reserved resources. If &lt;RESID&gt; is specified, only resources in the specified reservation may be utilized.</td>
+
+              <td>
+                <tt>FLAGS=ADVRES:META.1</tt>
+
+                <p>(The job may only utilize resources located in the <tt>META.1</tt> reservation)</p>
+              </td>
+            </tr>
+
+            <tr nosave="">
+              <td><b>BENCHMARK</b></td>
+
+              <td nosave="">BENCHMARK</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+
+              <td><tt>FLAGS=BENCHMARK</tt></td>
+            </tr>
+
+            <tr>
+              <td><b>BESTEFFORT</b></td>
+
+              <td>BESTEFFORT</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+
+              <td><tt>FLAGS=BESTEFFORT</tt></td>
+            </tr>
+
+            <tr>
+              <td><b>BYNAME</b></td>
+
+              <td>BYNAME</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+
+              <td><tt>FLAGS=BYNAME</tt></td>
+            </tr>
+
+            <tr>
+              <td><b>DEDICATED</b></td>
+
+              <td>DEDICATED</td>
+
+              <td>Use resources according to the global <a href="a.fparameters.html#nodeaccesspolicy">NODEACCESSPOLICY</a></td>
+
+              <td>specifies that the job should not share node resources with tasks from any other job</td>
+
+              <td>
+                FLAGS=DEDICATED
+
+                <p>(The job will only allocate resources from nodes which can be exclusively dedicated to this job)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>HOSTLIST</b></td>
+
+              <td>HOSTLIST=&lt;HOSTNAME&gt;<br>
+              [:&lt;HOSTNAME&gt;]...</td>
+
+              <td>The job may utilize any available resource regardless of hostname</td>
+
+              <td>specifies the list of hosts which should be used by the job. If more hosts are specified than are needed to meet the jobs total task requirements, Maui will select needed hosts from the list. If fewer hosts are specified than are needed to meet the job's total task requirements, Maui will select all listed hosts and attempt to locate additional resources elsewhere.</td>
+
+              <td>
+                <tt>HOSTLIST=node003:node006:node009</tt>
+
+                <p>(Maui will allocate resources using the specified hosts)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>NOQUEUE</b></td>
+
+              <td>NOQUEUE</td>
+
+              <td>Jobs remain queued until the are able to run</td>
+
+              <td>specifies that the job should be removed it is is unable to allocate resources and start execution immediately.</td>
+
+              <td>
+                <tt>FLAGS=NOQUEUE</tt>
+
+                <p>(The job should be removed unless it can start running at submit time.)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>PREEMPTEE</b></td>
+
+              <td>PREEMPTEE</td>
+
+              <td>Jobs may not be preempted by other jobs</td>
+
+              <td>Specifies that the job may be preempted by other jobs which have the <b>PREEMPTOR</b> flag set.</td>
+
+              <td>
+                <tt>FLAGS=PREEMPTEE</tt>
+
+                <p>(The job may be preempted by other jobs which have the '<b>PREEMPTOR</b>' flag set)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>PREEMPTOR</b></td>
+
+              <td>PREEMPTOR</td>
+
+              <td>Jobs may not preempt other jobs</td>
+
+              <td>Specifies that the job may preempt other jobs which have the <b>PREEMPTEE</b> flag set</td>
+
+              <td>
+                <tt>FLAGS=PREEMPTOR</tt>
+
+                <p>(The job may preempt other jobs which have the '<b>PREEMPTEE</b>' flag set)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>PRESTART</b></td>
+
+              <td>PRESTART</td>
+
+              <td>Jobs are started only after the first scheduling iteration</td>
+
+              <td><b>NOTE</b>: used only in simulation mode to pre-populate a system.</td>
+
+              <td><tt>FLAGS=PRESTART</tt></td>
+            </tr>
+
+            <tr>
+              <td><b>RESTARTABLE</b></td>
+
+              <td>RESTARTABLE</td>
+
+              <td>Jobs may not be restarted if preempted.</td>
+
+              <td>Specifies jobs can be 'requeued' and later restarted if preempted</td>
+
+              <td>
+                FLAGS=RESTARTABLE
+
+                <p>(The associated job can be preempted and restarted at a later date)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>SHAREDNODE</b></td>
+
+              <td>SHAREDNODE</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><b>SPAN</b></td>
+
+              <td>SPAN</td>
+
+              <td>Jobs may only access resources within a single partition</td>
+
+              <td>Allows jobs to utilize resources from multiple partitions simultaneously</td>
+
+              <td>
+                FLAGS=SPAN
+
+                <p>(The job can be allocated and utilize resources from more than one accessible partition simultaneously.)</p>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

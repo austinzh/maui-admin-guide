@@ -1,0 +1,128 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>runjob</h1>
+   <td valign=bottom nowrap><b>(Run Job)</b>
+<tr>
+</table>
+
+<p><font color="#e63805"><b>Caution</b></font>: This command is deprecated. Use <a href="mjobctl.html#execute">mjobctl -x</a> instead.</p>
+
+<h4>Synopsis</h4>
+
+<pre>
+runjob [-c|-f|-n <i>nodelist</i>|-p <i>partition</i>|-s|-x] <i>jobid</i>
+</pre>
+
+<h4>Overview</h4>
+
+This command will attempt to immediately start the specified job.
+<p>runjob is a deprecated command, replaced by <a href="mjobctl.html">mjobctl</a>
+
+<h4>Access</h4>
+By default, this command can be run by any Moab administrator.
+
+<p><b>Parameters</b>
+<table BORDER=0 CELLPADDING=5 >
+<tr VALIGN=TOP>
+<td><b>JOBID</b></td>
+
+<td>Name of the job to run.</td>
+</tr>
+</table>
+
+<br><b></b>&nbsp;
+<table BORDER=0 CELLPADDING=5 >
+<tr VALIGN=TOP>
+<td><b>Args</b></td>
+
+<td><b>Description</b></td>
+</tr>
+
+<tr>
+<td><b>-c</b></td>
+
+<td><i>Clear</i> job parameters from previous runs (used to clear PBS neednodes
+attribute after PBS job launch failure)&nbsp;</td>
+</tr>
+
+<tr>
+<td><b>-f</b></td>
+
+<td>Attempt to <i>force</i> the job to run, ignoring throttling policies</td>
+</tr>
+
+<tr>
+<td><b>-n &lt;NODELIST></b></td>
+
+<td>Attempt to start the job using the specified <i>nodelist </i>where
+nodenames are comma or colon delimited</td>
+</tr>
+
+<tr VALIGN=TOP>
+<td><b>-p &lt;PARTITION></b></td>
+
+<td>Attempt to start the job in the specified <i>partition</i></td>
+</tr>
+
+<tr>
+<td><b>-s</b></td>
+
+<td>Attempt to <i>suspend</i> the job</td>
+</tr>
+
+<tr>
+<td><b>-x</b></td>
+
+<td>Attempt to force the job to run, ignoring throttling policies, QoS
+constraints, and reservations</td>
+</tr>
+</table>
+
+<h4>Example</h4>
+
+&nbsp;&nbsp; This example attempts to run job cluster.231.
+
+<p><fieldset><pre>
+&gt; runjob cluster.231
+
+job cluster.231 successfully started
+</pre></fieldset>
+
+<h4>See Also:</h4>
+
+<ul>
+<li><a href="mjobctl.html">mjobctl</a>
+<li><a href="canceljob.html">canceljob</a> - cancel a job.
+<li><a href="checkjob.html">checkjob</a> - show detailed status of a job.
+<li><a href="showq.html">showq</a> - list queued jobs.
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

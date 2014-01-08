@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="index.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="a.gcommandoverview.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="a.ilargeclusters.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>Appendix H: Interfacing to Maui</h1>
+
+          <p>Maui interfaces to systems providing various services and using various protocols. This appendix is designed to assist users who wish to enable Maui in new environments using one of the existing interfaces. It does not cover the steps required to create a new interface.</p>
+
+          <h2>H.1 Utilizing Maui Client Services</h2>
+
+          <p>The standard Maui distribution provides a scheduler server (maui) and a number of user clients (showq, showres, etc). By default, these clients communicate with the scheduler using an internal single use, 'byte count + secret key' based TCP connection protocol called simply the '<i>SingleUseTCP</i>' protocol. This protocol is documented in the Wiki '<a href="wiki/socket.html">Socket Interface</a> ' section with an overview and sample code describing how to generate the byte count, timestamp, encrypted checksum, etc. This protocol is functional but is not a commonly used standard outside of the Maui project. A further issue with creating client interfaces is that even though the socket interface is well defined, the data flowing through this interface to support client requests is not standardized. As of Maui 3.2.5, some clients receive raw binary data, others raw text, and still others formatted text ready for display. This has resulted from the evolutionary nature of the client interface which has not received a much needed design 'refresh'. The good news is that this refresh is now under way.</p>
+
+          <p>As part of the Department of Energy's 'Scalable Systems Software' initiative, there have been significant enhancements to the scheduler/client protocol. Maui now supports multiple socket level protocol standards in communicating with its clients and peer services. These including 'SingleUseTCP', 'SSS-HALF', and 'HTTP'. The client socket protocol can be specified by setting the <b>MCSOCKETPROTOCOL</b> parameter to <b>SUTCP</b> , <b>SSS-HALF</b>, or <b>HTTP</b>. Further protocols are being defined and standardized over time and backwards compatibility will be maintained. Documentation on the SSS-HALF implementation can be found within the DOE's <a href="http://www.scidac.org/ScalableSystems">SSS Project Notebooks</a>.</p>
+
+          <table class="note">
+            <tbody>
+              <tr>
+                <td class="noteIMG"><img src="note.png" title="Note" alt="Note"></td>
+
+                <td class="noteDetail">HTTP support is currently (Oct 24, 2002) in active development and is not expected to be in production use until Maui 3.2.6.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>In addition to the socket protocol advances, there has also been work in the area of standardizing the format in which the client data is actually transmitted. The SSS project has selected XML as the means to frame all inter-client data. To date, a number of Maui clients have been ported over to enable optional use of XML based data framing. These clients include <b>mshow</b> (showq), <b>showstate</b>, <b>checknode</b> , <b>mjobctl</b> (runjob, setjobhold, setspri, canceljob), and <b>mresctl</b> (setres, releaseres).</p>
+
+          <table class="note">
+            <tbody>
+              <tr>
+                <td class="noteIMG"><img src="note.png" title="Note" alt="Note"></td>
+
+                <td class="noteDetail">The XML used in these clients is still evolving. It is expected to be finalized for the clients listed by mid December 2002. If there is interest in working with these protocols or defining specifications, please <a href="mailto:help@supercluster.org">contact us</a> so we can coordinate any changes and take your needs into account when prioritizing future development.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4>H.2 Resource Management Interfaces</h4>
+
+          <p><a href="http://docs.adaptivecomputing.com/resources/docs/mwm/a.hinterfacing.html">See Moab Workload Manager</a></p>
+
+          <h4>H.3 Allocation Management Interfaces</h4>
+
+          <p><a href="http://docs.adaptivecomputing.com/resources/docs/mwm/a.hinterfacing.html">See Moab Workload Manager</a></p>
+
+          <h4>H.4 Grid Scheduling System Interfaces</h4>
+
+          <p><a href="http://docs.adaptivecomputing.com/resources/docs/mwm/a.hinterfacing.html">See Moab Workload Manager</a></p>
+
+          <h4>H.5 Information Service Interfaces</h4>
+
+          <p><a href="http://docs.adaptivecomputing.com/resources/docs/mwm/a.hinterfacing.html">See Moab Workload Manager</a></p>
+
+          <h4>H.6 Event Management Services</h4>
+
+          <p><a href="http://docs.adaptivecomputing.com/resources/docs/mwm/a.hinterfacing.html">See Moab Workload Manager</a><br>
+          <br></p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="index.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="a.gcommandoverview.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="a.ilargeclusters.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

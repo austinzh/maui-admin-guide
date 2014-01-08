@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="13.0rmandinterfaces.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="13.2rmconfiguration.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="13.4addingrminterfaces.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>13.3 Resource Manager Extensions</h1>
+
+          <p>All resource managers are not created equal. There is a wide range in what capabilities are available from system to system. Additionally, there is a large body of functionality which many if not all resource managers have no concept of. A good example of this is job QoS. Since most resource managers do not have a concept of quality of service, they do not provide a mechanism for users to specify this information. In many cases, Maui is able to add capabilities at a global level. However, a number of features require a 'per job' specification. Resource manager extensions allow this information to be associated with the job.</p>
+
+          <p>How this is done varies with the resource manager. Both Loadleveler and Wiki allow the specification of a <i>comment</i> field. (In Loadleveler, specified as '<tt>#@comment="&lt;X&gt;"</tt>`) PBS does not support this ability by default but is extensible via the '<b>-W</b> ' flag. (see the <a href="13.3.1pbsrmextensions.html">PBS Resource Manager Extension Overview</a> )</p>
+
+          <p>Using the resource manager specific method, the following job extensions are currently available:<br></p>
+
+          <table border="1" width="100%" nosave="">
+            <tbody>
+              <tr>
+                <td><b>Name</b></td>
+
+                <td><b>Format</b></td>
+
+                <td><b>Default Value</b></td>
+
+                <td><b>Description</b></td>
+
+                <td><b>Example</b></td>
+              </tr>
+
+              <tr>
+                <td><b>ADVRES</b></td>
+
+                <td>[&lt;RESID&gt;]</td>
+
+                <td>[NONE]<br></td>
+
+                <td>specifies that reserved resources are required to run the job. If &lt;RESID&gt; is specified, then only resources within the specified reservation may be allocated</td>
+
+                <td>ADVRES:meta.3<br></td>
+              </tr>
+
+              <tr>
+                <td><b>DMEM</b></td>
+
+                <td>&lt;INTEGER&gt;</td>
+
+                <td>0</td>
+
+                <td>dedicated memory per task in MB</td>
+
+                <td><tt>DMEM:512</tt></td>
+              </tr>
+
+              <tr>
+                <td><b>FLAGS</b></td>
+
+                <td>one or more of the following comma separated keywords<br>
+                <b>ADVRES[:RESID]</b>, <b>RESTARTABLE</b>, <b>PREEMPTEE</b>, <b>PREEMPTOR</b>, <b>NOQUEUE</b></td>
+
+                <td>[NONE]</td>
+
+                <td>associates various flags with the job</td>
+
+                <td><tt>FLAGS:ADVRES</tt></td>
+              </tr>
+
+              <tr>
+                <td><b>GRES</b></td>
+
+                <td>comma delimited list of generic resources where each resource is specified using the format &lt;RESTYPE&gt;[@&lt;COUNT&gt;]</td>
+
+                <td>[NONE]</td>
+
+                <td>indicates generic resources required by the job on a <i>per task</i> basis. If a &lt;COUNT&gt; is not specified, the resource count defaults to 1.</td>
+
+                <td><tt>GRES:tape,matlab@2</tt></td>
+              </tr>
+
+              <tr>
+                <td><b>HOSTLIST</b></td>
+
+                <td>comma delimited list of hostnames</td>
+
+                <td>[NONE]</td>
+
+                <td>indicates a exact set, superset, or subset of nodes on which the job must run</td>
+
+                <td><tt>HOSTLIST:nodeA,nodeB,nodeE</tt></td>
+              </tr>
+
+              <tr>
+                <td valign="top"><b><a name="NACCESSPOLICY" id="NACCESSPOLICY"></a> NACCESSPOLICY</b><br></td>
+
+                <td valign="top">one of <b>SHARED</b>, <b>SINGLEJOB</b>, <b>SINGLETASK</b> , or <b>SINGLEUSER</b><br></td>
+
+                <td valign="top">[NONE]<br></td>
+
+                <td valign="top">specifies how node resources should be accessed<br></td>
+
+                <td valign="top">NACCESSPOLICY:SINGLEUSER<br></td>
+              </tr>
+
+              <tr>
+                <td valign="top"><b><a name="NALLOCPOLICY" id="NALLOCPOLICY"></a> NALLOCPOLICY</b><br></td>
+
+                <td valign="top">one of the valid settings for the parameter <a href="a.fparameters.html#nodeallocationpolicy">NODEALLOCATIONPOLICY</a><br></td>
+
+                <td valign="top">[NONE]<br></td>
+
+                <td valign="top">specifies how node resources should be selected and allocated to the job<br></td>
+
+                <td valign="top">NALLOCPOLICY:MINRESOURCE<br></td>
+              </tr>
+
+              <tr>
+                <td><b>NODESET</b></td>
+
+                <td>&lt;SETTYPE&gt;:&lt;SETATTR&gt;[:&lt;SETLIST&gt;]</td>
+
+                <td>[NONE]</td>
+
+                <td>specifies nodeset constraints for job resource allocation. (See the NodeSet Overview for more information)</td>
+
+                <td><tt>NODESET:ONEOF:PROCSPEED:350,400,450</tt></td>
+              </tr>
+
+              <tr>
+                <td><b>PARTITION</b></td>
+
+                <td>&lt;STRING&gt;[:&lt;STRING&gt;]...</td>
+
+                <td>[NONE]</td>
+
+                <td>specifies the partition (or partitions) in which the job must run. <b>NOTE</b>: the job must have access to this partition based on system wide or credential based partition access lists.</td>
+
+                <td>
+                  <tt>PARTITION:math:geology</tt>
+
+                  <p>(The job must only run in the <tt>math</tt> partition or the <tt>geology</tt> partition)</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td><b>QOS</b></td>
+
+                <td>&lt;STRING&gt;</td>
+
+                <td>[NONE]</td>
+
+                <td></td>
+
+                <td><tt>QOS:highprio</tt></td>
+              </tr>
+
+              <tr>
+                <td><b>QUEUEJOB</b></td>
+
+                <td>
+                  <p>one of <tt>TRUE or FALSE</tt></p>
+                </td>
+
+                <td><tt>TRUE</tt></td>
+
+                <td>Indicates whether or not the scheduler should queue the job if resources are not available to run the job immediately</td>
+
+                <td><tt>QUEUEJOB:FALSE</tt></td>
+              </tr>
+
+              <tr>
+                <td><b>SGE</b></td>
+
+                <td>&lt;WINDOWCOUNT&gt;:&lt;DISPLAYNAME&gt;</td>
+
+                <td>[NONE]</td>
+
+                <td></td>
+
+                <td><tt>SGE:8:pinky</tt></td>
+              </tr>
+
+              <tr>
+                <td><b>SID</b></td>
+
+                <td>&lt;STRING&gt;</td>
+
+                <td>[NONE]</td>
+
+                <td></td>
+
+                <td><tt>SID:silverA</tt></td>
+              </tr>
+
+              <tr>
+                <td><b>TPN</b></td>
+
+                <td>&lt;INTEGER&gt;</td>
+
+                <td>0</td>
+
+                <td></td>
+
+                <td><tt>TPN:4</tt></td>
+              </tr>
+
+              <tr>
+                <td><b>TRL</b></td>
+
+                <td>&lt;INTEGER&gt;[,&lt;INTEGER&gt;]...</td>
+
+                <td>0</td>
+
+                <td></td>
+
+                <td><tt>TRL:2,4,8,16</tt></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>If more than one extension is required in a given job, extensions can be concatenated with a semicolon separator using the format '<tt>&lt;ATTR&gt;:&lt;VALUE&gt;[;&lt;ATTR&gt;:&lt;VALUE&gt;]...</tt>'</p>
+
+          <p>See the following examples:</p>
+
+          <p><b>Example 1</b><br>
+          ----<br>
+          <tt># Loadleveler command file</tt><br>
+          <tt>#@comment="HOSTLIST:node1,node2;QOS:special;SID:silverA"</tt><br>
+          ----</p>
+
+          <p>Job must run on nodes <tt>node1</tt> and <tt>node2</tt> using the QoS <tt>special</tt>. The job is also associated with the system id <tt>silverA</tt> allowing the silver daemon to monitor and control the job.</p>
+
+          <p><b>Example 2</b><br>
+          ----<br>
+          <tt># PBS command file</tt><br>
+          <tt># PBS -W x=\"NODESET:ONEOF:NETWORK;DMEM:64\"</tt><br>
+          ----</p>
+
+          <p>Job will have resources allocated subject to network based nodeset constraints. Further, each task will dedicate 64 MB of memory.</p>
+
+          <p><b>Example 3</b></p>
+
+          <p>----<br>
+          # qsub -l nodes=4,walltime=1:00:00 -W x="FLAGS:ADVRES:john.1"<br>
+          -----</p>
+
+          <p>Job will be forced to run within the <tt>john.1</tt> reservation.</p>
+
+          <p><b>See Also:</b></p>
+
+          <p><a href="13.1rmoverview.html">Resource Manager Overview</a></p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="13.0rmandinterfaces.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="13.2rmconfiguration.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="13.4addingrminterfaces.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

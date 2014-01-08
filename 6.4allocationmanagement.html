@@ -1,0 +1,357 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="6.0managingfairness.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="6.3fairshare.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="7.0controllingresourceaccess.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>6.4 Allocation Management</h1>
+
+          <p><img src="http://docs.adaptivecomputing.com/images/logo1.gif" height="24"> The <a href="http://docs.adaptivecomputing.com/mcm/index.html">Moab Cluster Manager</a><sup>TM</sup> allows global, external and internal Allocation Manager parameters to be set quickly and easily.</p>
+
+          <h2>6.4.1 Allocation Management Overview</h2>
+
+          <p>An allocation manager (also known as an allocation bank or cpu bank) is a software system which manages resource allocations where a resource allocation grants a job a right to use a particular amount of resources. This is not the right place for a full allocations manager overview but a brief review may point out the value in using such a system.</p>
+
+          <p>An allocation manager functions much like a bank in that it provides a form a currency which allows jobs to run on an HPC system. The owners of the resource (cluster/supercomputer) determine how they want the system to be used (often via an allocations committee) over a particular timeframe, often a month, quarter, or year. To enforce their decisions, they distribute allocations to various projects via various accounts and assign each account an account manager. These allocations can be for use particular machines or globally usable. They can also have activation and expiration dates associated with them. All transaction information is typically stored in a database or directory server allowing extensive statistical and allocation tracking.</p>
+
+          <p>Each account manager determines how the allocations are made available to individual users within his project. Allocation manager managers such as PNNL's QBank allow the account manager to dedicate portions of the overall allocation to individual users, specify some of allocations as 'shared' by all users, and hold some of the allocations in reserve for later use.</p>
+
+          <p>When using an allocations manager each job must be associated with an account. To accomplish this with minimal user impact, the allocation manager could be set up to handle default accounts on a per user basis. However, as is often the case, some users may be active on more than one project and thus have access to more than one account. In these situations, a mechanism, such as a job command file keyword, should be provided to allow a user to specify which account should be associated with the job.</p>
+
+          <p>The amount of each job's allocation <i>charge</i> is directly associated with the amount of resources used (i.e. processors) by that job and the amount of time it was used for. Optionally, the allocation manager can also be configured to charge accounts varying amounts based on the QOS desired by the job, the type of compute resources used, and/or the time when the resources were used (both in terms of time of day and day of week).</p>
+
+          <p>The allocation manager interface provides near real-time allocation management, giving a great deal of flexibility and control over how available compute resources are used over the medium and long term and works hand in hand with other job management features such as Maui's throttling <a href="6.4allocationmanagement.html#policies">policies</a> and fairshare mechanism.<br></p>
+
+          <h2><a name="config" id="config"></a>6.4.2 Configuring the Allocation Manager Interface</h2>
+
+          <p>Maui's allocation manager interface(s) are defined using the <a href="a.fparameters.html#amcfg">AMCFG</a> parameter. This parameter allows specification of key aspects of the interface as shown in the table below.</p>
+
+          <table border="2">
+            <tr>
+              <td><b>Attribute</b></td>
+
+              <td><b>Format</b></td>
+
+              <td><b>Default</b></td>
+
+              <td><b>Description</b></td>
+
+              <td><b>Example</b></td>
+            </tr>
+
+            <tr>
+              <td><b>APPENDMACHINENAME</b></td>
+
+              <td>BOOLEAN</td>
+
+              <td>FALSE</td>
+
+              <td>if specified, the scheduler will append the machine name to the consumer account to create a unique account name per cluster.</td>
+
+              <td>
+                <pre>
+AMCFG[bank] APPENDMACHINENAME=TRUE
+</pre><br>
+                (the scheduler will append the machine name to each account before making a debit from the allocation manager.)
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>CHARGEPOLICY</b></td>
+
+              <td>one of <b>DEBITSUCCESSFULWC</b>, <b>DEBITALLCPU</b>, <b>DEBITALLPE</b>, <b>DEBITSUCCESSFULWC</b>, <b>DEBITSUCCESSFULCPU</b>, <b>DEBITSUCCESSFULPE</b></td>
+
+              <td><b>DEBITALLWC</b></td>
+
+              <td>specifies how consumed resources should be charged against the consumer's credentials.</td>
+
+              <td>
+                <pre>
+AMCFG[bank] CHARGEPOLICY=DEBITALLCPU
+</pre><br>
+                (allocation charges will be based on actual cpu usage only, not dedicate cpu resources)
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>DEFERJOBONFAILURE</b></td>
+
+              <td>BOOLEAN</td>
+
+              <td>FALSE</td>
+
+              <td>if set to true, the scheduler will defer jobs if an allocation manager failure is detected.</td>
+
+              <td>
+                <pre>
+AMCFG[bank] DEFERJOBONFAILURE=TRUE
+</pre><br>
+                (allocation management will be strictly enforced preventing jobs from starting if the allocation manager is unavailable.)
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>FALLBACKACCOUNT</b></td>
+
+              <td>STRING</td>
+
+              <td>[NONE]</td>
+
+              <td>if specified, the scheduler will verify adequate allocations for all new jobs. If adequate allocation are not available in the job's primary account, the scheduler will change the job's credentials to use the fallback account. If not specified, the scheduler will place a hold on jobs which do not have adequate allocations in their primary account.</td>
+
+              <td>
+                <pre>
+AMCFG[bank] FALLBACKACCOUNT=freecycle
+</pre><br>
+                (the scheduler will assign the account <tt>freecycle</tt> to jobs which do not have adequate allocations in their primary account.)
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>FLUSHINTERVAL</b></td>
+
+              <td>[[[DD:]HH:]MM:]SS</td>
+
+              <td>24:00:00</td>
+
+              <td>indicates the amount of time between allocation manager debits for long running reservation and job based charges.</td>
+
+              <td>
+                <pre>
+AMCFG[bank] FLUSHINTERVAL=12:00:00
+</pre><br>
+                (the scheduler will update its charges every twelve hours for long running jobs and reservations)
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>HOST</b></td>
+
+              <td>STRING</td>
+
+              <td>N/A</td>
+
+              <td>specifies the name of the host providing the allocation manager service. NOTE: deprecated in Maui 3.2.7 and higher. Use <b>SERVER</b> instead.</td>
+
+              <td>
+                <pre>
+AMCFG[bank] HOST=tiny.supercluster.org
+</pre>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>PORT</b></td>
+
+              <td>INTEGER</td>
+
+              <td>N/A</td>
+
+              <td>specifies the port used by the allocation manager service. NOTE: deprecated in Maui 3.2.7 and higher. Use <b>SERVER</b> instead.</td>
+
+              <td>
+                <pre>
+AMCFG[bank] PORT=5656
+</pre>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>SERVER</b></td>
+
+              <td>URL</td>
+
+              <td>N/A</td>
+
+              <td>specifies the type and location of the allocation manager service. If the keyword 'ANY' is specified instead of a URL, the scheduler will use the local service directory to locate the allocation manager. NOTE: the SERVER attribute is only available in Maui 3.2.7 and higher. Earlier releases should use the <b>HOST</b>, <b>PORT</b>, and <b>TYPE</b> attributes.</td>
+
+              <td>
+                <pre>
+AMCFG[bank] SERVER=qbank://tiny.supercluster.org:4368
+</pre>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>SOCKETPROTOCOL</b></td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+
+              <td>specifies the socket protocol to be used for scheduler-allocation manager communication</td>
+
+              <td>
+                <pre>
+AMCFG[bank] SOCKETPROTOCOL=SSS-CHALLENGE
+</pre>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>TIMEOUT</b></td>
+
+              <td>[[[DD:]HH:]MM:]SS</td>
+
+              <td>10</td>
+
+              <td>specifies the maximum delay allowed for scheduler-allocation manager communications</td>
+
+              <td>
+                <pre>
+AMCFG[bank] TIMEOUT=30
+</pre>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>TYPE</b></td>
+
+              <td>one of <b>QBANK</b>, <b>GOLD</b>, <b>RESD</b>, or <b>FILE</b></td>
+
+              <td><b>QBANK</b></td>
+
+              <td>specifies the allocation manager type. NOTE: deprecated in Maui 3.2.7 and higher. Use <b>SERVER</b> instead.</td>
+
+              <td>
+                <pre>
+AMCFG[bank] TYPE=QBANK
+</pre>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>WIREPROTOCOL</b></td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+
+              <td>specifies the wire protocol to be used for scheduler-allocation manager communication</td>
+
+              <td>
+                <pre>
+AMCFG[bank] WIREPROTOCOL=SSS2
+</pre>
+              </td>
+            </tr>
+          </table>
+
+          <p>Configuring the allocation manager consists of two steps. The first step involves specifying where the allocation service can be found. In Maui 3.2.7 and higher, this is accomplished by setting the <b>AMCFG</b> parameter's <b>SERVER</b> attribute to the appropriate URL. In earlier releases, the <b>HOST</b>, <b>PORT</b>, and <b>TYPE</b> attributes must be set.</p>
+
+          <p>Once the interface is specified, the second step involves the scheduler to allow secure communication. As with other interfaces, this is configured using the <a href="a.fparameters.html#clientcfg">CLIENTCFG</a> parameter within the <tt>maui-private.cfg</tt> file as described in the <a href="a.esecurity.html">Security Appendix</a>. In the case of an allocation manager, the <b>CSKEY</b> and <b>CSALGO</b> attributes should be set to values defined during initial allocation manager build and configuration as in the example below:</p>
+          <pre>
+# maui-private.cfg
+
+CLIENTCFG[bank] CSKEY=HMAC CSALGO=HMAC
+</pre>
+
+          <h2><a name="policies" id="policies"></a>6.4.2 Allocation Management Policies</h2>In most cases, the scheduler will interface with a peer service. (If the protocol <b>FILE</b> is specified, the allocation manager transactions will be dumped to the specified flat file.) With all peer services based allocation managers, the scheduler will check with the allocation manager before starting any job. For allocation tracking to work, however, each job must specify an account to charge or the allocation manager must be set up to handle default accounts on a per user basis.
+
+          <p>Under this configuration, when Maui decides to start a job, it contacts the allocation manager and requests an allocation reservation, or lien be placed on the associated account. This allocation reservation is equivalent to the total amount of allocation which could be consumed by the job (based on the job's wallclock limit) and is used to prevent the possibility of allocation oversubscription. Maui then starts the job. When the job completes, Maui debits the amount of allocation actually consumed by the job from the job's account and then releases the allocation reservation or lien.</p>
+
+          <p>These steps transpire <i>under the covers</i> and should be undetectable by outside users. Only when an account has insufficient allocations to run a requested job will the presence of the allocation manager be noticed. If desired, an account may be specified which is to be used when a job's primary account is out of allocations. This account, specified using the <b>AMCFG</b> parameter's <a>FALLBACKACCOUNT</a> attribute is often associated with a low QOS privilege set and priority and often is configured to only run when no other jobs are present.</p>
+
+          <p>Reservations can also be configured to be chargeable. One of the big hesitations have with dedicating resources to a particular group is that if the resources are not used by that group, they go idle and are wasted. By configuration a reservation to be chargeable, sites can charge every idle cycle of the reservation to a particular project. When the reservation is in use, the consumed resources will be associated with the account of the job using the resources. When the resources are idle, the resources will be charged to the reservation's charge account. In the case of standing reservations, this account is specified using the parameter <a href="a.fparameters.html#SRCFG">SRCFG</a> attribute <b>CHARGEACCOUNT</b>. In the case of administrative reservations, this account is specified via a command line flag to the <a href="commands/setres.html">setres</a> command.</p>
+
+          <p>Maui will only interface to the allocation manager when running in <i>NORMAL</i> mode. However, this behavior can be overridden by setting the environment variable 'MAUIAMTEST' to any value. With this variable set, Maui will attempt to interface to the allocation manager regardless of the scheduler's mode of operation.</p>
+
+          <p>The allocation manager interface allows a site to charge accounts in a number of different ways. Some sites may wish to charge for all jobs run through a system regardless of whether or not the job completed successfully. Sites may also want to charge based on differing usage metrics, such as walltime dedicated or processors actually utilized. Maui supports the following charge policies specified via the <b>CHARGEPOLICY</b> attribute:</p>
+
+          <ul>
+            <li><b>DEBITALLWC</b> - charge for all jobs regardless of job completion state using processor weighted wallclock time dedicated as the usage metric</li>
+
+            <li>DEBITSUCCESSFULWC - charge only for jobs which successfully complete using processor weighted wallclock time dedicated as the usage metric</li>
+
+            <li><b>DEBITSUCCESSFULCPU</b> - charge only for jobs which successfully complete using CPU time as the usage metric</li>
+
+            <li><b>DEBITSUCCESSFULPE</b> - charge only for jobs which successfully complete using PE weighted wallclock time dedicated as the usage metric</li>
+          </ul>
+
+          <p><b>NOTE</b>: On systems where job wallclock limits are specified, jobs which exceed their wallclock limits and are subsequently cancelled by the scheduler or resource manager will be considered as having successfully completed as far as charging is concerned, even though the resource manager may report these jobs as having been 'removed' or 'cancelled'.</p>
+
+          <h2>6.4.3 Allocation Manager Details</h2>
+
+          <h3>6.4.3.1 QBank Allocation Manager</h3>QBank, developed at Pacific Northwest National Laboratory (PNNL), is a dynamic cpu bank that allows system owners and funding managers to fine tune when, where, how and to whom their resources are to be rationed. Much like a bank, but with the currency measured in computational credits instead of dollars, QBank provides an administrative interface supporting familiar operations such as deposits, withdrawals, transfers and refunds. It provides balance and usage feedback to users, managers, and system administrators. Computational resources are allocated to projects and users and full accounting is made of resource utilization.
+
+          <p>QBank employs a debit (or credit) system in which a hold (reservation) is placed against a user's account before a job starts and a withdrawal occurs immediately after the job completes. This approach ensures requestors of a resource can only use that which has been allocated to them. Allocations for a given account can be subdivided into portions available toward different users, machines and timeframes. Presetting allocations to activate and expire in regular intervals minimizes year-end resource exhaustion and facilitates capacity planning. QBank can manage and track the use of multiple systems from a central location. Additionally, support for job charge quotes and traceback debits allows QBank to be used in meta-scheduling environments involving multiple administrative domains.</p>
+
+          <p>In high level summary, QBank provides the following features:</p>
+
+          <ul>
+            <li><strong>real time allocation tracking</strong> - tight scheduler integration to update allocations as jobs start and are completed</li>
+
+            <li><strong>guaranteed allocation enforcement</strong> - reservation based allocation tracking to prevent over-subscription</li>
+
+            <li><strong>project based allocation management</strong> - project managers allowed to dedicate or share allocations amongst account members</li>
+
+            <li><strong>allocation expiration</strong> - allocations can be granted with arbitrary expiration timeframes</li>
+
+            <li><strong>per machine allocations</strong> - allocations can be tied to specific compute resources or allowed to <i>float</i> granting access to any machine</li>
+
+            <li><strong><i>grid ready</i> multi-site bank exchange</strong> - able to track <strong>and enforce</strong> resource usage amongst users of various sites</li>
+
+            <li><strong>QOS and nodetype billing</strong> - allowing sites to charge varying rates based on the quality of service and type of compute resource requested</li>
+
+            <li><strong>fliexible charging algorithm</strong> - site specific charge rates can be specified for period of time, number of processors, amount of memory, etc consumed by job</li>
+
+            <li><strong>secure communication</strong> - secret key based communication with administrators, account managers, and peer services</li>
+
+            <li><strong>resource quotations</strong> - users and brokers can determine ahead of time the cost of using resources</li>
+
+            <li><strong>database independence</strong> - built on perl database abstraction layer allowing support for any commonly used commercial or opensource database</li>
+
+            <li><strong>allocation usage reports</strong> - provides detailed usage reports and summaries of exactly who used what and when over any specified timeframe</li>
+
+            <li><strong>role-based design</strong> - allows user, account manager, and bank manager service authorization levels</li>
+
+            <li><strong>mature suite of allocation management tools</strong> - commands provided allowing refunds, automatic account distributions, intra-project allocation transfers, and default project management.</li>
+
+            <li><strong>user friendly commands</strong> - allows end-users to track historical usage and available allocations</li>
+
+            <li><strong>transparency</strong> - zero end-user involvement required to fully track job usage through proper batch scheduler configuration and user of bank based default accounts</li>
+
+            <li><strong>multi-project user support</strong> - if desired, users can explicitly specify job-to-project associations overriding project defaults</li>
+
+            <li><strong>support for both credit and debit based accounts</strong> - sites can base allocations on credit or debit models and even enable <i>overdraft</i> protection for specific projects</li>
+          </ul>
+
+          <h3>6.4.3.2 Res Allocation Manager</h3>N/A
+
+          <h3>6.4.3.3 File Allocation Manager</h3>N/A
+
+          <h3>6.4.3.4 Gold Allocation Manager</h3>Gold is an accounting and allocation management system being developed at PNNL under the DOE Scalable Systems Software (SSS) project. Gold is similar to QBank in that it supports a dynamic approach to allocation tracking and enforcement with reservations, quotations, etc. It offers more flexible controls for managing access to computational resources and exhibits a more powerful query interface. Gold supports hierarchical project nesting. Journaling allows the preservation of all historical state information.
+
+          <p>One of the most powerful features is that Gold is dynamically extensible. New object/record types and their fields can be dynamically created and manipulated through the regular query language turning this system into a generalized accounting and information service. This capability is extremely powerful and can be used to provide custom accounting, meta-scheduler resource-mapping, or an external persistence interface.</p>
+
+          <p>Gold supports strong authentication and encryption and role based access control. A Web-accessible GUI is being developed to simplify management and use of the system. Gold will support interaction with peer accounting systems with a traceback feature enabling it to function in a meta-scheduling or grid environment. It is anticipated that a beta version of Gold will be released near 2Q04. More information about Gold can be obtained by sending email to the gold development mailing list.</p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="6.0managingfairness.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="6.3fairshare.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="7.0controllingresourceaccess.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Maui Scheduler  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+<div class="navIcons topIcons">
+<a href="index.html"><img src="../home.png" title="Home" alt="Home" border="0"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" title="Up" alt="Up" border="0"></a>
+</div>
+
+
+<h1>diagnose -R (diagnose resource managers)</h1>
+
+<p><br><b>Overview:</b>
+<p> The 'diagnose -R' command is used to present information
+about resource manager state maintained by Maui. The information presented
+includes user name, UID, scheduling priority, default job flags, default
+QOS level, List of accessible QOS levels, and list of accessible partitions.
+<p><b>Usage:</b>
+<p> diagnose -u [&lt;USERNAME>]
+<p><b>Example:</b>
+<p><tt>> diagnose -u</tt><tt></tt>
+<p><tt>Diagnosing Users</tt>
+<br><tt> Name UID
+Priority Flags DefaultQOS
+QOSList PartitionList</tt><tt></tt>
+<p><tt> jacksond 160
+2223 [NONE]
+4 31:63
+[NONE]</tt>
+<br><tt> steve 345
+0 [NONE]
+-1 [NONE]
+[NONE]</tt>
+<br><tt> tom
+346 0
+[NONE] -1
+[NONE]
+[NONE]</tt>
+<br><tt> susam 347
+0 [NONE]
+-1 [NONE]
+[NONE]</tt>
+<br><tt> studnt01 351
+10 [NONE]
+-1 [NONE]
+[NONE]</tt>
+<br><tt> studnt04 354
+10 [NONE]
+-1 [NONE]
+[NONE]</tt>
+<br><tt> studnt05 355
+10 [NONE]
+-1 [NONE]
+[NONE]</tt>
+<p> Note that only users with have jobs which are currently
+queued or have been queued since Maui was most recently started are listed.
+For user statistics, see the <a href="showstats.html">showstats</a> command.
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" title="Home" alt="Home" border="0"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" title="Up" alt="Up" border="0"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>

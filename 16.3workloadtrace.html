@@ -1,0 +1,698 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="16.0simulations.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="16.2resourcetrace.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="16.4simspecconfig.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>16.3 Workload Traces</h1>
+
+          <p>Workload traces fully describe all scheduling relevant aspects of batch jobs including resources requested and utilized, time of all major scheduling events (i.e., submission time, start time, etc), the job credentials used, and the job execution environment. Each job trace is composed of a single line consisting of 44 whitespace delimited fields as shown in the table below.</p>
+
+          <table class="note">
+            <tbody>
+              <tr>
+                <td class="noteIMG"><img src="note.png" title="Note" alt="Note"></td>
+
+                <td class="noteDetail">
+                  Maui 3.2.6 and higher can be configured to provide this information in XML format conforming to the SSS 1.0 job description specification.<br>
+
+                  <ul>
+                    <li><a href="16.3workloadtrace.html#workload">16.3.1 Workload Trace Format</a></li>
+
+                    <li><a href="16.3workloadtrace.html#creating">16.3.2 Creating New Workload Traces</a></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2><a name="workload" id="workload"></a>16.3.1 Workload Trace Format</h2>
+
+          <table border width="100%" nosave="">
+            <tr>
+              <td><b>Field Name</b></td>
+
+              <td><b>Field Index</b></td>
+
+              <td><b>Data Format</b></td>
+
+              <td><b>Default Value</b></td>
+
+              <td><b>Details</b></td>
+            </tr>
+
+            <tr>
+              <td>JobID</td>
+
+              <td>1</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NO DEFAULT]</td>
+
+              <td>Name of job, must be unique</td>
+            </tr>
+
+            <tr>
+              <td>Nodes Requested</td>
+
+              <td>2</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>0</td>
+
+              <td>Number of nodes requested (0 = no node request count specified)</td>
+            </tr>
+
+            <tr>
+              <td>Tasks Requested</td>
+
+              <td>3</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>1</td>
+
+              <td>Number of tasks requested</td>
+            </tr>
+
+            <tr>
+              <td>User Name</td>
+
+              <td>4</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NO DEFAULT]</td>
+
+              <td>Name of user submitting job</td>
+            </tr>
+
+            <tr>
+              <td>Group Name</td>
+
+              <td>5</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NO DEFAULT]</td>
+
+              <td>Primary group of user submitting job</td>
+            </tr>
+
+            <tr>
+              <td>Wallclock Limit</td>
+
+              <td>6</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>1</td>
+
+              <td>Maximum allowed job duration in seconds</td>
+            </tr>
+
+            <tr>
+              <td>Job Completion State</td>
+
+              <td>7</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>Completed</td>
+
+              <td>One of Completed, Removed, NotRun</td>
+            </tr>
+
+            <tr>
+              <td>Required Class</td>
+
+              <td>8</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[DEFAULT:1]</td>
+
+              <td>Class/queue required by job specified as square bracket list of &lt;QUEUE&gt;[:&lt;QUEUE INSTANCE&gt;] requirements. (ie, [batch:1])</td>
+            </tr>
+
+            <tr>
+              <td>Submission Time</td>
+
+              <td>9</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>0</td>
+
+              <td>Epoch time when job was submitted</td>
+            </tr>
+
+            <tr>
+              <td>Dispatch Time</td>
+
+              <td>10</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>0</td>
+
+              <td>Epoch time when scheduler requested job begin executing</td>
+            </tr>
+
+            <tr>
+              <td>Start Time</td>
+
+              <td>11</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>0</td>
+
+              <td>Epoch time when job began executing (NOTE: usually identical to 'Dispatch Time')</td>
+            </tr>
+
+            <tr>
+              <td>Completion Time</td>
+
+              <td>12</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>0</td>
+
+              <td>Epoch time when job completed execution</td>
+            </tr>
+
+            <tr>
+              <td>Required Network Adapter</td>
+
+              <td>13</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>Name of required network adapter if specified</td>
+            </tr>
+
+            <tr>
+              <td>Required Node<br>
+              Architecture</td>
+
+              <td>14</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>Required node architecture if specified</td>
+            </tr>
+
+            <tr>
+              <td>Required Node<br>
+              Operating System</td>
+
+              <td>15</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>Required node operating system if specified</td>
+            </tr>
+
+            <tr>
+              <td>Required Node<br>
+              Memory<br>
+              Comparison</td>
+
+              <td>16</td>
+
+              <td>one of &gt;, &gt;=, =, &lt;=, &lt;</td>
+
+              <td>&gt;=</td>
+
+              <td>Comparison for determining compliance with required node memory</td>
+            </tr>
+
+            <tr>
+              <td>Required Node<br>
+              Memory</td>
+
+              <td>17</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>0</td>
+
+              <td>Amount of required configured RAM (in MB) on each node</td>
+            </tr>
+
+            <tr>
+              <td>Required Node Disk<br>
+              Comparison</td>
+
+              <td>18</td>
+
+              <td>one of &gt;, &gt;=, =, &lt;=, &lt;</td>
+
+              <td>&gt;=</td>
+
+              <td>Comparison for determining compliance with required node disk</td>
+            </tr>
+
+            <tr>
+              <td>Required Node Disk</td>
+
+              <td>19</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>0</td>
+
+              <td>Amount of required configured local disk (in MB) on each node</td>
+            </tr>
+
+            <tr>
+              <td>Required Node<br>
+              Attributes</td>
+
+              <td>20</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>square bracket enclosed list of node features required by job if specified (ie '[fast][ethernet]')</td>
+            </tr>
+
+            <tr>
+              <td>System Queue<br>
+              Time</td>
+
+              <td>21</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>0</td>
+
+              <td>Epoch time when job met all fairness policies</td>
+            </tr>
+
+            <tr>
+              <td>Tasks Allocated</td>
+
+              <td>22</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>&lt;TASKS REQUESTED&gt;</td>
+
+              <td>Number of tasks actually allocated to job (NOTE: in most cases, this field is identical to field #3, Tasks Requested)</td>
+            </tr>
+
+            <tr>
+              <td>Required Tasks Per<br>
+              Node</td>
+
+              <td>23</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>-1</td>
+
+              <td>Number of Tasks Per Node required by job or '-1' if no requirement specified</td>
+            </tr>
+
+            <tr>
+              <td>QOS</td>
+
+              <td>24</td>
+
+              <td>&lt;STRING&gt;[:&lt;STRING&gt;]</td>
+
+              <td>[NONE]</td>
+
+              <td>QOS requested/delivered using the format &lt;QOS_REQUESTED&gt;[:&lt;QOS_DELIVERED&gt;] (ie, 'hipriority:bottomfeeder')</td>
+            </tr>
+
+            <tr>
+              <td>JobFlags</td>
+
+              <td>25</td>
+
+              <td>&lt;STRING&gt;[:&lt;STRING&gt;]...</td>
+
+              <td>[NONE]</td>
+
+              <td>square bracket delimited list of job attributes (i.e., [BACKFILL][BENCHMARK][PREEMPTEE])</td>
+            </tr>
+
+            <tr>
+              <td>Account Name</td>
+
+              <td>26</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>Name of account associated with job if specified</td>
+            </tr>
+
+            <tr>
+              <td>Executable</td>
+
+              <td>27</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>Name of job executable if specified</td>
+            </tr>
+
+            <tr>
+              <td>Comment</td>
+
+              <td>28</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>Resource manager specific list of job attributes if specified. See the <a href="13.3.1pbsrmextensions.html">Resource Manager Extension Overview</a> for more info.</td>
+            </tr>
+
+            <tr>
+              <td>Bypass Count</td>
+
+              <td>29</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>-1</td>
+
+              <td>Number of time job was bypassed by lower priority jobs via backfill or '-1' if not specified</td>
+            </tr>
+
+            <tr>
+              <td>ProcSeconds<br>
+              Utilized</td>
+
+              <td>30</td>
+
+              <td>&lt;DOUBLE&gt;</td>
+
+              <td>0</td>
+
+              <td>Number of processor seconds actually utilized by job</td>
+            </tr>
+
+            <tr>
+              <td>Partition Name</td>
+
+              <td>31</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[DEFAULT]</td>
+
+              <td>Name of partition in which job ran</td>
+            </tr>
+
+            <tr>
+              <td>Dedicated Processors per Task</td>
+
+              <td>32</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>1</td>
+
+              <td>Number of processors required per task</td>
+            </tr>
+
+            <tr>
+              <td>Dedicated Memory per Task</td>
+
+              <td>33</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>0</td>
+
+              <td>Amount of RAM (in MB) required per task</td>
+            </tr>
+
+            <tr>
+              <td>Dedicated Disk per Task</td>
+
+              <td>34</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>0</td>
+
+              <td>Amount of local disk (in MB) required per task</td>
+            </tr>
+
+            <tr>
+              <td>Dedicated Swap per Task</td>
+
+              <td>35</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>0</td>
+
+              <td>Amount of virtual memory (in MB) required per task</td>
+            </tr>
+
+            <tr>
+              <td>Start Date</td>
+
+              <td>36</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>0</td>
+
+              <td>Epoch time indicating earliest time job can start</td>
+            </tr>
+
+            <tr>
+              <td>End Date</td>
+
+              <td>37</td>
+
+              <td>&lt;INTEGER&gt;</td>
+
+              <td>0</td>
+
+              <td>Epoch time indicating latest time by which job must complete</td>
+            </tr>
+
+            <tr>
+              <td>Allocated Host List</td>
+
+              <td>38</td>
+
+              <td>&lt;STRING&gt;[:&lt;STRING&gt;]...</td>
+
+              <td>[NONE]</td>
+
+              <td>colon delimited list of hosts allocated to job (i.e., node001:node004) <b>NOTE</b>: In Maui 3.0, this field only lists the job's master host.</td>
+            </tr>
+
+            <tr>
+              <td>Resource Manager Name</td>
+
+              <td>39</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>Name of resource manager if specified</td>
+            </tr>
+
+            <tr>
+              <td>Required Host Mask</td>
+
+              <td>40</td>
+
+              <td>&lt;STRING&gt;[&lt;STRING&gt;]...</td>
+
+              <td>[NONE]</td>
+
+              <td>List of hosts required by job. (if taskcount &gt; #hosts, scheduler must use these nodes in addition to others, if taskcount &lt; #host, scheduler must select needed hosts from this list)</td>
+            </tr>
+
+            <tr>
+              <td>Reservation</td>
+
+              <td>41</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>Name of reservation required by job if specified</td>
+            </tr>
+
+            <tr>
+              <td>Set Description</td>
+
+              <td>42</td>
+
+              <td>&lt;STRING&gt;:&lt;STRING&gt;[:&lt;STRING&gt;]</td>
+
+              <td>[NONE]</td>
+
+              <td>Set constraints required by node in the form &lt;SetConstraint&gt;:&lt;SetType&gt;[:&lt;SetList&gt;] where SetConstraint is one of ONEOF, FIRSTOF, or ANYOF, SetType is one of PROCSPEED, FEATURE, or NETWORK, and SetList is an optional colon delimited list of allowed set attributes, (i.e. 'ONEOF:PROCSPEED:350:450:500')</td>
+            </tr>
+
+            <tr>
+              <td>Application Simulator Data</td>
+
+              <td>43</td>
+
+              <td>&lt;STRING&gt;[:&lt;STRING&gt;]</td>
+
+              <td>[NONE]</td>
+
+              <td>Name of application simulator module and associated configuration data (i.e., 'HSM:IN=infile.txt:140000;OUT=outfile.txt:500000')</td>
+            </tr>
+
+            <tr>
+              <td>RESERVED FIELD 1</td>
+
+              <td>44</td>
+
+              <td>&lt;STRING&gt;</td>
+
+              <td>[NONE]</td>
+
+              <td>RESERVED FOR FUTURE USE</td>
+            </tr>
+          </table>
+
+          <table class="note">
+            <tbody>
+              <tr>
+                <td class="noteIMG"><img src="note.png" title="Note" alt="Note"></td>
+
+                <td class="noteDetail">if no applicable value is specified, the exact string '<b>[NONE]</b>' should be entered.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>Sample Workload Trace:</p>
+
+          <p>'<tt>SP02.2343.0 20 20 570 519 86400 Removed [batch:1] 887343658 889585185 889585185 889585411 ethernet R6000 AIX43 &gt;= 256 &gt;= 0 [NONE] 889584538 20 0 0 2 0 test.cmd 1001 6 678.08 0 1 0 0 0 0 0 [NONE] 0 [NONE] [NONE] [NONE] [NONE] [NONE]</tt>'</p>
+
+          <h2><a name="creating" id="creating"></a>16.3.2Creating New Workload Traces</h2>
+
+          <p>Because workload traces and workload statistics utilize the same format, there are trace fields which provide information that is valuable to a statistical analysis of historical system performance but not necessary for the execution of a simulation.</p>
+
+          <p>Particularly, in the area of time based fields, there exists an opportunity to overspecify. Which time based fields are important depend on the setting the the <a href="a.fparameters.html#jobsubmissionpolicy">JOBSUBMISSIONPOLICY</a> parameter.<br>
+          <br></p>
+
+          <table border width="100%" nosave="">
+            <tr>
+              <td><b>JOBSUBMISSIONPOLICY Value</b></td>
+
+              <td><b>Critical Time Based Fields</b></td>
+            </tr>
+
+            <tr>
+              <td><b>NORMAL</b></td>
+
+              <td>WallClock Limit<br>
+              Submission Time<br>
+              StartTime<br>
+              Completion Time</td>
+            </tr>
+
+            <tr>
+              <td><b>CONSTANTJOBDEPTH</b><br>
+              <b>CONSTANTPSDEPTH</b></td>
+
+              <td>WallClock Limit<br>
+              StartTime<br>
+              Completion Time</td>
+            </tr>
+          </table>
+
+          <table class="note">
+            <tbody>
+              <tr>
+                <td class="noteIMG"><img src="note.png" title="Note" alt="Note"></td>
+
+                <td class="noteDetail">Dispatch Time should always be identical to Start Time</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="note">
+            <tbody>
+              <tr>
+                <td class="noteIMG"><img src="note.png" title="Note" alt="Note"></td>
+
+                <td class="noteDetail">In all cases, the difference of 'Completion Time - Start Time' is used to determine actual job run time.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="note">
+            <tbody>
+              <tr>
+                <td class="noteIMG"><img src="note.png" title="Note" alt="Note"></td>
+
+                <td class="noteDetail">System Queue Time and Proc-Seconds Utilized are only used for statistics gathering purposes and will not alter the behavior of the simulation.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="note">
+            <tbody>
+              <tr>
+                <td class="noteIMG"><img src="note.png" title="Note" alt="Note"></td>
+
+                <td class="noteDetail">In all cases, relative time values are important, i.e., Start Time must be greater than or equal to Submission Time and less than Completion Time.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="16.0simulations.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="16.2resourcetrace.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="16.4simspecconfig.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

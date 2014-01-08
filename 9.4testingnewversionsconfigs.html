@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="9.0evaluatingsystemperformance.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="9.3profilingusage.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="9.5whatifquestions.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>9.4 Testing New Versions and Configurations</h1>
+
+          <h2>9.4.1 'TEST' Mode</h2>
+
+          <p>Maui supports a scheduling mode called <b>TEST</b>. In this mode, the scheduler initializes, contacts the resource manager and other peer services, and conducts scheduling cycles exactly as it would if running in <b>NORMAL</b> or production mode. Job are prioritized, reservations created, policies and limits enforced, and admin and end-user commands enabled. The key difference is that although <i>live</i> resource management information is loaded, <b>TEST</b> mode disables Maui's ability to start, preempt, cancel, or otherwise modify jobs or resources. Maui continues to attempt to schedule exactly as it would in <b>NORMAL</b> mode but its ability to actually impact the system is disabled. Using this mode, a site can quickly verify correct resource manager configuration and scheduler operation. This mode can also be used to validate new policies and constraints. In fact, Maui can be run in <b>TEST</b> mode on a production system while another scheduler or even another version of Maui is running on the same system. This unique ability can allow new versions and configurations to be fully tested without any exposure to potential failures and with no cluster downtime.</p>
+
+          <p>To run Maui in <b>TEST</b> mode, simply set the <b>MODE</b> attribute of the <b>SCHEDCFG</b> parameter to <b>TEST</b> and start Maui. Normal scheduler commands can be used to evaluate configuration and performance. <a href="14.1internaldiagnostics.html">Diagnostic commands</a> can be used to look for any potential issues. Further, the Maui log file can be used to determine which jobs Maui attempted to start, and which resources Maui attempted to allocate.</p>
+
+          <p>If another instance of Maui is running in production and a site wishes to evaluate an alternate configuration or new version, this is easily done but care should be taken to avoid conflicts with the primary scheduler. Potential conflicts include statistics files, logs, checkpoint files, and user interface ports. One of the easiest ways to avoid these conflicts is to create a new 'test' directory with its own log and stats subdirectories. The new <b>maui.cfg</b> file can be created from scratch or based on the existing maui.cfg file already in use. In either case, make certain that the <b>PORT</b> attribute of the <b>SCHEDCFG</b> parameter differs from that used by the production scheduler by at least two ports. If testing with the production binary executable, the <b>MAUIHOMEDIR</b> environment variable should be set to point to the new test directory in order to prevent Maui from loading the production maui.cfg file.</p>
+
+          <h2>9.4.1 'INTERACTIVE' Mode</h2>
+
+          <p><b>INTERACTIVE</b> mode allows for evaluation of new versions and configurations in a manner different from <b>TEST</b> mode. Instead of disabling all resource and job control functions, Maui sends the desired change request to the screen and <i>asks</i> for permission to complete it. For example, before starting a job, Maui may print something like the following to the screen</p>
+          <pre>
+Command:  start job 1139.ncsa.edu on node list test013,test017,test018,test021
+Accept:  (y/n) [default: n]?
+</pre>
+
+          <p>The administrator must specifically accept each command request after verifying it correctly meets desired site policies. Maui will then execute the specified command. This mode is highly useful in validating scheduler behavior and can be used until configuration is appropriately tuned and all parties are comfortable with the scheduler's performance. In most cases, sites will want to set the scheduling mode to <b>NORMAL</b> after verifying correct behavior.</p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="9.0evaluatingsystemperformance.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="9.3profilingusage.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="9.5whatifquestions.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

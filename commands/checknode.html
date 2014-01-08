@@ -1,0 +1,202 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+  </div>
+
+
+<table>
+<tr>
+   <td valign=bottom><h1>checknode</h1>
+   <td valign=bottom nowrap><b>(Check Node)</b>
+<tr>
+</table>
+
+<!-- <hr> #old and ugly-->
+
+<p><big><b>Synopsis</b></big></p>
+<!-- synopsis is a high-level usage / quick reference -->
+<!-- synopsis should not extend beyond ~80 chars -->
+<pre>
+checknode <i>nodeID</i>
+</pre>
+
+<p><big><b>Overview</b></big></p>
+This command shows detailed state information and statistics for nodes that run jobs. 
+<P>
+<P>
+The following information is returned by this command:
+
+<P>
+<TABLE class="simpleTable">
+<TR VALIGN=TOP>
+<TD class="contentLabels">Disk</TD>
+<TD class="contentDetails">Disk space available</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD class="contentLabels">Memory</TD>
+<TD class="contentDetails">Memory available</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD class="contentLabels">Swap</TD>
+<TD class="contentDetails">Swap space available</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD class="contentLabels">State</TD>
+<TD class="contentDetails">Node state</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD class="contentLabels">Opsys</TD>
+<TD class="contentDetails">Operating system</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD class="contentLabels">Arch</TD>
+<TD class="contentDetails">Architecture</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD class="contentLabels">Adapters</TD>
+<TD class="contentDetails">Network adapters available</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD class="contentLabels">Features</TD>
+<TD class="contentDetails">Features available</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD class="contentLabels">Classes</TD>
+<TD class="contentDetails">Classes available</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD class="contentLabels">StateTime</TD>
+<TD class="contentDetails">Time node has been in current state in HH:MM:SS notation</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD class="contentLabels">Downtime</TD>
+<TD class="contentDetails">Displayed only if downtime is scheduled</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD class="contentLabels">Load</TD>
+<TD class="contentDetails">CPU Load (Berkley one-minute load average)</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD class="contentLabels">TotalTime</TD>
+<TD class="contentDetails">Total time node has been detected since statistics initialization
+    expressed in HH:MM:SS notation</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD class="contentLabels">UpTime</TD>
+<TD class="contentDetails">Total time node has been in an available (Non-Down) state since
+    statistics initialization expressed in HH:MM:SS notation
+    (percent of time up:  UpTime/TotalTime)</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD class="contentLabels">BusyTime</TD>
+<TD class="contentDetails">Total time node has been busy (allocated to active jobs) since
+    statistics initialization expressed in HH:MM:SS notation
+    (percent of time busy:  BusyTime/TotalTime)</TD>
+</TR>
+</TABLE>
+
+After displaying this information, some analysis is performed and any 
+unusual conditions are reported.
+
+<p><big><b>Access</b></big></p>
+By default, this command can be run by any Moab Administrator (see <a href="../a.fparameters.html#admincfg">ADMINCFG</a>).
+
+<p><big><b>Parameters</b></big></p>
+
+<TABLE class="simpleTable">
+<TR VALIGN=TOP>
+<TD class="contentLabels"><I>NODE</I></TD>
+<TD class="contentDetails">Node name you want to check.</TD>
+</TR>
+</TABLE>
+
+<p><big><b>Flags</b></big></p>
+
+<TABLE class="simpleTable">
+<TR VALIGN=TOP>
+<TD class="contentLabels">-h</TD>
+<TD class="contentDetails">Help for this command.</TD>
+</TR>
+<tr>
+<td class="contentLabels">-v</td>
+<td class="contentDetails">Returns verbose output.</td>
+</tr>
+<tr>
+<td class="contentLabels">--xml</td>
+<td class="contentDetails">Output in XML format. Same as <a href="mdiag-node.html#xml">mdiag -n --xml</a>.</td>
+</tr>
+</TABLE>
+
+<p><b>Example</b></p>
+
+<div class="example"><pre>
+&gt; checknode P690-032
+node P690-032
+ 
+State:      Busy  (in current state for 11:31:10)
+Configured Resources: PROCS: 1  MEM: 16G  SWAP: 2000M  DISK: 500G
+Utilized   Resources: PROCS: 1
+Dedicated  Resources: PROCS: 1
+Opsys:      AIX       Arch:      P690
+Speed:      1.00      CPULoad:   1.000
+Network:    InfiniBand,Myrinet
+Features:   Myrinet
+Attributes: [Batch]
+Classes:    [batch 0:1]
+ 
+Total Time: 5:23:28:36  Up: 5:23:28:36 (100.00%)  Active: 5:19:44:22 (97.40%)
+ 
+Reservations:
+  Job '13678'(x1)  10:16:12:22 -&gt; 12:16:12:22 (2:00:00:00)
+  Job '13186'(x1)  -11:31:10 -&gt; 1:12:28:50 (2:00:00:00)
+JobList:  13186
+</pre></div>
+
+<h2>See Also</h2>
+
+<ul>
+<li><a href="../2.2installation.html#client">Moab Client Installation</a> - explains how to distribute this command to client nodes</li>
+<li><a href="mdiag-node.html">mdiag -n</a>
+<li><a href="showstate.html">showstate</a> 
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+
+

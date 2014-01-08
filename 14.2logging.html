@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="14.0troubleshootingandsysmaintenance.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="14.1internaldiagnostics.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="14.3messagebuffer.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>14.2 Logging Overview</h1>The Maui Scheduler provides the ability to produce detailed logging of all of its activities. The <a href="a.fparameters.html#logfile">LOGFILE</a> and/or <a href="a.fparameters.html#logdir">LOGDIR</a> parameters within the maui.cfg file specify the destination of this logging information. Logging information will be written in the file &lt;MAUIHOMEDIR&gt;/&lt;LOGDIR&gt;&lt;LOGFILE&gt; unless &lt;LOGDIR&gt; or &lt;LOGFILE&gt; is specified using an absolute path. If the log file is not specified or points to an invalid file, all logging information is directed to STDERR. However, because of the sheer volume of information that can be logged, it is not recommended that this be done while in production. By default, LOGDIR and LOGFILE are set to '<b>log</b>' and '<b>maui.log</b>' respectively, resulting in scheduler logs being written to <b>&lt;MAUIHOMEDIR&gt;/log/maui.log</b>.
+
+          <p>The parameter <a href="a.fparameters.html#logfilemaxsize">LOGFILEMAXSIZE</a> determines how large the log file is allowed to become before it is rolled and is set to 10 MB by default. When the log file reaches this specified size, the log file is rolled. The parameter <a href="a.fparameters.html#logfilerolldepth">LOGFILEROLLDEPTH</a> will control the number of old logs maintained and defaults to 1. Rolled log files will have a numeric suffix appended indicating their order.</p>
+
+          <p>The parameter <a href="a.fparameters.html#logfile">LOGLEVEL</a> controls the verbosity of the information. Currently, LOGLEVEL values between 0 and 9 are used to control the amount of information logged, with 0 being the most terse, logging only the most server problems detected, while 9 is the most verbose, commenting on just about everything. The amount of information provided at each log level is approximately an order of magnitude greater than what is provided at the log level immediately below it. A LOGLEVEL of 2 will record virtually all critical messages, while a log level of 4 will provide general information describing all actions taken by the scheduler. If a problem is detected, you may wish to increase the LOGLEVEL value to get more details. However, doing so will cause the logs to roll faster and will also cause a lot of possibly unrelated information to clutter up the logs. Also be aware of the fact that high LOGLEVEL values will result in large volumes of possibly unnecessary file I/O to occur on the scheduling machine. Consequently, it is not recommended that high LOGLEVEL values be used unless tracking a problem or similar circumstances warrant the I/O cost. NOTE: If high log levels are desired for an extended period of time and your Maui home directory is located on a network filesystem, performance may be improved by moving your log directory to a local file system using the 'LOGDIR' parameter.</p>
+
+          <p>A final log related parameter is <b><a href="a.fparameters.html#logfacility">LOGFACILITY</a></b>. This parameter can be used to focus logging on a subset of scheduler activities. This parameter is specified as a list of one or more scheduling facilities as listed in the parameters documentation.</p>
+
+          <p>The logging that occurs is of five major types, subroutine information, status information, scheduler warnings, scheduler alerts, and scheduler errors. These are described in detail below:</p>
+
+          <p><b>1.Subroutine Information</b>. Each subroutine is logged, along with all printable parameters. Major subroutines are logged at lower LOGLEVELs while all subroutines are logged at higher LOGLEVELs. Example:</p>
+
+          <p>CheckPolicies(fr4n01.923.0,2,Reason)</p>
+
+          <p><b>2.Status Information</b>. Information about internal status is logged at all LOGLEVELs. Critical internal status is indicated at low LOGLEVELs while less critical and voluminous status information is logged at higher LOGLEVELs. Example:</p>
+
+          <p>INFO: Job fr4n01.923.0 Rejected (Max User Jobs)<br>
+          INFO: Job[25] 'fr4n01.923.0' Rejected (MaxJobPerUser Policy Failure)</p>
+
+          <p><b>3.Scheduler Warnings</b>. Warnings are logged when the scheduler detects an unexpected value or receives an unexpected result from a system call or subroutine. They are not necessarily indicative of problems and are not catastrophic to the scheduler. Example:</p>
+
+          <p>WARNING: cannot open fairshare data file '/home/loadl/maui/stats/FS.87000'</p>
+
+          <p><b>4.Scheduler Alerts</b>. Alerts are logged when the scheduler detects events of an unexpected nature which may indicate problems in other systems or in objects. They are typically of a more severe nature than are warnings and possibly should be brought to the attention of scheduler administrators. Example:</p>
+
+          <p>ALERT: job 'fr5n02.202.0' cannot run. deferring job for 360 Seconds</p>
+
+          <p><b>5.Schedulers Errors</b>. Errors are logged when the scheduler detects problems of a nature of which it is not prepared to deal. It will try to back out and recover as best it can, but will not necessarily succeed. Errors should definitely be be monitored by administrators. Example:</p>
+
+          <p>ERROR: cannot connect to Loadleveler API</p>
+
+          <p>On a regular basis, use the command grep -E "WARNING|ALERT|ERROR" maui.log to get a listing of the problems the scheduler is detecting. On a production system working normally, this list should usually turn up empty. The messages are usually self-explanatory but if not, viewing the log can give context to the message.</p>
+
+          <p>If a problem is occurring early when starting the Maui Scheduler (before the configuration file is read) Maui can be started up using the -L LOGLEVEL flag. If this is the first flag on the command line, then the LOGLEVEL is set to the specified level immediately before any setup processing is done and additional logging will be recorded.</p>
+
+          <p>If problems are detected in the use of one of the client commands, the client command can be re-issued with the -L &lt;LOGLEVEL&gt; command line arg specified. This argument causes debug information to be logged to STDERR as the client command is running. Again, &lt;LOGLEVEL&gt; values from 0 to 9 are<br>
+          supported.</p>
+
+          <p>In addition to the log file, the Maui Scheduler reports all events it determines to be critical to the Unix&reg; syslog facility via the 'daemon' facility using priorities ranging from 'INFO' to 'ERROR'. This logging is not affected by LOGLEVEL. In addition to errors and critical events, all user commands that affect the state of the jobs, nodes, or the scheduler are also logged via syslog.</p>
+
+          <p>The logging information is extremely helpful in diagnosing problems, but it can also be useful if you are simply trying to become familiar with the "flow" of the scheduler. The scheduler can be run with a low LOGLEVEL value at first to show the highest level functions. This shows high-level data and control flow. Increasing the LOGLEVEL increases the number of functions displayed as familiarity with the scheduler flow grows.</p>
+
+          <p>The LOGLEVEL can be changed "on-the-fly" by use of the <a href="commands/changeparam.html">changeparam</a> command, or by modifying the maui.cfg file and sending the scheduler process a SIGHUP. Also, if the scheduler appears to be "hung" or is not properly responding, the LOGLEVEL can be incremented by one by sending a SIGUSR1 signal to the scheduler process. Repeated SIGUSR1 signals will continue to increase the LOGLEVEL. The SIGUSR2 signal can be used to decrement the LOGLEVEL by one.</p>
+
+          <p>If an unexpected problem does occur, save the log file as it is often very helpful in isolating and correcting the problem.</p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="14.0troubleshootingandsysmaintenance.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="14.1internaldiagnostics.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="14.3messagebuffer.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

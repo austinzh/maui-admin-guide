@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="5.0prioritization.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="5.2nodeallocation.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="5.4nodeavailability.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>5.3 Node Access Policies</h1>Maui allocates resources to jobs on the basis of a job task. As described in the glossary, a task is an atomic collection of resources which must be co-located on a single compute node. A given job may request 20 tasks where each task is defined as 'one processor and 128 MB of RAM'. Compute nodes with multiple processors often possess enough resources to support more than one task simultaneously. When it is possible for more than one task to run on a node, node access policies determine which tasks may share the compute nodes resources.<br>
+          <br>
+          Maui supports four distinct node access policies which are listed in the table below.<br>
+          <br>
+
+          <table cellpadding="2" cellspacing="2" border="1" width="100%">
+            <tbody>
+              <tr>
+                <td valign="top"><b>Policy</b><br></td>
+
+                <td valign="top"><b>Description</b><br></td>
+              </tr>
+
+              <tr>
+                <td valign="top"><b>SHARED</b><br></td>
+
+                <td valign="top">Tasks from any combination of jobs may utilize available resources<br></td>
+              </tr>
+
+              <tr>
+                <td valign="top"><b>SINGLEUSER</b><br></td>
+
+                <td valign="top">Tasks from any jobs owned by the same user may utilize available resources<br></td>
+              </tr>
+
+              <tr>
+                <td valign="top"><b>SINGLEJOB</b><br></td>
+
+                <td valign="top">Tasks from a single job may utilize available resources<br></td>
+              </tr>
+
+              <tr>
+                <td valign="top"><b>SINGLETASK</b><br></td>
+
+                <td valign="top">A single task from a single job may run on the node<br></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p><br>
+          Node Access polices may be specified via the parameter <a href="a.fparameters.html#nodeaccesspolicy"><b>NODEACCESSPOLICY</b></a> . The global default may be overridden using QOS flags or on a job-by-job basis using the resource manager extension <b><a href="13.3rmextensions.html#NACCESSPOLICY">NACCESSPOLICY</a> .</b> By default, nodes are accessible using the setting of the system wide <b>NODEACCESSPOLICY</b> parameter. However, jobs may override this policy and subsequent jobs are bound to conform to the access policies of all jobs currently running on a given node. For example, if the <b>NODEACCESSPOLICY</b> parameter was set to <b>SHARED</b>, a new job may be launched on an idle node with a job specific access policy of <b>SINGLEUSER</b>. While this job is running, subsequent job tasks may only be launched on this node provided they were submitted by the same user. When all single user jobs have completed on that node, the node can again be used in <b>SHARED</b> mode.</p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="5.0prioritization.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="5.2nodeallocation.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="5.4nodeavailability.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

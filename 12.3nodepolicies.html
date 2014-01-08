@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="12.0generalnodeadmin.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="12.2nodeattributes.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="12.4consumablegres.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>12.3 Node Specific Policies</h1>Specification of node policies is fairly limited within Maui mainly because the demand for such policies is limited. These policies allow a site to specify on a node by node basis what the node will and will not support. Node policies may be applied to specific nodes or applied system wide using the specification '<tt>NODECFG[DEFAULT] ...</tt>' Note that these policies were introduced over time so not all policies are supported in all versions.
+
+          <p><b>MAXJOB</b></p>
+
+          <p>This policy constrains the number of total independent jobs a given node may run simultaneously. It can only be specified via the <b>NODECFG</b> parameter.</p>
+
+          <p><b>MAXJOBPERUSER</b></p>
+
+          <p>This policy constrains the number of total independent jobs a given node may run simultaneously associated with any single user. Like <b>MAXJOB</b>, it can only be specified via the <a href="a.fparameters.html#nodecfg">NODECFG</a> parameter.</p>
+
+          <p><b>MAXLOAD</b></p>
+
+          <p><b>MAXLOAD</b> constrains the CPU load the node will support as opposed to the number of jobs. If the node's load exceeds the <b>MAXLOAD</b> limit and the <a href="a.fparameters.html#nodeloadpolicy">NODELOADPOLICY</a> parameter is set to <b>ADJUSTSTATE</b> , the node will be marked busy. Under Maui 3.0, the max load policy could be applied system wide using the parameter <a href="a.fparameters.html#nodemaxload">NODEMAXLOAD</a>.</p>
+
+          <p><img src="note.png" height="24" width="20"> Node policies are used strictly as constraints. If a node is defined as having a single processor or the <a href="a.fparameters.html#nodeaccesspolicy">NODEACCESSPOLICY</a> is set to <b>DEDICATED</b>, and a <b>MAXJOB</b> policy of 3 is specified, Maui will probably not run more than one job per node. A node's configured processors must be specified so that multiple jobs may run and then the <b>MAXJOB</b> policy will be effective. The number of configured processors per node is specified on a resource manager specific basis. PBS, for example, allows this to be adjusted by setting the number of virtual processors, 'np' per node in the PBS 'nodes' file.</p>
+
+          <p><b>Example:</b></p>
+
+          <p>---<br>
+          <tt># maui.cfg</tt></p>
+
+          <p><tt>NODECFG[node024] MAXJOB=4 MAXJOBPERUSER=2</tt><br>
+          <tt>NODECFG[node025] MAXJOB=2</tt><br>
+          <tt>NODECFG[node026] MAXJOBPERUSER=1</tt><br>
+          <tt>NODECFG[DEFAULT] MAXLOAD=2.5</tt><br>
+          ...<br>
+          ---</p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="12.0generalnodeadmin.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="12.2nodeattributes.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="12.4consumablegres.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

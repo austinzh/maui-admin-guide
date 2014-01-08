@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <center>
+            <h1>PBS Config - Default Queue Settings</h1>
+          </center>
+
+          <p><br>
+          Contributed Suggestions:<br>
+          <br>
+          (Brian Haymore brian@chpcs.utah.edu)<br>
+          <br>
+          To set a default of one node and 15 minutes of walltime for a particular queue, issue the following:</p>
+
+          <p>&gt; qmgr<br>
+          <br>
+          Qmgr: set queue &lt;QUEUENAME&gt; resources_default.nodect = 1<br>
+          Qmgr: set queue &lt;QUEUENAME&gt; resources_default.walltime = 00:15:00<br>
+          Qmgr: quit<br></p>
+
+          <p>To set system wide defaults, set the following:<br></p>
+
+          <p>&gt; qmgr<br>
+          <br>
+          Qmgr: set server resources_default.nodect = 1<br>
+          Qmgr: set server resources_default.walltime = 00:15:00<br>
+          Qmgr: quit<br></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

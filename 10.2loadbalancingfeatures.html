@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="10.0managingsharedresources.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="10.1consumableresourcehandling.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="10.3resourceusagetracking.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1><a name="balance" id="balance"></a>10.2 Load Balancing Features</h1>
+
+          <p><i>Load balancing</i> is generally defined as the incorporation of resource load information into scheduling decisions. Maui supports load balancing in a number of ways allowing sites to use node load information to both determine <a href="5.4nodeavailability.html">resource availability</a> and to control job <a href="5.2nodeallocation.html">resource allocation</a>. <a name="ResourceAvailability" id="ResourceAvailability"></a></p>
+
+          <h2>10.2.1 Resource Availability</h2>
+
+          <p>Maui will only schedule jobs onto available nodes. Using Maui's <a href="5.4nodeavailability.html">node availability policies</a>, a site can specify exactly what criteria determine the node's availability. For load balancing purposes, sites may wish to configure availability criteria for processors, memory, and swap. Various settings can enable overcommiting resources if desired while others can constrain nodes to only accept jobs if resources exist to meet the maximum needs of all concurrent job requests. <a name="PrioritizingNodeAllocation" id="PrioritizingNodeAllocation"></a></p>
+
+          <h2>10.2.2 Prioritizing Node Allocation</h2>
+
+          <p>The second major aspect of load balancing has to do with the selection of resources for new jobs. With Maui, load information can be incorporated into the node allocation decision by using the<b>PRIORITY</b> <a href="5.2nodeallocation.html">node allocation</a> policy. This policy allows specification of which aspects of a node's configuration contribute to its allocation priority. For load balancing purposes, a site would want to favor nodes with the most available processors and the lowest load and job count. The node allocation priority function is set using the <b>PRIORITYF</b> attribute of the <b>NODECFG</b> parameter as shown in the example below:</p>
+          <pre>
+-----
+# maui.cfg
+
+NODEALLOCATIONPOLICY  PRIORITY
+NODECFG[DEFAULT]      PRIORITYF='10 * APROCS - LOAD - JOBCOUNT'
+-----
+</pre>
+
+          <p>Other node aspects which may be of value in configuring load-balancing based node allocation include <b>SPEED</b> and <b>CPROCS</b>.</p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="10.0managingsharedresources.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="10.1consumableresourcehandling.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="10.3resourceusagetracking.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

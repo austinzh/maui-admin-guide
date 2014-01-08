@@ -1,0 +1,1350 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="../index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+    <a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+  </td>
+  
+  
+<td class="navTableProdName">
+    <b><font size=+1>Moab Workload Manager</font><small><sup>&reg;</sup></small></b>
+  </td>
+</table>
+
+<hr>
+
+<table>
+  <tr align=left>
+    <td valign=bottom><h1>msub</h1></td>
+    <td valign=bottom nowrap><b>(Moab Job Submit)</b></td>
+  </tr>
+</table>
+
+<big><p><b>Synopsis</b></p></big>
+
+<pre>
+msub  [<a href="msub.html#eligible">-a <i>datetime</i></a>][<a href="msub.html#account">-A <i>account</i></a>][<a href="msub.html#interval">-c interval</a>][<a href="msub.html#directive">-C directive_prefix</a>][<a href="msub.html#directory">-d <i>path</i></a>]
+      [<a href="msub.html#error">-e <i>path</i></a>][<a href="msub.html#environment">-E</a>][<a href="msub.html#hold">-h</a>][<a href="msub.html#interactive">-I</a>][<a href="msub.html#join">-j <i>join</i></a>][<a href="msub.html#keep">-k keep</a>][<a href="msub.html#continue">-K</a>][<a href="msub.html#resource">-l <i>resourcelist</i></a>][<a href="msub.html#mail">-m <i>mailoptions</i></a>]
+      [<a href="msub.html#maillist">-M user_list</a>][<a href="msub.html#name">-N name</a>][<a href="msub.html#output">-o <i>path</i></a>][<a href="msub.html#priority">-p <i>priority</i></a>][<a href="msub.html#destination">-q <i>destination</i></a>][<a href="msub.html#rerun">-r</a>]
+      [<a href="msub.html#shell">-S <i>pathlist</i></a>][<a href="msub.html#user">-u <i>userlist</i></a>][<a href="msub.html#variable">-v <i>variablelist</i></a>][<a href="msub.html#verbose">-V</a>][<a href="msub.html#additional">-W <i>additionalattributes</i></a>]
+      [<a href="msub.html#silent">-z</a>][<a href="msub.html#script"><i>script</i></a>]
+</pre>
+
+<big><p><b>Overview</b></p></big>
+
+<p><b>msub</b> allows users to submit jobs directly to Moab. When a job is submitted directly to a resource manager (such as TORQUE), it is constrained to run on only those nodes that the resource manager is directly monitoring. In many instances, a site may be controlling multiple resource managers. When a job is submitted to Moab rather than to a specific resource manager, it is not constrained as to what nodes it is executed on. <b>msub</b> can accept command line arguments (with the same syntax as <a href="http://www.adaptivecomputing.com/products/torque/docs/commands/qsub.php">qsub</a>), job scripts (in either PBS or LoadLeveler syntax), or the SSS Job XML specification.
+
+<p>Submitted jobs can then be viewed and controlled via the <a href="mjobctl.html">mjobctl</a> command.
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">Flags specified in the following table are not necessarily supported by all resource managers.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<big><p><b>Access</b></p></big>
+
+When Moab is configured to run as root, any user may submit jobs via msub.
+
+<big><p><b>Flags</b></p></big>
+
+<table class="tblFormat01">
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="a"></a><b>-a</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="eligible" id="eligible"></a><b>Eligible Date</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">[[[[CC]YY]MM]DD]hhmm[.SS]</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Declares the time after which the job is eligible for execution.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -a 12041300 cmd.pbs</pre>
+        </div>
+Moab will not schedule the job until 1:00 pm on December 4, of the current year.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="A"></a><b>-A</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="account" id="account"></a><b>Account</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;ACCOUNT NAME&gt;</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Defines the account associated with the job.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -A research cmd.pbs</pre>
+        </div>
+        Moab will associate this job with account research.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="c"></a><b>-c</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="interval" id="interval"></a><b>Checkpoint Interval</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">[n|s|c|c=&lt;minutes&gt;]</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Checkpoint of the will occur at the specified interval.<br />
+      <br />
+      	<b>n</b> &mdash; No Checkpoint is to be performed.<br />
+		<b>s</b> &mdash; Checkpointing is to be performed only when the server executing the job is shut down.<br />
+		<b>c</b> &mdash; Checkpoint is to be performed at the default minimum time for the server executing the job.<br />
+		<b>c=&lt;minutes&gt;</b> &mdash; Checkpoint is to be performed at an interval of minutes.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -c c=12 cmd.pbs</pre>
+        </div>
+		The job will be checkpointed every 12 minutes.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="C"></a><b>-C</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="directive" id="directive"></a><b>Directive Prefix</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">'&lt;PREFIX NAME&gt;'</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">First known prefix (#PBS, #@, #BSUB, #!, #MOAB, #MSUB)</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Specifies which directive prefix should be used from a job script.
+        <ul>
+          <li>It is best to submit with single quotes. '#PBS'</li>
+          <li>An empty prefix will cause Moab to not search for any prefix. -C ''</li>
+          <li>Command line arguments have precedence over script arguments.</li>
+          <li>Custom prefixes can be used with the -C flag. -C '#MYPREFIX'</li>
+          <li>Custom directive prefixes must use PBS syntax.</li>
+          <li>If the -C flag is not given, Moab will take the first default prefix found. Once a directive is found, others are ignored.</li>
+        </ul>
+      </td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -C '#MYPREFIX' cmd.pbs
+
+#MYPREFIX -l walltime=5:00:00 (in cmd.pbs)</pre>
+        </div>
+        Moab will use the #MYPREFIX directive specified in cmd.pbs, setting the wallclock limit to five hours.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="d"></a><b>-d</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="directory"></a><b>Execution Directory</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;path&gt;</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">Depends on the RM being used. If using TORQUE, the default is $HOME. If using SLURM, the default is the submission directory.</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Specifies which directory the job should execute in.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -d /home/test/job12 cmd.pbs</pre>
+        </div>
+        The job will begin execution in the <tt>/home/test/job12</tt> directory.
+        
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="e"></a><b>-e</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="error"></a><b>Error Path</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">[&lt;hostname&gt;:]&lt;path&gt;</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">$SUBMISSIONDIR/$JOBNAME.e$JOBID</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Defines the path to be used for the standard error stream of the batch job.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -e test12/stderr.txt</pre>
+        </div>
+        The STDERR stream of the job will be placed in the relative (to execution) directory specified.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="E"></a><b>-E</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="environment"></a><b>Environment Variables</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Moab adds the following variables, if populated, to the job's environment:
+        <ul>
+          <li><b>MOAB_ACCOUNT</b>: Account name.</li>
+          <li><b>MOAB_BATCH</b>: Set if a batch job (non-interactive).</li>
+          <li><b>MOAB_CLASS</b>: Class name.</li>
+          <li><b>MOAB_DEPEND</b>: Job dependency string.</li>
+          <li><b>MOAB_GROUP</b>: Group name.</li>
+          <li><b>MOAB_JOBID</b>: Job ID. If submitted from the grid, grid jobid.</li>
+          <li><b>MOAB_JOBNAME</b>: Job name.</li>
+          <li><b>MOAB_MACHINE</b>: Name of the machine (ie. Destination RM) that the job is running on.</li>
+          <li><b>MOAB_NODECOUNT</b>: Number of nodes allocated to job.</li>
+          <li><b>MOAB_NODELIST</b>: Comma-separated list of nodes (listed singly with no ppn info).</li>
+          <li><b>MOAB_PARTITION</b>: Partition name the job is running in. If grid job, cluster scheduler's name.</li>
+          <li><b>MOAB_PROCCOUNT</b>: Number of processors allocated to job.</li>
+          <li><b>MOAB_QOS</b>: QOS name.</li>
+          <li><b>MOAB_TASKMAP</b>: Node list with procs per node listed. &lt;nodename&gt;.&lt;procs&gt;</li>
+          <li><b>MOAB_USER</b>: User name.</li>
+        </ul>
+          
+        <p>In SLURM environments, not all variables will be populated since the variables are added at submission (such as NODELIST). With TORQUE/PBS, the variables are added just before the job is started.</p>
+        
+        <p>This feature only works with SLURM and TORQUE/PBS.</p>
+      </td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -E mySim.cmd</pre>
+        </div>
+        The job <i>mySim</i> will be submitted with extra environment variables.</td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="h"></a><b>-h</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="hold"></a><b>Hold</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">N/A</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Specifies that a user hold be applied to the job at submission time.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -h cmd.ll</pre>
+        </div>
+		The job will be submitted with a user hold on it.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="I"></a><b>-I</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="interactive"></a><b>Interactive</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">N/A</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Declares the the job is to be run interactively.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -I job117.sh</pre>
+        </div>
+		The job will be submitted in interactive mode.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="j"></a><b>-j</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="join"></a><b>Join</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">[oe|n]</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">n (not merged)</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Declares if the standard error stream of the job will be merged with the standard output stream of the job.  If "oe" is specified, the error and output streams will be merged into the output stream.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -j oe cmd.sh</pre>
+        </div>
+		STDOUT and STDERR will be merged into one file.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="k"></a><b>-k</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="keep"></a><b>Keep</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">[e|o|eo|oe|n]</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">n (not retained)</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Defines which (if either) of output and error streams will be retained on the execution host (overrides path for stream).</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -k oe myjob.sh</pre>
+        </div>
+		STDOUT and STDERR for the job will be retained on the execution host.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="K"></a><b>-K</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="continue"></a><b>Continue Running</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">N/A</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Tells the client to continue running until the submitted job is completed. The client will query the status of the job every 5 seconds. The time interval between queries can be specified or disabled via <a href="../a.fparameters.html#msubqueryinterval">MSUBQUERYINTERVAL</a>.
+      
+      <p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">Use the -K option SPARINGLY (if at all) as it slows down the Moab scheduler with frequent queries. Running  ten jobs with the -K option creates an additional fifty queries per minute for the scheduler.</td>
+    </tr>
+  </tbody>
+</table></p>
+      
+</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -K newjob.sh
+
+3
+Job 3 completed*</pre>
+        </div>
+		*Only shows up after job completion.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="l"></a><b>-l</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="resource"></a><b>Resource List</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails"><pre>&lt;STRING&gt;</pre>
+(either <a href="http://www.adaptivecomputing.com/resources/torque/index.php20/2.1jobsubmission.php#resources">standard
+    PBS/TORQUE options</a> or <a  href="../13.3rmextensions.html">resource manager
+    extensions</a>) </td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails"><p>Defines the resources that are required by the job and establishes a
+      limit to the amount of resource that can be consumed. Either resources native to the resource manager (see <a href="http://www.adaptivecomputing.com/resources/torque/index.php20/2.1jobsubmission.php#resources">PBS/TORQUE resources</a>) or scheduler <a href="../13.3rmextensions.html">resource manager extensions</a> may be specified. Note that resource lists are dependent on the resource manager in use.</p></td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -l nodes=32:ppn=2,pmem=1800mb,walltime=3600,VAR=testvar:myvalue cmd.sh</pre>
+        </div>
+	  <p>The job requires 32 nodes with 2 processors each, 1800 MB per task, a walltime of 3600 seconds, and a variable named testvar with a value of myvalue. </p>
+	  <p>&nbsp;</p></td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="m"></a><b>-m</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="mail"></a><b>Mail Options</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">[[n]|[a][b][e]]</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Defines the set of conditions (abort,begin,end) when the server will send a mail message about the job to the user.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -m be cmd.sh
+</pre>
+        </div>
+		Mail notifications will be sent when the job begins and ends.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="M"></a><b>-M</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="maillist"></a><b>Mail List</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;user&gt;[@&lt;host&gt;][,&lt;user&gt;[@&lt;host&gt;],...]</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">$JOBOWNER</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Specifies the list of users to whom mail is sent by the execution server.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -M jon@node01,bill@node01,jill@node02 cmd.sh</pre>
+        </div>
+		Mail will be sent to the specified users if the job is aborted.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="N"></a><b>-N</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="name"></a><b>Name</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;STRING&gt;</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">STDIN or name of job script</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Specifies the user-specified job name attribute.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -N chemjob3 cmd.sh</pre>
+        </div>
+		Job will be associated with the name chemjob3.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="o"></a><b>-o</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="output"></a><b>Output Path</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">[&lt;hostname&gt;:]&lt;path&gt;</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">$SUBMISSIONDIR/$JOBNAME.o$JOBID</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Defines the path to be used for the standard output stream of the batch job.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -o test12/stdout.txt</pre>
+        </div>
+		The STDOUT stream of the job will be placed in the relative (to execution) directory specified.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="p"></a><b>-p</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="priority"></a><b>Priority</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;INTEGER&gt; (between -1024 and 0)</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">0</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Defines the priority of the job.<br />
+      To enable priority range from -1024 to +1023, see <a href="../a.fparameters.html#enableposuserpriority"><b>ENABLEPOSUSERPRIORITY</b></a>.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -p 25 cmd.sh</pre>
+        </div>
+		The job will have a user priority of 25.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="q"></a><b>-q</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="destination"></a><b>Destination Queue (Class)</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">[&lt;queue&gt;][@&lt;server&gt;]</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">[&lt;DEFAULT&gt;]</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Defines the destination of the job.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -q priority cmd.sh</pre>
+        </div>
+		The job will be submitted to the priority queue.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="r"></a><b>-r</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="rerun"></a><b>Rerunable</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">[y|n]</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">n</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Declares whether the job is rerunable.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -r n cmd.sh</pre>
+        </div>
+		The job cannot be rerun.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name=""></a><b>-S</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="shell"></a><b>Shell Path</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;path&gt;[@&lt;host&gt;][,&lt;path&gt;[@&lt;host&gt;],...]</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">$SHELL</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Declares the shell that interprets the job script.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -S /bin/bash</pre>
+        </div>
+		The job script will be interpreted by the <tt>/bin/bash</tt> shell.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="u"></a><b>-u</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="user"></a><b>User List</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;user&gt;[@&lt;host&gt;[,&lt;user&gt;[@&lt;host&gt;],...]</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">UID of msub command</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Defines the user name under which the job is to run on the execution system.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -u bill@node01 cmd.sh</pre>
+        </div>
+		On node01 the job will run under Bill's UID, if permitted.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="v"></a><b>-v</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="variable"></a><b>Variable List</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;string&gt;[,&lt;string&gt;,...]</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Expands the list the environment variables that are exported to the job (taken from the msub command environment).</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -v DEBUG cmd.sh</pre>
+        </div>
+		The DEBUG environment variable will be defined for the job.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="V"></a><b>-V</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="verbose"></a><b>All Variables</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">N/A</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">N/A</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Declares that all environment variables in the msub environment are exported to the batch job</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -V cmd.sh</pre>
+        </div>
+		All environment variables will be exported to the job.
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="W"></a><b>-W</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="additional"></a><b>Additional Attributes</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;string&gt;</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Allows the for the specification of additional job attributes (See <a href="../13.3rmextensions.html">Resource Manager Extension</a>)</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -W x=GRES:matlab:1 cmd.sh</pre>
+        </div>
+		The job requires one resource of "matlab".
+      </td>
+    </tr>  </tbody>
+
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="z"></a><b>-z</b></td>
+    </tr>  
+      
+    <tr>
+      <td class="contentLabels">Name:</td>
+      <td class="contentDetails"><a name="silent"></a><b>Silent Mode</b></td>
+    </tr>
+      
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">N/A</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">N/A</td>
+    </tr>
+    
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">The job's identifier will not be printed to stdout upon submission.</td>
+    </tr>
+    
+    <tr>
+    <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail">
+        <div class="example">
+        <pre>
+&gt; msub -z cmd.sh</pre>
+        </div>
+		No job identifier will be printout the stdout upon successful submission.
+      </td>
+    </tr>
+    
+  </tbody>
+
+<!-- This empty table body (and table row) are here to force the table rules and frame to put a border at the top of the first visible row. Without this empty row, the visible table would not have a border above the first row. -->
+  <tbody>
+    <tr>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+  
+</table>
+<p>
+  <b><a name="script"></a>Job Script</b>
+  
+<p>&nbsp;&nbsp; The <b>msub</b> command supports job scripts written in any one of the following
+languages:
+
+<p>
+<table class="simpleTable">
+<tr>
+<th>Language</th>
+<th>Notes</th>
+
+<tr>
+<td class="contentLabels"><a href="http://www.adaptivecomputing.com/resources/torque/index.php/commands/qsub.php">PBS/TORQUE Job Submission Language</a>
+<td class="contentDetails">---
+
+<tr>
+<td class="contentLabels"><a
+href="http://publib.boulder.ibm.com/infocenter/clresctr/index.jsp?topic=/com.ibm.cluster.loadl.doc/loadl33/am2ug30223.html">LoadLeveler Job Submission Language</a>
+<td class="contentDetails">Use the <a href="../a.fparameters.html#instantstage">INSTANTSTAGE</a> parameter as only a subset of the command file keywords are interpreted by Moab.
+
+<tr>
+<td class="contentLabels"><a href="http://docs.adaptivecomputing.com/maui/SSSJobObject_3.0.9.pdf">SSS XML Job Object Specification</a>
+<td class="contentDetails">---
+
+<tr>
+<td class="contentLabels">LSF Job Submission Language
+<td class="contentDetails">enabled in Moab 4.2.4 and higher
+
+</table>
+
+<big><p><b><a name="msubrc"></a>/etc/msubrc</b></p></big>
+
+<p>Sites that wish to automatically add parameters to every job submission can populate the file '/etc/msubrc' with global parameters that every job submission will inherit.</p>
+
+For example, if a site wished every job to request a particular generic resource they could use the following /etc/msubrc:
+
+<p><div class="example">
+<pre>-W x=GRES:matlab:2</pre></div>
+
+<big><p><b>Usage Notes</b></p></big>
+
+<p><b>msub</b> is designed to be as flexible as possible, allowing users
+accustomed to PBS, LSF, or LoadLeveler syntax, to continue submitting jobs as they normally would. It is not recommended that different styles be mixed together in the same <b>msub</b> command.</p>
+
+<p>When only one resource manager is configured inside of Moab, all jobs are immediately staged to the only resource manager available. However, when multiple resource managers are configured Moab will determine which resource manager can run the job soonest. Once this has been determined, Moab will stage the job to the resource manager.</p>
+
+<p>It is possible to have Moab take a "best effort" approach at submission time using the <i><b>forward</b></i> flag. When this flag is specified, Moab will do a quick check and make an intelligent guess as to which resource manager can run the job soonest and then immediately stage the job.</p>
+
+<p>Moab can be configured to instantly stage a job to the underlying resource manager (like TORQUE/LOADLEVELER) through the parameter <a href="../a.fparameters.html#instantstage">INSTANTSTAGE</a>. When set inside <i>moab.cfg</i>, Moab will migrate the job instantly to an appropriate resource manager. Once migrated, Moab will destroy all knowledge of the job and refresh itself based on the information given to it from the underlying resource manager.</p>
+
+<p>In most instances Moab can determine what syntax style the job belongs to (PBS or LoadLeveler); if Moab is unable to make a guess, it will default the style to whatever resource manager was configured at compile time. If LoadLeveler and PBS were both compiled then LoadLeveler takes precedence.</p>
+
+<p>Moab can translate a subset of job attributes from one syntax to another. It is therefore possible to submit a PBS style job to a LoadLeveler resource manager, and vice versa, though not all job attributes will be translated.</p>
+
+<!-- Give short description of what the example will show. -->
+
+<big><p><b>Example 1</b></p></big>
+
+<p><div class="example"><pre>
+&gt; msub -l nodes=3:ppn=2,walltime=1:00:00,pmem=100kb script2.pbs.cmd
+
+4364.orion</pre>
+</div>
+
+<big><p><b>Example 2</b></p></big>
+
+Example 2 is the XML-formatted version of Example 1. See <a href="http://docs.adaptivecomputing.com/maui/msub_xml_format.php">Submitting Jobs via msub in XML</a> for more information.
+
+<p><div class="example"><pre>
+&lt;job&gt;
+  &lt;InitialWorkingDirectory&gt;/home/user/test/perlAPI&lt;/InitialWorkingDirectory&gt;
+  &lt;Executable&gt;/home/user/test/perlAPI/script2.pbs.cmd&lt;/Executable&gt;
+  &lt;SubmitLanguage&gt;PBS&lt;/SubmitLanguage&gt;
+  &lt;Requested&gt;
+    &lt;Feature&gt;ppn2&lt;/Feature&gt;
+    &lt;Processors&gt;3&lt;/Processors&gt;
+    &lt;WallclockDuration&gt;3600&lt;/WallclockDuration&gt;
+  &lt;/Requested&gt;
+&lt;/job&gt;</pre></div>
+
+<big><p><b>See Also</b></p></big>
+
+<ul>
+<li><a href="../2.2installation.html#client">Moab Client Installation</a> - explains how to distribute this command to client nodes</li>
+<li><a href="mjobctl.html">mjobctl</a> command to view, modify, and cancel jobs<br>
+<li><a href="checkjob.html">checkjob</a> command to view detailed information about the job<br>
+<li><a href="mshow.html">mshow</a> command to view all jobs in the queue
+<li><a href="../a.fparameters.html#defaultsubmitlanguage">DEFAULTSUBMITLANGUAGE</a> parameter
+<li><a href="../a.fparameters.html#msubqueryinterval">MSUBQUERYINTERVAL</a> parameter
+<li><a href="../a.fparameters.html#submitfilter">SUBMITFILTER</a> parameter
+<li><a href="http://docs.adaptivecomputing.com/maui/msub_submitfilter.php">Applying the msub Submit Filter</a> for job script sample
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>

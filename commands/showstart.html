@@ -1,0 +1,184 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>showstart</h1>
+   <td valign=bottom nowrap><b>(Show Start Estimate)</b>
+<tr>
+</table>
+
+<big><p><b>Synopsis</b></p></big>
+
+<pre>
+showstart {<a href="showstart.html#jobid"><i>jobid</i></a>|<a href="showstart.html#proccount"><i>proccount</i></a>[@<a href="showstart.html#duration"><i>duration</i></a>]|<a href="showstart.html#s3"><i>s3jobspec</i></a>} [<a href="showstart.html#e">-e</a> {all|<a href="showstart.html#hist">hist</a>|<a href="showstart.html#prio">prio</a>|<a href="showstart.html#rsv">rsv</a>}]
+          [<a href="showstart.html#f">-f</a>] [<a href="showstart.html#g">-g</a> [<i>peer</i>]] [<a href="showstart.html#l">-l qos=&lt;QOS&gt;</a>] [--format=xml]
+</pre>
+
+<big><p><b>Overview</b></p></big>
+
+This command displays the estimated start time of a job based a number of analysis types. This analysis may include information based on historical usage, earliest
+available reservable resources, and priority based backlog analysis. Each type of
+analysis will provide somewhat different estimates base on current cluster environmental
+conditions. By default, only reservation based analysis is performed.
+
+<p><a name="hist"></a><b>Historical</b> analysis utilizes historical queue times for jobs which match a
+similiar processor count and job duration profile. This information is updated on a
+sliding window which is configurable within <tt>moab.cfg</tt>
+
+<p><a name="rsv"></a><b>Reservation</b> based start time estimation incorporates information regarding
+current administrative, user, and job reservations to determine the earliest time the
+specified job could allocate the needed resources and start running. In essence,
+this estimate will indicate the earliest time the job would start <i>assuming this job was
+the highest priority job in the queue</i>.
+
+<p><a name="prio"></a><b>Priority</b> based job start analysis determines when the queried job would
+fit in the queue and determines the estimated amount of time required to complete the jobs
+which are currently running or scheduled to run before this job can start.
+
+<p>In all cases, if the job is running, this command will return the time the
+job started. If the job already has a reservation, this command will return the
+start time of the reservation.
+
+<big><p><b>Access</b></p></big>
+
+By default, this command can be run by any user.
+
+<p><b>Parameters</b>
+<p>
+<table class="simpleTable">
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<tr>
+<td class="contentLabels"><a name="duration"></a><b>DURATION</b>
+<td class="contentDetails">duration of pseudo-job to be checked in format [[[DD:]HH:]MM:]SS (default duration is 1 second)
+<tr>
+<td class="contentLabels"><a name="e"></a><b>-e</b>
+<td class="contentDetails">estimate method. By default, Moab will use the reservation based estimation method.
+<tr>
+<td class="contentLabels"><a name="f"></a><b>-f</b>
+<td class="contentDetails">use <i>feedback</i>. If specified, Moab will apply historical accuracy information to improve the quality of the estimate. See <a href="../a.fparameters.html#enablestartestimatestats">ENABLESTARTESTIMATESTATS</a> for more information.
+<tr>
+<td class="contentLabels"><a name="g"></a><b>-g</b>
+<td class="contentDetails"> grid mode. Obtain showstart information from remote resource managers. If -g is not used and Moab determines that job is already migrated, Moab obtains showstart information form the remote Moab where the job was migrated to. All resource managers can be queried by using the keyword &quot;all&quot; which  returns all information in a table.
+
+<div class="example">
+<pre>
+$ showstart -g all head.1
+
+Estimated Start Times
+
+[ Remote RM ] [ Reservation ] [ Priority ] [ Historical ]
+[ c1 ] [ 00:15:35 ] [ ] [ ]
+[ c2 ] [ 3:15:38 ] [ ] [ ]
+</pre>
+</div>
+
+<tr>
+<td class="contentLabels"><a name="l"></a><b>-l qos=&lt;QOS&gt;</b>
+<td class="contentDetails">Specifies what QOS the job must start under, using
+the same syntax as the <a href="msub.html"><b>msub</b></a> command. Currently, no other resource manager
+extensions are supported. This flag only applies to hypothetical jobs by using the <tt>proccount[@duration]</tt> syntax.
+<tr>
+<td class="contentLabels"><a name="jobid"></a><b>JOBID</b>
+<td class="contentDetails">job to be checked
+<tr>
+<td class="contentLabels"><a name="proccount"></a><b>PROCCOUNT</b>
+<td class="contentDetails">number of processors in pseudo-job to be checked
+<tr>
+<td class="contentLabels"><a name="s3"></a><b>S3JOBSPEC</b>
+<td class="contentDetails">XML describing the job according to the Dept. of Energy <a
+href="http://docs.adaptivecomputing.com/maui/SSSWireProtocol_3.0.3.php">Scalable
+Systems Software</a>/S3 job specification.
+</table>
+
+<big><p><b>Example 1</b></p></big>
+
+<p><div class="example"><pre>
+&gt; showstart orion.13762
+
+job orion.13762 requires 2 procs for 0:33:20
+
+Estimated Rsv based start in                 1:04:55 on Fri Jul 15 12:53:40
+Estimated Rsv based completion in            2:44:55 on Fri Jul 15 14:33:40
+
+Estimated Priority based start in            5:14:55 on Fri Jul 15 17:03:40
+Estimated Priority based completion in       6:54:55 on Fri Jul 15 18:43:40
+
+Estimated Historical based start in         00:00:00 on Fri Jul 15 11:48:45
+Estimated Historical based completion in     1:40:00 on Fri Jul 15 13:28:45
+
+Best Partition: fast
+</pre></div>
+
+<big><p><b>Example 2</b></p></big>
+
+<p><div class="example"><pre>
+&gt; showstart 12@3600
+
+job 12@3600 requires 12 procs for 1:00:00
+Earliest start in         00:01:39 on Wed Aug 31 16:30:45
+Earliest completion in     1:01:39 on Wed Aug 31 17:30:45
+Best Partition: 32Bit
+</pre></div>
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">You cannot specify job flags when running <b>showstart</b>, and since a job by default can only run on one partition, <b>showstart</b> fails when querying for a job requiring more nodes than the largest partition available.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<big><p><b>Additional Information</b></p></big>
+
+For reservation based estimates, the information provided by this command is
+more highly accurate if the job is highest priority, if the job has a reservation, or if
+the majority of the jobs which are of higher priority have reservations.
+&nbsp;Consequently, sites wishing to make decisions based on this information may want to consider
+using the <a href="../a.fparameters.html#reservationdepth">RESERVATIONDEPTH</a>
+parameter to increase the number of priority based reservations.&nbsp;
+This can be set so that most, or even all idle jobs receive priority reservations
+and make the results of this command generally useful.&nbsp; The only caution
+of this approach is that increasing the <b>RESERVATIONDEPTH</b> parameter more
+tightly constrains the decisions of the scheduler and may resulting in
+slightly lower system utilization (typically less than 8% reduction).&nbsp;
+
+<h2>See Also</h2>
+
+<ul>
+<li><a href="../2.2installation.html#client">Moab Client Installation</a> - explains how to distribute this command to client nodes</li>
+<li><a href="checkjob.html">checkjob</a>
+<li><a href="showres.html">showres</a>
+<li><a href="showstatsf.html#eststarttime">showstats -f eststarttime</a>
+<li><a href="showstatsf.html#avgqtime">showstats -f avgqtime</a>
+<li><a href="../15.5jobstarttimeestimates.html">Job Start Estimates</a>
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>

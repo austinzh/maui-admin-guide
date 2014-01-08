@@ -1,0 +1,314 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>mdiag -c</h1>
+   <td valign=bottom nowrap><b>(Moab Class Diagnostics)</b>
+<tr>
+</table>
+
+<p><big><b>Synopsis</b></big></p>
+<pre>
+mdiag -c [-v] [<i>classid</i>] [<a href="mdiag-class.html#xml">--format=xml</a>]
+</pre>
+
+<p><big><b>Overview</b></big></p>
+
+   The <b>mdiag -c</b> command provides detailed information about the classes Moab is currently tracking.  This command also allows an administrator to verify correct throttling policies and access provided to and from other credentials.
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">The term <a
+href="../3.2environment.html#classdefinition">class</a> is used interchangeably with the
+term <i>queue</i> and generally refers to resource manager queue.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<p><big><b><a name="xml">XML Output</a></b></big></p>
+
+<strong>mdiag -c</strong> information can be reported as XML as well.  This is done with the command "mdiag -c &lt;CLASS_ID&gt; --format=xml".
+XML based class information will be written to STDOUT in the following format:
+<p><div class="example"><pre>
+&lt;Data&gt;
+  &lt;class &lt;ATTR&gt;="&lt;VAL&gt;" ... &gt;
+    &lt;stats &lt;ATTR&gt;="&lt;VAL&gt;" ... &gt;
+      &lt;Profile &lt;ATTR&gt;="&lt;VAL&gt;" ... &gt;
+      &lt;/Profile&gt;
+    &lt;/stats&gt;
+  &lt;/class&gt;
+&lt;Data&gt;
+
+  ...
+&lt;/Data&gt;
+</pre></div></p>
+
+<p>
+In addition to the attributes listed below, mdiag -c's XML children describe its general statistics information 
+(stats XML Element) and profile based statistics (<a href="http://docs.adaptivecomputing.com/maui/xml/Profile.php">Profile</a>
+XML element).
+</p>
+
+<p><big><b>XML Attributes</b></big></p>
+<table class="simpleTable">
+<tr>
+  <th>Name</b></th>
+  <th>Description</th>
+</tr>
+<tr>
+  <td class="contentLabels">ADEF</td>
+  <td class="contentDetails">Accounts a class has access to.</td>
+</tr>
+<tr>
+  <td class="contentLabels">CAPACITY</td>
+  <td class="contentDetails">Number of procs available to the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">DEFAULT.ATTR</td>
+  <td class="contentDetails">Default attributes attached to a job.</td>
+</tr>
+<tr>
+  <td class="contentLabels">DEFAULT.DISK</td>
+  <td class="contentDetails">Default required disk attached to a job.</td>
+</tr>
+<tr>
+  <td class="contentLabels">DEFAULT.FEATURES</td>
+  <td class="contentDetails">Default required node features attached to a job.</td>
+</tr>
+<tr>
+  <td class="contentLabels">DEFAULT.GRES</td>
+  <td class="contentDetails">Default generic resources attached to a job.</td>
+</tr>
+<tr>
+  <td class="contentLabels">DEFAULT.MEM</td>
+  <td class="contentDetails">Default required memeory attached to a job.</td>
+</tr>
+<tr>
+  <td class="contentLabels">DEFAULT.NODESET</td>
+  <td class="contentDetails">Default specified nodeset attached to a job.</td>
+</tr>
+<tr>
+  <td class="contentLabels">DEFAULT.WCLIMIT</td>
+  <td class="contentDetails">Default wallclock limit attached to a job.</td>
+</tr>
+<tr>
+  <td class="contentLabels">EXCL.FEATURES</td>
+  <td class="contentDetails">List of excluded (disallowed) node features.</td>
+</tr>
+<tr>
+    <td class="contentLabels">EXCL.FLAGS</td>
+    <td class="contentDetails">List of excluded (disallowed) job flags.</td>
+</tr>
+<tr>
+  <td class="contentLabels">FSTARGET</td>
+  <td class="contentDetails">The class' fairshare target.</td>
+</tr>
+<tr>
+  <td class="contentLabels">HOLD</td>
+  <td class="contentDetails">If TRUE this credential has a hold on it, FALSE otherwise.</td>
+</tr>
+<tr>
+  <td class="contentLabels">HOSTLIST</td>
+  <td class="contentDetails">The list of hosts in this class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">JOBEPILOG</td>
+  <td class="contentDetails">Scheduler level job epilog to be run after job is completed by resource manager (script path).</td>
+</tr>
+<tr>
+  <td class="contentLabels">JOBFLAGS</td>
+  <td class="contentDetails">Default flags attached to jobs in the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">JOBPROLOG</td>
+  <td class="contentDetails">Scheduler level job prolog to be run before job is started by resource manager (script path).</td>
+</tr>
+<tr>
+  <td class="contentLabels">ID</td>
+  <td class="contentDetails">The unique ID of this class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">LOGLEVEL</td>
+  <td class="contentDetails">The log level attached to jobs in the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAX.PROC</td>
+  <td class="contentDetails">The max processors per job in the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAX.PS</td>
+  <td class="contentDetails">The max processor-seconds per job in the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAX.WCLIMIT</td>
+  <td class="contentDetails">The max wallclock limit per job in the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAXIJOB</td>
+  <td class="contentDetails">The max idle jobs in the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAXIPROC</td>
+  <td class="contentDetails">The max idle processors in the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAXJOBPERUSER</td>
+  <td class="contentDetails">The max jobs per user.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAXNODEPERJOB</td>
+  <td class="contentDetails">The max nodes per job.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAXNODEPERUSER</td>
+  <td class="contentDetails">The max nodes per user.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAXPROCPERJOB</td>
+  <td class="contentDetails">The max processors per job.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAXPROCPERNODE</td>
+  <td class="contentDetails">The max processors per node.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MAXPROCPERUSER</td>
+  <td class="contentDetails">The max processors per user.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MIN.NODE</td>
+  <td class="contentDetails">The minimum nodes per job in the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MIN.PROC</td>
+  <td class="contentDetails">The minimum processors per job in the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">MIN.WCLIMIT</td>
+  <td class="contentDetails">The minimum wallclock limit per job in the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">NODEACCESSPOLICY</td>
+  <td class="contentDetails">The node access policy associated with jobs in the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">OCDPROCFACTOR</td>
+  <td class="contentDetails">Dedicated processor factor.</td>
+</tr>
+<tr>
+  <td class="contentLabels">OCNODE</td>
+  <td class="contentDetails">Overcommit node.</td>
+</tr>
+<tr>
+  <td class="contentLabels">PRIORITY</td>
+  <td class="contentDetails">The class' associated priority.</td>
+</tr>
+<tr>
+  <td class="contentLabels">PRIORITYF</td>
+  <td class="contentDetails">Priority calculation function.</td>
+</tr>
+<tr>
+  <td class="contentLabels">REQ.FEATURES</td>
+  <td class="contentDetails">Required features for a job to be considered in the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">REQ.FLAGS</td>
+  <td class="contentDetails">Required flags for a job to be considered in the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">REQ.IMAGE</td>
+  <td class="contentDetails">Required image for a job to be considered in the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">REQUIREDUSERLIST</td>
+  <td class="contentDetails">The list of users who have access to the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">RM</td>
+  <td class="contentDetails">The resouce manager reporting the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">RMLIST</td>
+  <td class="contentDetails">The list of resource managers who have access to the class.</td>
+</tr>
+<tr>
+  <td class="contentLabels">STATE</td>
+  <td class="contentDetails">The class' state.</td>
+</tr>
+<tr>
+  <td class="contentLabels">WCOVERRUN</td>
+  <td class="contentDetails">Tolerated amount of time beyond the specified wall clock limit.</td>
+</tr>
+</table>
+
+
+<p><big><b>Example 1</b></big></p>
+
+<p><div class="example"><pre>
+&gt; mdiag -c
+
+Class/Queue Status
+
+ClassID        Priority Flags        QDef              QOSList* PartitionList        Target Limits
+
+DEFAULT               0 ---          ---                   ---  ---                   0.00  ---
+batch                 1 ---          ---                   ---  [A][B]               70.00  MAXJOB=33:200,250
+  MAX.WCLIMIT=10:00:00  MAXPROCPERJOB=128
+long                  1 ---          low                   low  [A]                  10.00  MAXJOB=3:100,200
+  MAX.WCLIMIT=1:00:00:00  MAXPROCPERJOB=128
+fast                100 ---          high                 high  [B]                  10.00  MAXJOB=8:100,150
+  MAX.WCLIMIT=00:30:00  MAXPROCPERJOB=128
+bigmem                1 ---          low,high              low  ---                  10.00  MAXJOB=1:100,200
+  MAXPROCPERJOB=128
+</pre></div>
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">The <b>Limits</b> column will display limits in the following format:
+
+<p>   &lt;USAGE&gt;:&lt;HARDLIMIT&gt;[,&lt;SOFTLIMIT&gt;]  
+
+</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<p>   In the example above, class <tt>fast</tt> has <b>MAXJOB</b> soft and hard limits of 100 and 150 respectively and is currently running 8 jobs.</p>
+
+<h2>See Also</h2>
+
+<ul>
+<li><a href="showstats.html">showstats</a> command - display general statistics
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="8.0optimizingschedulingbehavior.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="8.3nodesetoverview.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="9.0evaluatingsystemperformance.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>8.4 Preemption Policies</h1>
+
+          <p>Many sites possess workloads of varying importance. While it may be critical that some jobs obtain resources immediately, other jobs are less <i>turnaround time</i> sensitive but have an insatiable hunger for compute cycles, consuming every available cycle for years on end. These latter jobs often have turnaround times on the order of weeks or months. The concept of <i>cycle stealing</i>, popularized by systems such as Condor, handles such situations well and enables systems to run low priority, preemptible jobs whenever something more pressing is not running. These other systems are often employed on compute farms of desktops where the jobs must vacate anytime interactive system use is detected.</p>
+
+          <h2>8.4.1 Preemption Triggers</h2>Preemption can be enabled in one of three ways. These include manual intervention, QOS based configuration, and use of the preemption based backfill algorithm.
+
+          <h3>8.4.1.1 Admin Preemption Commands</h3>The <b>mjobctl</b> command can be used to preempt jobs. Specifically, the command can be used to modify a job's execution state in the following ways:
+
+          <table cellpadding="2" cellspacing="2" border="1" width="100%">
+            <tbody>
+              <tr>
+                <td valign="top"><b>Action</b><br></td>
+
+                <td valign="top"><b>Flag</b><br></td>
+
+                <td valign="top"><b>Details</b><br></td>
+              </tr>
+
+              <tr>
+                <td valign="top">Cancel<br></td>
+
+                <td valign="top">-c<br></td>
+
+                <td valign="top">terminate and remove job from queue<br></td>
+              </tr>
+
+              <tr>
+                <td valign="top">Checkpoint<br></td>
+
+                <td valign="top">-C<br></td>
+
+                <td valign="top">terminate and checkpoint job leaving job in queue<br></td>
+              </tr>
+
+              <tr>
+                <td valign="top">Requeue<br></td>
+
+                <td valign="top">-R<br></td>
+
+                <td valign="top">terminate job leaving job in queue<br></td>
+              </tr>
+
+              <tr>
+                <td valign="top">Resume<br></td>
+
+                <td valign="top">-r<br></td>
+
+                <td valign="top">resume suspended job<br></td>
+              </tr>
+
+              <tr>
+                <td valign="top">Start (execute)<br></td>
+
+                <td valign="top">-x<br></td>
+
+                <td valign="top">start idle job<br></td>
+              </tr>
+
+              <tr>
+                <td valign="top">Suspend<br></td>
+
+                <td valign="top">-s<br></td>
+
+                <td valign="top">suspend active job<br></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>In general, users are allowed to suspend or terminate jobs they own. Administrators are allowed to suspend, terminate, resume, and execute any queued jobs.<br></p>
+
+          <h3>8.4.1.2 QOS Based Preemption</h3>Maui's QoS-based preemption system allows a site the ability to specify preemption rules and control access to preemption privileges. These abilities can be used to increase system throughput, improve job response time for specific classes of jobs, or other enable various political policies. All policies are enabled by specifying some QOS's with the flag <b>PREEMPTOR</b> , and other with the flag <b>PREEMPTEE</b>. For example, to enable a <i>cycle stealing</i> high throughput cluster, a QOS can be created for high priority jobs and marked with the flag <b>PREEMPTOR</b>; another QOS can be created for low priority jobs and marked with the flag <b>PREEMPTEE</b> . Finally, the <b>RESERVATIONPOLICY</b> parameter can be set to <b>NEVER</b>. With this configuration, low priority, preemptee jobs can be started whenever idle resources are available. These jobs will be allowed to run until a high priority job arrives, at which point the necessary low priority jobs will be preempted and the needed resources freed. This allows near immediate resource access for the high priority jobs. Using this approach, a cluster can maintain near 100% system utilization while still delivering excellent turnaround time to the jobs of greatest value.
+
+          <p>It is important to note the rules of QoS based preemption. Preemption <b>only</b> occurs when the following 3 conditions are satisfied:</p>
+
+          <ul>
+            <li>The <i>preemptor</i> job has the <b>PREEMPTOR</b> attribute set</li>
+
+            <li>The <i>preemptee</i> job has the <b>PREEMPTEE</b> attribute set</li>
+
+            <li>The <i>preemptor</i> job has a higher priority than the <i>preemptee</i> job</li>
+          </ul>
+
+          <p>Use of the preemption system need not be limited to controlling low priority jobs. Other uses include optimistic scheduling and development job support.</p>
+
+          <p>Example:</p>
+
+          <p><tt>----</tt></p>
+          <pre>
+PREEMPTPOLICY REQUEUE
+</pre>
+
+          <p><tt>QOSCFG[high] QFLAGS=PREEMPTOR</tt><br>
+          <tt>QOSCFG[med]</tt><br>
+          <tt>QOSCFG[low] QFLAGS=PREEMPTEE</tt><br>
+          <tt>----</tt></p>
+
+          <p><img src="http://docs.adaptivecomputing.com/images/logo1.gif" height="24"> The <a href="http://docs.adaptivecomputing.com/mcm/index.html">Moab Cluster Manager</a><sup>TM</sup>'s graphical interface presents numerous choices for configuration. For example, <b>PREEMPTOR</b> and <b>PREEMPTEE</b> attributes can be set when a <a href="http://docs.adaptivecomputing.com/mcm/qos.html">QoS is created</a>.</p>
+
+          <h3>8.4.1.3 Preemption Based Backfill</h3>The <b>PREEMPT</b> backfill policy allows a site to take advantage of optimistic scheduling. By default, backfill only allows jobs to run if they are guaranteed to have adequate time to run to completion. However, statistically, most jobs do not utilize their full requested wallclock limit. The <b>PREEMPT</b> backfill policy allows the scheduler to start backfill jobs even if required walltime is not available. If the job runs too long and interferes with another job which was guaranteed a particular timeslot, the backfill job is preempted and the priority job is allowed to run. When another potential timeslot becomes available, the preempted backfill job will again be optimistically executed. In environments with checkpointing or with poor wallclock accuracies, this algorithm has potential for significant savings. See the backfill section for more information.
+
+          <h2>8.4.2 Types of Preemption</h2>How the scheduler preempts a job is controlled by the <a href="a.fparameters.html#preemptpolicy">PREEMPTPOLICY</a> parameter. This parameter allows preemption to be enforced in one of the following manners:
+
+          <h3>8.4.2.1 Job Requeue</h3>Under this policy, active jobs are terminated and returned to the job queue in an idle state.
+
+          <h3>8.4.2.2 Job Suspend</h3>Suspend causes active jobs to stop executing but to remain in memory or the allocated compute nodes. While a suspended job frees up processor resources, it may continue to consume swap and/or other resources. Suspended jobs must be 'resumed' to continue executing. <b>NOTE:</b>If 'suspend' based preemption is selected, then the signal used to initiate the job suspend may be specified by setting the RM specific 'SUSPENDSIG' attribute, i.e. 'RMCFG[base] SUSPENDSIG=23'.
+
+          <h3>8.4.2.3 Job Checkpoint</h3>Systems which support job checkpointing allow a job to save off its current state and either terminate or continue running. A checkpointed job may be restarted at any time and resume execution from its most recent checkpoint.
+
+          <h3>8.4.2.4 RM Preemption Constraints</h3>Maui is only able to utilize preemption if the underlying resource manager/OS combination supports this capability. The following table displays current preemption limitations:
+
+          <p><b>Table 8.4.2.4 Resource Manager Preemption Constraints</b></p>
+
+          <table cellpadding="2" cellspacing="2" border="1" width="100%">
+            <tbody>
+              <tr>
+                <td valign="top"><b>Resource Manager</b><br></td>
+
+                <td valign="top"><b>OpenPBS</b> (2.3)<br></td>
+
+                <td valign="top"><b>PBSPro</b> (5.2)<br></td>
+
+                <td valign="top"><b>Loadleveler</b> (3.1)<br></td>
+
+                <td valign="top"><b>LSF</b> (5.2)<br></td>
+
+                <td valign="top"><b>SGE</b> (5.3)<br></td>
+              </tr>
+
+              <tr>
+                <td valign="top">Cancel<br></td>
+
+                <td valign="top">yes<br></td>
+
+                <td valign="top">yes<br></td>
+
+                <td valign="top">yes<br></td>
+
+                <td valign="top">yes<br></td>
+
+                <td valign="top">???<br></td>
+              </tr>
+
+              <tr>
+                <td valign="top">Requeue<br></td>
+
+                <td valign="top">yes<br></td>
+
+                <td valign="top">yes<br></td>
+
+                <td valign="top">yes<br></td>
+
+                <td valign="top">yes<br></td>
+
+                <td valign="top">???<br></td>
+              </tr>
+
+              <tr>
+                <td valign="top">Suspend<br></td>
+
+                <td valign="top">yes<br></td>
+
+                <td valign="top">yes<br></td>
+
+                <td valign="top">yes<br></td>
+
+                <td valign="top">yes<br></td>
+
+                <td valign="top">???<br></td>
+              </tr>
+
+              <tr>
+                <td valign="top">Checkpoint<br></td>
+
+                <td valign="top">(yes on IRIX)<br></td>
+
+                <td valign="top">(yes on IRIX)<br></td>
+
+                <td valign="top">yes<br></td>
+
+                <td valign="top">(OS dependent)<br></td>
+
+                <td valign="top">???<br></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p><b>See Also:</b> N/A .<br>
+          <a href="7.3qos.html">QOS Overview</a><br>
+          <a href="7.3qos.html#access">Managing QOS Access</a><br></p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="8.0optimizingschedulingbehavior.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="8.3nodesetoverview.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="9.0evaluatingsystemperformance.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

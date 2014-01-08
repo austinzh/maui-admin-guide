@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="12.0generalnodeadmin.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="12.1nodelocation.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="12.3nodepolicies.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>12.2 Node Attributes</h1>
+
+          <p>Nodes can possess a large number of attributes describing their configuration. The majority of these attributes such as operating system or configured network interfaces can only be specified by the direct resource manager interface. However, the number and detail of node attributes varies widely from resource manager to resource manager. Sites often have interest in making scheduling decisions based on scheduling attributes not directly supplied by the resource manager. Configurable node attributes are listed below.</p>
+
+          <p><b>NODETYPE</b></p>
+
+          <p>The <b>NODETYPE</b> attribute is most commonly used in conjunction with an allocation management system such as QBank. In these cases, each node is assigned a node type and within the allocation management system, each node type is assigned a charge rate. For example, a site may wish to charge users more for using large memory nodes and may assign a node type of 'BIGMEM' to these nodes. The allocation management system would then charge a premium rate for jobs using BIGMEM nodes. (See the <a href="6.4allocationmanagement.html">Allocation Manager Overview</a> for more information.)</p>
+
+          <p>Node types are specified as simple strings. If no node type is explicitly set, the node will possess the default node type of '[DEFAULT]'. Node type information can be specified directly using <a href="a.fparameters.html#nodecfg">NODECFG</a> or through use of the <a href="a.fparameters.html#featurenodetypeheader">FEATURENODETYPEHEADER</a> parameter.</p>
+
+          <p><b>Example:</b></p>
+
+          <p>---<br>
+          <tt># maui.cfg</tt></p>
+
+          <p><tt>NODECFG[node024] NODETYPE=BIGMEM</tt><br>
+          ...<br>
+          ---<br></p>
+
+          <p><b>PROCSPEED</b></p>
+
+          <p>Knowing a node's processor speed can help the scheduler improve intra-job efficiencies by allocating nodes of similar speeds together. This helps reduce losses due to poor internal job load balancing. Maui's <a href="8.3nodesetoverview.html">Node Set</a> scheduling policies allow a site to control processor speed based allocation behavior.</p>
+
+          <p>Processor speed information is specified in MHz and can be indicated directly using <a href="a.fparameters.html#nodecfg">NODECFG</a> or through use of the <a href="a.fparameters.html#featureprocspeedheader">FEATUREPROCSPEEDHEADER</a> parameter.<br></p>
+
+          <p><b>SPEED</b></p>
+
+          <p>A node's speed is very similar to its procspeed but is specified as a relative value. In general use, the speed of a base node is determined and assigned a speed of 1.0. A node that is 50% faster would be assigned a value of 1.5 while a slower node may receive a value which is proportionally less than 1.0. Node speeds do not have to be directly proportional to processor speeds and may take into account factors such as memory size or networking interface. Generally, node speed information is used to determine proper wallclock limit and CPU time scaling adjustments.</p>
+
+          <p>Node speed information is specified as a unitless floating point ratio and can be specified through the resource manager or with the <a href="a.fparameters.html#nodecfg">NODECFG</a> parameter.</p>
+
+          <p><img src="note.png" height="24" width="20"> The <b>SPEED</b> specification must be in the range of 0.01 to 100.0.<br></p>
+
+          <p><b>FEATURES</b></p>
+
+          <p>Not all resource managers allow specification of opaque node features. For these systems, the <a href="a.fparameters.html#nodecfg">NODECFG</a> parameter can be used to directly assign a list of node features to individual nodes.</p>
+
+          <p><b>NETWORK</b></p>
+
+          <p>The ability to specify which networks are available to a given node is limited to only a few resource manager. Using the <b>NETWORK</b> attribute, administrators can establish this node to network connection directly through the scheduler. The <a href="a.fparameters.html#nodecfg">NODECFG</a> parameter allows this list to be specified in a comma delimited list.</p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="12.0generalnodeadmin.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="12.1nodelocation.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="12.3nodepolicies.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

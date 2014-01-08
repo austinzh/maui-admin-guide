@@ -1,0 +1,89 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>canceljob</h1>
+   <td valign=bottom nowrap><b>(Cancel Job)</b>
+<tr>
+</table>
+
+<p><font color="#e63805"><b>Caution</b></font>: This command is deprecated. Use <a href="mjobctl.html#cancel">mjobctl -c</a> instead.</p>
+
+<h4>Synopsis</h4>
+
+<pre>
+canceljob <a href="canceljob.html#JOBID"><i>jobid</i></a> [<a href="canceljob.html#JOBID"><i>jobid</i></a>]...
+</pre>
+
+<h4>Overview</h4>
+
+The <TT>canceljob</TT> command is used to selectively cancel the specified job(s) (active, idle, or non-queued) from the queue.
+
+<h4>Access</h4>
+
+This command can be run by any Moab Administrator and by the owner of the job (see <a href="../a.fparameters.html#admincfg">ADMINCFG</a>).
+
+<table BORDER WIDTH="100%" >
+<tr>
+   <td valign=top><b>Flag</b></td>
+   <td valign=top><b>Name</b></td>
+   <td valign=top><b>Format</b></td>
+   <td valign=top><b>Default</b></td>
+   <td valign=top><b>Description</b></td>
+   <td valign=top><b>Example</b></td>
+</tr>
+
+<tr>
+   <td valign=top>-h</td>
+   <td valign=top><a name="HELP"></a><b>HELP</b></td>
+   <td valign=top>&nbsp;</td>
+   <td valign=top>N/A</td>
+   <td valign=top>Display usage information</td>
+   <td valign=top><tt>&gt; canceljob -h</tt></td>
+</tr>
+
+<tr>
+<td valign=top>&nbsp;</td>
+<td valign=top><a name="JOBID"></a><b>JOB ID</b></td>
+<td valign=top>&lt;STRING&gt;</td>
+<td valign=top>---</td>
+<td valign=top>a jobid, a job expression, or the keyword '<b>ALL</b>'</td>
+<td valign=top><tt>&gt; canceljob 13001 13003</tt></td>
+</tr>
+</table>
+
+<h4>Example 1</h4>
+
+&nbsp;&nbsp;Cancel job 6397
+
+<p><fieldset><pre>
+&gt; canceljob 6397
+</pre></fieldset>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

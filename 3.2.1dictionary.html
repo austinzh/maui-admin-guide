@@ -1,0 +1,507 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div><b><font size="+1">3.2.1 Scheduling Dictionary</font></b>
+
+          <table border width="100%" nosave="">
+            <tr>
+              <td><b>Term</b></td>
+
+              <td><b>Definition</b></td>
+
+              <td><b>Example</b></td>
+
+              <td><b>SSS v0.1 Token</b></td>
+            </tr>
+
+            <tr>
+              <td><a name="Account" id="Account"></a><b>Account</b></td>
+
+              <td>A credential also known as 'project ID'. Multiple users may be associated a single account ID and each user may have access to multiple accounts. (See <a href="3.2.1dictionary.html#Credential">Credential</a> )</td>
+
+              <td><tt>ACCOUNT=projectX</tt></td>
+
+              <td>account</td>
+            </tr>
+
+            <tr>
+              <td><a name="ACL" id="ACL"></a><b>ACL (Access Control List)</b></td>
+
+              <td>Within the scheduling world, an access control list is used and applied much as it is elsewhere. An ACL defines what credentials are required to access or utilizes particular objects. The principle objects to which ACL's are applied are <a href="3.2.1dictionary.html#Reservation">reservations</a> and <a href="3.2.1dictionary.html#QOS">QOS</a>'s. ACL's may contain both allow and deny statements, may include wildcards, and may contain rules based on multiple object types.</td>
+
+              <td>
+                Reservation META1 contains 4 access statements.
+
+                <p>Allow jobs owned by user <tt>john</tt> or <tt>bob</tt><br>
+                Allow jobs with QOS <tt>premium</tt><br>
+                Deny jobs in class <tt>debug</tt><br>
+                Allow jobs with a duration of less than 1 hour<br></p>
+              </td>
+
+              <td>
+                <b>AS</b> (Access Statement)
+
+                <p>Attributes:</p>
+
+                <p><b><tt>TYPE</tt></b> one of <tt>ALLOW</tt>, <tt>DENY</tt><br>
+                <b><tt>OBJECT</tt></b> one of <tt>USER</tt>, <tt>GROUP</tt>, <tt>ACCOUNT</tt>, <tt>QOS</tt>, <tt>CLASS</tt>, <tt>DURATION</tt><br>
+                <b><tt>NAME &lt;STRING&gt;</tt></b></p>
+
+                <p>Members:</p>
+
+                <p>[NONE]</p>
+
+                <p>Example:</p>
+
+                <p>&lt;AS TYPE="ALLOW" OBJECT="USER" NAME="john"/&gt;<br>
+                &lt;AS TYPE="ALLOW" OBJECT="USER" NAME="bob"/&gt;<br>
+                &lt;AS TYPE="ALLOW" OBJECT="QOS" NAME="premium"/&gt;<br>
+                &lt;AS TYPE="DENY" OBJECT="CLASS" NAME="debug"/&gt;<br>
+                &lt;AS TYPE="ALLOW" OBJECT="DURATION" NAME="1:00:00"/&gt;</p>
+
+                <p>(used in reservation and job creation and queries)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><a name="Allocation" id="Allocation"></a><b>Allocation</b></td>
+
+              <td>A logical, scalar unit assigned to users on a credential basis, providing access to a particular quantity of compute resources. Allocations are consumed by jobs associated with those credentials.</td>
+
+              <td><tt>ALLOCATION=30000</tt></td>
+
+              <td>
+                ALLOCATION
+
+                <p>Attributes:</p>
+
+                <p>Members:</p>
+
+                <p>(used in ???)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><a name="Class" id="Class"></a><b>Class</b></td>
+
+              <td>(see <a href="3.2.1dictionary.html#Queue">Queue</a> ) A class is a logical container object which holds jobs allowing a site to associate various constraints and defaults to these jobs. Class access can also be tied to individual nodes defining whether or not a particular node will accept a job associated with a given class. Class based access to a node is denied unless explicitly allowed via resource manager configuration. Within Maui, classes are tied to jobs as a <a href="3.2.1dictionary.html#Credential">credential</a>.</td>
+
+              <td>
+                job cw.073 is submitted to class batch
+
+                <p>node cl02 accepts jobs in class batch</p>
+
+                <p>reservation weekend allows access to jobs in class batch</p>
+              </td>
+
+              <td>
+                <b>class</b>
+
+                <p>Attributes:</p>
+
+                <p>Name: &lt;STRING&gt;</p>
+
+                <p>Members:</p>
+
+                <p>[NONE]</p>
+
+                <p>(used in ???)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><a name="CPU" id="CPU"></a><b>CPU</b></td>
+
+              <td>A single processing unit. A CPU is a consumable resource. Nodes typically consist of one or more CPU's. (same as <a href="3.2.1dictionary.html#Processor">processor</a> )</td>
+
+              <td>N/A</td>
+
+              <td>proc</td>
+            </tr>
+
+            <tr>
+              <td><a name="Credential" id="Credential"></a><b>Credential</b></td>
+
+              <td>
+                An attribute associated with <a href="3.2.1dictionary.html#Job">jobs</a> and other objects which determines object identity. In the case of schedulers and resource managers,<br>
+                credential based policies and limits are often established. At submit time, jobs are associated with a number of credentials such as <a href="3.2.1dictionary.html#User">user</a> , <a href="3.2.1dictionary.html#Group">group</a> , <a href="3.2.1dictionary.html#Account">account</a> , <a href="3.2.1dictionary.html#QOS">QOS</a> , and <a href="3.2.1dictionary.html#Class">class</a> . These job credentials subject the job to various polices and grant it various types of access.
+
+                <p>In most cases, credentials set both the privileges of the job and the ID of the actual job <a href="3.2.1dictionary.html#Execution-Environment">executable</a> .</p>
+              </td>
+
+              <td>
+                Job cw.24001 possesses the following credentials:
+
+                <p><tt>USER=john;GROUP=staff;ACCOUNT=[NONE];</tt><br>
+                <tt>QOS=[DEFAULT];CLASS=batch</tt></p>
+              </td>
+
+              <td>cred</td>
+            </tr>
+
+            <tr>
+              <td><a name="Disk" id="Disk"></a><b>Disk</b></td>
+
+              <td>A quantity of local disk available for use by batch jobs. Disk is a <a href="3.2.1dictionary.html#Resource-Consumable">consumable resource</a> .</td>
+
+              <td>N/A</td>
+
+              <td>disk</td>
+            </tr>
+
+            <tr>
+              <td><a name="Execution Environment"></a><b>Execution Environment</b></td>
+
+              <td>A description of the environment in which the executable is launched. This environment may include attributes such as the following:<br>
+              an executable<br>
+              command line args<br>
+              input file<br>
+              output file<br>
+              local user id<br>
+              local group id<br>
+              process resource limits</td>
+
+              <td>
+                Job cw.24001 possesses the following execution environment:
+
+                <p><tt>EXEC=/bin/sleep;ARGS="60";</tt><br>
+                <tt>INPUT=[NONE];OUTPUT=[NONE];</tt><br>
+                <tt>USER=loadl;GROUP=staff;</tt></p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><a name="Fairshare" id="Fairshare"></a><b>Fairshare</b></td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="Fairness" id="Fairness"></a><b>Fairness</b></td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="Group" id="Group"></a><b>Group</b></td>
+
+              <td>A <a href="3.2.1dictionary.html#Credential">credential</a> typically directly mapping to a user's Unix&reg; group ID.</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="Job" id="Job"></a><b>Job</b></td>
+
+              <td>The fundamental object of resource consumption. A job contains the following components:<br>
+              A list of required <a href="3.2.1dictionary.html#Resource-Consumable">consumable resources</a><br>
+              A list of <a href="3.2.1dictionary.html#Resource-Constraints">resource constraints</a> controlling which resources may be allocated to the job<br>
+              A list of <a href="3.2.1dictionary.html#Job-Constraints">job constraints</a> controlling where, when, and how the job should be run<br>
+              A list of <a href="3.2.1dictionary.html#Credential">credentials</a><br>
+              An <a href="3.2.1dictionary.html#Execution-Environment">execution environment</a></td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="Job Constraints"></a><b>Job Constraints</b></td>
+
+              <td>A set of conditions which must be fulfilled in order for the job to start. These conditions are far reaching and may include one or more of the following:<br>
+              When the job may run (i.e., after time X, within Y minutes, etc.)<br>
+              Which resources may be allocated (i.e., Node must possess at least 512MB of RAM, run only in partition or Partition C, or run an HostA and HostB)<br>
+              Starting job relative to an particular event (i.e., start after job X successfully completes)</td>
+
+              <td><tt>RELEASETIME&gt;='Fri Jun 06, 10:00AM'</tt><br>
+              <tt>DEPENDENCY=AFTERCOMPLETION:cw.2004</tt><br>
+              <tt>NODEMEMORY==256MB</tt></td>
+            </tr>
+
+            <tr>
+              <td><a name="Memory" id="Memory"></a><b>Memory</b></td>
+
+              <td>A quantity of physical memory (RAM). Memory is provided by compute nodes. It is required as a constraint or consumed as a consumable resource by jobs. Within Maui, memory is tracked and reported in megabytes (MB).</td>
+
+              <td>
+                Node node001 provides the following resources<br>
+                <tt>PROCS=1,MEMORY=512,SWAP=1024</tt>
+
+                <p>Job cw.24004 consumes the following resources per task<br>
+                <tt>PROCS=1,MEMORY=256</tt><br></p>
+              </td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="Node" id="Node"></a><b>Node</b></td>
+
+              <td>A node is the fundamental object associated with compute resources. Each node contains the following components<br>
+              A list of <a href="3.2.1dictionary.html#Resource-Consumable">consumable resources</a><br>
+              A list of <a href="3.2.1dictionary.html#Node-Attribute">node attributes</a></td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="Node Attribute"></a><b>Node Attribute</b></td>
+
+              <td>A node attribute is a non-quantitative aspect of a node. Attributes typically describe the node itself or possibly aspects of various node resources such as processors or memory. While it is probably not optimal to aggregate node and resource attributes together in this manner, it is common practice. Common node attributes include processor architecture, operating system, or processor speed. Jobs often specify that resources be allocated from nodes possessing certain node attributes.</td>
+
+              <td><tt>ARCH=AMD,OS=LINUX24,PROCSPEED=950</tt></td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="Node Feature"></a><b>Node Feature</b></td>
+
+              <td>A node feature is a <a href="3.2.1dictionary.html#Node-Attribute">node attribute</a> which is typically specified locally via some form of configuration file. Node features are opaque strings associated with the node by the resource manager which generally only have meaning to the end user or possibly to the scheduler. Commonly, a node feature will be associated with a subset of nodes allowing end users to request use of this subset by requiring that resources be allocated from nodes with this feature present. In many cases, node features are used to extend the information provided by the resource manager.</td>
+
+              <td>
+                <tt>FEATURE=s950,pIII,geology</tt>
+
+                <p>(This may be used to indicate that the node possesses a 950 MHz Pentium III processor and that the node is owned by the Geology dept)</p>
+              </td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="Processor" id="Processor"></a><b>Processor</b></td>
+
+              <td>A processing unit. A processor is a consumable resource. Nodes typically consist of one or more processors. (same as CPU)</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="QOS" id="QOS"></a><b>Quality of Service (QOS)</b></td>
+
+              <td>An object which provides special services, resources, etc.</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="Queue" id="Queue"></a><b>Queue</b></td>
+
+              <td>(see <a href="3.2.1dictionary.html#Class">Class</a> )</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="Reservation" id="Reservation"></a><b>Reservation</b></td>
+
+              <td>An object which reserves a specific collection or resources for a specific timeframe for use by jobs which meet specific conditions</td>
+
+              <td>Reserve 24 processors and 8 GB of memory from time T1 to time T2 for use by user X or jobs in the class batch</td>
+
+              <td>
+                <b>RESERVATION</b>
+
+                <p>Attributes:<br>
+                STARTTIME (optional)<br>
+                DURATION (mandatory)<br>
+                FLAGS (optional)<br>
+                OWNER (optional)<br>
+                NAME (optional)</p>
+
+                <p>Contains<br>
+                AS (1+:required)<br>
+                RESOURCES (1+:required)</p>
+
+                <p>Example:</p>
+
+                <p>&lt;RESERVATION STARTTIME="98066503"&gt;&lt;AS TYPE="ALLOW" OBJECT="QOS" NAME="premium"/&gt;&lt;RES TYPE=PROC COUNT="4" &lt;CONSTRAINT ATTR="PROCSPEED" CMP="&gt;=900"/&gt;&lt;/RESERVATION&gt;</p>
+
+                <p>(use: reservation creation, modification, destruction, and reporting)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>Resource</b></td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="Resource-Available" id="Resource-Available"></a><b>Resource, Available</b></td>
+
+              <td>All <a href="3.2.1dictionary.html#Resource-Consumable">consumable resources</a> are tracked and managed in a number of ways. A compute node's available resources is calculated as its <a href="3.2.1dictionary.html#Resource-Configured">configured resources</a> minus the sum of the resources actually utilized by all job tasks running on the node.</td>
+
+              <td>
+                Node cl003 is configured with 4 processors and 512 MB of memory. This node is executing 2 tasks of job clserver.0041 which is utilizing 1 processor and 60 MB of memory each. Additionally, it is also running 1 task of job clserver.0047 which is using 1 processor and 250 MB of memory.
+
+                <p>Node cl003's available resources are thus</p>
+
+                <p>processors = 4 - (2 * 1 + 1 * 1) = 1<br>
+                memory = 512 - (2 * 60 + 1 * 250) = 142 MB</p>
+              </td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="Resource-Configured" id="Resource-Configured"></a><b>Resource, Configured</b></td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="Resource-Consumable" id="Resource-Consumable"></a><b>Resource, Consumable</b></td>
+
+              <td>
+                Any object which can be utilized (i.e., consumed and thus made unavailable to another job) by, or dedicated to a job is considered to be a resource. Common examples of resources are a node's physical memory or local disk. As these resources may given to one job and thus unavailable to another, they are considered to be consumable. Other aspects of a node, such as its operating system, are not considered to be consumable since its use by one job does not preclude its use by another.
+
+                <p>Note that some node objects, such as a network adapter, may be dedicated under some operating systems and resource managers and not under others. On systems where the network adapter cannot be dedicated and the network usage per job cannot be specified or tracked, network adapters are not considered to be resources, but rather attributes.</p>
+
+                <p>Nodes possess a specific quantity of consumable resources such as real memory, local disk, or processors. In a resource management system, the node manager may choose to report only those configured resources available to batch jobs. For example, a node may possess a 80 GB hard drive but may have only 20 GB dedicated to batch jobs. Consequently, the resource manager may report that the node has 20 GB of local disk available when idle. Jobs may explicitly request a certain quantity of consumable resources</p>
+              </td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="Resource-Constraints" id="Resource-Constraints"></a>Resource, Constraint</td>
+
+              <td>A resource constraint imposes a rule on which resources can be be used to <i>match</i> a resource request. Resource constraints either specify a required quantity and type of resource or a required node attribute. All resource constraints must be met by any given node in order for a <i>match</i> to be established.</td>
+
+              <td></td>
+
+              <td></td>
+            </tr>
+
+            <tr>
+              <td><b>Resource, Dedicated</b></td>
+
+              <td>A job may request that a block of resources be dedicated while the job is executing. In this case, the scheduler is responsible to guaranteeing that these resources, whether utilized by the job or not, are set aside, unavailable to other jobs.</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+
+              <td></td>
+            </tr>
+
+            <tr>
+              <td><a name="Swap" id="Swap"></a><b>Swap</b></td>
+
+              <td>A quantity of virtual memory available for use by batch jobs. Swap is a consumable resource provided by nodes and consumed by jobs</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><a name="Task" id="Task"></a><b>Task</b></td>
+
+              <td>An atomic collection of consumable resources.</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><b>User, Global</b></td>
+
+              <td>The user credential used to provide access to functions and resources. In local scheduling, global user IDs map directly to local user IDs.</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td><b>User, Local</b></td>
+
+              <td>The user credential under which the job executable will be launched.</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td>Workload</td>
+
+              <td>generalized term</td>
+
+              <td>N/A</td>
+
+              <td>N/A</td>
+            </tr>
+
+            <tr>
+              <td valign="top"></td>
+
+              <td valign="top"></td>
+
+              <td valign="top"></td>
+
+              <td valign="top"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

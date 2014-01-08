@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <h3>PBS Integration Guide - RM Access Control</h3>
+
+          <h4>Server Configuration</h4>In PBS qmgr,<br>
+          <br>
+          set server managers += &lt;MAUIADMIN&gt;@*.&lt;YOURDOMAIN&gt;<br>
+          set server operators += &lt;MAUIADMIN&gt;@*.&lt;YOURDOMAIN&gt;<br>
+          <br>
+          i.e.,
+          <pre>
+&gt; qmgr
+Qmgr: set server managers += staff@*.ucsd.edu
+Qmgr: set operators += staff@*.ucsd.edu
+Qmgr: quit
+</pre>NOTE: if different, you may want to replace "*.&lt;YOURDOMAIN&gt;" with "&lt;MAUISERVERHOSTNAME&gt;".<br>
+
+          <h4>Mom Configuration</h4>In the mom_priv/config file on each node where pbs_mom runs, set the following:<br>
+          <br>
+          $restricted *.&lt;YOURDOMAIN&gt;<br>
+          $clienthost &lt;MAUISERVERHOSTNAME&gt;<br>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

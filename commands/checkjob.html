@@ -1,0 +1,793 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>checkjob</h1>
+   <td valign=bottom nowrap><b>(Check Job)</b>
+<tr>
+</table>
+
+<p><big><b>Synopsis</b></big></p>
+
+<!-- synopsis is a high-level usage / quick reference -->
+<pre>
+checkjob [<a href="checkjob.html#A">-A</a>] [<a href="checkjob.html#l">-l <i>policylevel</i></a>] [<a href="checkjob.html#n">-n <i>nodeid</i></a>] [<a href="checkjob.html#q">-q <i>qosid</i></a>] [<a href="checkjob.html#r">-r <i>reservationid</i></a>] [<a href="checkjob.html#v">-v</a>] [<a href="checkjob.html#flags">--flags</a>=future] <a href="checkjob.html#JOBID"><i>jobid</i></a> 
+</pre>
+<!-- Quick overview with links as necessary -->
+
+<p><big><b>Overview</b></big></p>
+
+&nbsp;&nbsp; <b>checkjob</b> displays detailed job <a href="../3.2environment.html#jobstates">state</a> information and diagnostic output for a specified job. &nbsp;Detailed information is available for queued, blocked, active, and recently completed jobs.
+
+<p><big><b>Access</b></big></p>
+
+&nbsp;&nbsp; This command can be run by level 1-3 Moab administrators for any job.&nbsp; Also, end users can use <b>checkjob</b> to view the status of their own jobs.
+
+<p><big><b>Arguments</b></big></p>
+
+<table class="tblFormat01">
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="A" id="A"></a>-A (Attribute-Value pair)</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&nbsp;</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Provides output in the form of parsable Attribute-Value pairs.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">
+        <pre>&gt; checkjob -A 6235</pre></div>
+       <p>Moab will display job information in the  following format: <tt>&lt;ATTRIBUTE&gt;=&lt;VALUE&gt;;</tt>.</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="flags" id="flags"></a>--flags</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">--flags=future</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Evaluates future eligibility of job (ignore current resource state and  usage limitations).</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">
+        <pre>&gt; checkjob -v --flags=future 6235</pre></div>
+      
+      <p>Display reasons why idle  job is blocked ignoring node state and current node utilization constraints.</p></td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  
+<!-- The -h flag information below is a copy-paste of the -a flag above. Since all Moab commands have a -h flag and all it does is display help information on the command line, I'm removing this tag from the page.
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="h" id="h"></a>-h (Help)</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&nbsp;</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Provides output in the form of parsable Attribute-Value pairs.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">
+        <pre>&gt; checkjob -A 6235</pre></div>
+      <p>Moab will display job information in the  following format: <tt>&lt;ATTRIBUTE&gt;=&lt;VALUE&gt;;</tt>.</p></td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  -->
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="l" id="l"></a>-l (Policy level)</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;POLICYLEVEL&gt; <br />
+        <br />
+      <strong>HARD</strong>, <strong>SOFT</strong>, or <strong>OFF</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Reports job start eligibility subject to specified throttling policy  level.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">
+<pre>&gt; checkjob -l SOFT 6235
+&gt; checkjob -l HARD 6235</pre></div></td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="n" id="n"></a>-n (NodeID)</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;NODEID&gt;</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Checks job access to specified node and <a href="checkjob.html#preemption">preemption</a> status with regards to jobs located on that node.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>&gt; checkjob -n node113 6235</pre></div></td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="q" id="q"></a>-q (QoS)</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;QOSID&gt;</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Checks job access to specified QoS &lt;QOSID&gt;.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">
+        <pre>&gt; checkjob -q special 6235</pre></div></td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="r" id="r"></a>-r (Reservation)</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;RSVID&gt;</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Checks job access to specified reservation &lt;RSVID&gt;.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">
+        <pre>&gt; checkjob -r orion.1 6235</pre></div></td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="v" id="v"></a>-v (Verbose)</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&nbsp;</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">N/A</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Sets verbose mode.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">
+        <pre>&gt; checkjob -v 6235</pre></div></td>
+    </tr>
+  </tbody>
+</table>
+<p><big><b>Details</b></big></p>
+
+&nbsp;&nbsp; This command allows any Moab administrator to check the detailed status
+and resource requirements of a active, queued, or recently <a href="../a.fparameters.html#jobcpurgetime">completed</a> job.&nbsp; Additionally, this command performs numerous diagnostic checks and determines if and where the job could potentially run.&nbsp; Diagnostic checks include <a href="../6.2throttlingpolicies.html">policy</a> violations, reservation constraints, preemption status, and job to resource mapping.&nbsp; If a job cannot run, a text reason is provided along with a summary of how many nodes are and are not available.&nbsp; If the <b>-v</b> flag is specified, a node by node summary of resource availability will be displayed for idle jobs.
+
+<p><b>Job Eligibility</b>
+
+<p>&nbsp;&nbsp; If a job cannot run, a text reason is provided along with a summary of how many nodes are and are not available.&nbsp; If the <b>-v</b> flag is specified, a node by node summary of resource availability will be displayed for idle jobs. &nbsp;For job level eligibility issues, one of the following reasons will be given:
+<br>&nbsp;
+<table class="simpleTable">
+<tr>
+<th>Reason</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="contentLabels">job has hold in place</td>
+<td class="contentDetails">one or more job holds are currently in place</td>
+</tr>
+
+<tr>
+<td class="contentLabels">insufficient idle procs</td>
+<td class="contentDetails">there are currently not adequate processor resources available to start the job</td>
+</tr>
+
+<tr>
+<td class="contentLabels">idle procs do not meet requirements</td>
+<td class="contentDetails">adequate idle processors are available but these do not meet job requirements</td>
+</tr>
+
+<tr>
+<td class="contentLabels">start date not reached</td>
+<td class="contentDetails">job has specified a minimum <i>start date</i> which is still in the future</td>
+</tr>
+
+<tr>
+<td class="contentLabels">expected state is not idle</td>
+<td class="contentDetails">job is in an unexpected state</td>
+</tr>
+
+<tr>
+<td class="contentLabels">state is not idle</td>
+<td class="contentDetails">job is not in the idle state</td>
+</tr>
+
+<tr>
+<td class="contentLabels">dependency is not met</td>
+<td class="contentDetails">job depends on another job reaching a certain state</td>
+</tr>
+
+<tr>
+<td class="contentLabels">rejected by policy</td>
+<td class="contentDetails">job start is prevented by a throttling policy&nbsp;</td>
+</tr>
+</table>
+
+<p>&nbsp;&nbsp; If a job cannot run on a particular node, one of
+the following 'per node' reasons will be given:
+<br>&nbsp;
+<table class="simpleTable">
+<tr>
+<td class="contentLabels"><b>Class</b></td>
+<td class="contentDetails">Node does not allow required job class/queue</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>CPU</b></td>
+<td class="contentDetails">Node does not possess required processors</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>Disk</b></td>
+<td class="contentDetails">Node does not possess required local disk</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>Features</b></td>
+<td class="contentDetails">Node does not possess required node features</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>Memory</b></td>
+<td class="contentDetails">Node does not possess required real memory</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>Network</b></td>
+<td class="contentDetails">Node does not possess required network interface&nbsp;</td>
+</tr>
+
+<tr>
+<td class="contentLabels"><b>State</b></td>
+<td class="contentDetails">Node is not Idle or Running</td>
+</tr>
+</table>
+
+<p><b>Reservation Access</b>
+
+<p>&nbsp;&nbsp; The <a href="checkjob.html#r">-r</a> flag can be used to provide detailed information about job access to a specific reservation
+
+<p><a name="preemption"></a><b>Preemption Status</b>
+
+<p>&nbsp;&nbsp; If a job is marked as a <a href="../8.4preemption.html">preemptor</a> and the <a href="checkjob.html#v">-v</a> and <a href="checkjob.html#n">-n</a> flags are specified, <b>checkjob</b> will perform a job by job analysis for all jobs on the specified node to determine if they can be preempted.
+
+<p><big><b>Output</b></big></p>
+
+&nbsp;&nbsp; The <b>checkjob</b> command displays the following job attributes:
+<br>&nbsp;
+<table class="simpleTable">
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+<tr>
+   <td class="contentLabels">Account</td>
+   <td class="contentDetails">&lt;STRING&gt;</td>
+   <td class="contentDetails">Name of account associated with job</td>
+</tr>
+
+<tr>
+<td class="contentLabels">Actual Run Time</td>
+<td class="contentDetails">[[[DD:]HH:]MM:]SS</td>
+<td class="contentDetails">Length of time job actually ran.
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">This info is only displayed in simulation mode.</td>
+    </tr>
+  </tbody>
+</table></p>
+</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">Allocated Nodes</td>
+   <td class="contentDetails">Square bracket delimited list of node and processor ids</td>
+   <td class="contentDetails">List of nodes and processors allocated to job</td>
+</tr>
+
+<tr>
+<td class="contentLabels">Arch</td>
+<td class="contentDetails">&lt;STRING&gt;</td>
+<td class="contentDetails">Node architecture required by job</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">Attr</td>
+   <td class="contentDetails">square bracket delimited list of job attributes</td>
+   <td class="contentDetails">Job Attributes (i.e. [BACKFILL][BENCHMARK][PREEMPTEE])</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">Average Utilized Procs*</td>
+   <td class="contentDetails">&lt;FLOAT&gt;</td>
+   <td class="contentDetails">Average load balance for a job</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">Avg Util Resources Per Task*</td>
+   <td class="contentDetails">&lt;FLOAT&gt;</td>
+   <td class="contentDetails">&nbsp;</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">Bypass</td>
+   <td class="contentDetails">&lt;INTEGER&gt;</td>
+   <td class="contentDetails">Number of times a lower priority job with a later submit time ran before the job</td>
+</tr>
+
+<tr>
+<td class="contentLabels">Class</td>
+<td class="contentDetails">[&lt;CLASS NAME&gt; &lt;CLASS COUNT&gt;]</td>
+<td class="contentDetails">Name of class/queue required by job and number of class initiators
+required per task.</td>
+</tr>
+<!--
+<tr>
+   <td>CmdFile</td>
+   <td>&lt;STRING></td>
+   <td>Name of the command to run</td>
+</tr>
+-->
+<tr>
+   <td class="contentLabels">Dedicated Resources Per Task*</td>
+   <td class="contentDetails">&lt;INTEGER&gt;</td>
+   <td class="contentDetails">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="contentLabels">Disk</td>
+<td class="contentDetails">&lt;INTEGER&gt;</td>
+<td class="contentDetails">Amount of local disk required by job (in MB)</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">Estimated Walltime</td>
+   <td class="contentDetails">[[[DD:]HH:]MM:]SS</td>
+   <td class="contentDetails">The scheduler's estimated walltime.
+   
+   <p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">In simulation mode, it is the actual walltime.</td>
+    </tr>
+  </tbody>
+</table></p>
+  </td>
+</tr>
+
+<tr>
+   <td class="contentLabels">Exec Size*</td>
+   <td class="contentDetails">&lt;INTEGER&gt;</td>
+   <td class="contentDetails">Size of job executable (in MB)</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">Executable</td>
+   <td class="contentDetails">&lt;STRING&gt;</td>
+   <td class="contentDetails">Name of command to run</td>
+</tr>
+
+<tr>
+<td class="contentLabels">Features</td>
+<td class="contentDetails">Square bracket delimited list of &lt;STRING&gt;s</td>
+<td class="contentDetails">Node features required by job</td>
+</tr>
+
+<tr>
+<td class="contentLabels">Flags</td>
+<td class="contentDetails">&nbsp;</td>
+<td class="contentDetails">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="contentLabels">Group</td>
+<td class="contentDetails">&lt;STRING&gt;</td>
+<td class="contentDetails">Name of Unix&#0174; group associated with job</td>
+</tr>
+
+<tr>
+<td class="contentLabels">Holds</td>
+<td class="contentDetails">Zero or more of User, System, and Batch</td>
+<td class="contentDetails">Types of job holds currently applied to job</td>
+</tr>
+
+<tr>
+<td class="contentLabels">Image Size</td>
+<td class="contentDetails">&lt;INTEGER></td>
+<td class="contentDetails">Size of job data (in MB)</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">IWD (<b>I</b>nitial <b>W</b>orking <b>D</b>irectory)</td>
+   <td class="contentDetails">&lt;DIR></td>
+   <td class="contentDetails">Directory to run the executable in</td>
+</tr>
+
+<tr>
+<td class="contentLabels">Memory</td>
+<td class="contentDetails">&lt;INTEGER></td>
+<td class="contentDetails">Amount of real memory required per node (in MB)</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">Max Util Resources Per Task*</td>
+   <td class="contentDetails">&lt;FLOAT></td>
+   <td class="contentDetails">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="contentLabels">Network</td>
+<td class="contentDetails">&lt;STRING&nbsp;</td>
+<td class="contentDetails">Type of network adapter required by job</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">NodeAccess*</td>
+   <td class="contentDetails">&nbsp;</td>
+   <td class="contentDetails">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="contentLabels">Nodecount</td>
+<td class="contentDetails">&lt;INTEGER&nbsp;</td>
+<td class="contentDetails">Number of nodes required by job</td>
+</tr>
+
+<tr>
+<td class="contentLabels">Opsys</td>
+
+<td class="contentDetails">&lt;STRING&nbsp;</td>
+
+<td class="contentDetails">Node operating system required by job</td>
+</tr>
+
+<!--
+<tr>
+   <td>Partition</td>
+   <td>&lt;PARTITION NAME></td>
+   <td>Specifies which <a href="../7.2partitions.html">partition</a> the job is assigned to</td>
+</tr>
+part of req -->
+
+<tr>
+   <td class="contentLabels">Partition Mask</td>
+   <td class="contentDetails">ALL or colon delimited list of partitions</td>
+   <td class="contentDetails">List of <a href="../7.2partitions.html">partitions</a> the job has access to</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">PE</td>
+   <td class="contentDetails">&lt;FLOAT></td>
+   <td class="contentDetails">Number of processor-equivalents requested by job</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">QOS</td>
+   <td class="contentDetails">&lt;STRING></td>
+   <td class="contentDetails">Quality of Service associated with job</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">Reservation</td>
+   <td class="contentDetails">&lt;RSVID&nbsp; ( &lt;TIME1&nbsp; -&nbsp; &lt;TIME2> Duration: &lt;TIME3>)</td>
+   <td class="contentDetails">RESID specifies the reservation id, TIME1 is the relative start time, TIME2 the relative end time, TIME3 the duration of the reservation</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">Req</td>
+   <td class="contentDetails">[&lt;INTEGER>] TaskCount: &lt;INTEGER> Partition: &lt;partition></td>
+   <td class="contentDetails">A <a href="../3.2environment.html#reqdefinition">job requirement</a> for a single type of resource followed by the number of tasks instances required and the appropriate <a href="../7.2partitions.html">partition</a></td>
+</tr>
+
+<tr>
+<td class="contentLabels">StartCount</td>
+<td class="contentDetails">&lt;INTEGER&gt;</td>
+<td class="contentDetails">Number of times job has been started by Moab</td>
+</tr>
+
+<tr>
+<td class="contentLabels">StartPriority</td>
+<td class="contentDetails">&lt;INTEGER&gt;</td>
+<td class="contentDetails">Start priority of job</td>
+</tr>
+<tr>
+   <td class="contentLabels">StartTime</td>
+   <td class="contentDetails">&lt;TIME&gt;</td>
+   <td class="contentDetails">Time job was started by the resource management system</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">State</td>
+   <td class="contentDetails">One of Idle, Starting, Running, etc</td>
+   <td class="contentDetails">Current Job State</td>
+</tr>
+<tr>
+   <td class="contentLabels">SubmitTime</td>
+   <td class="contentDetails">&lt;TIME></td>
+   <td class="contentDetails">Time job was submitted to resource management system</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">Swap</td>
+   <td class="contentDetails">&lt;INTEGER></td>
+   <td class="contentDetails">Amount of swap disk required by job (in MB)</td>
+</tr>
+<!--
+<tr>
+   <td>TaskCount</td>
+   <td>&lt;INTEGER></td>
+   <td></td>
+</tr>
+part of req-->
+<tr>
+   <td class="contentLabels">Task Distribution*</td>
+   <td class="contentDetails">Square bracket delimited list of nodes</td>
+   <td class="contentDetails">&nbsp;</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">Time Queued</td>
+   <td class="contentDetails"></td>
+   <td class="contentDetails"></td>
+</tr>
+
+<tr>
+   <td class="contentLabels">Total Nodes*</td>
+   <td class="contentDetails">&lt;INTEGER&gt;</td>
+   <td class="contentDetails">Number of nodes requested by job</td>
+</tr>
+
+<td class="contentLabels">Total Tasks</td>
+<td class="contentDetails">&lt;INTEGER></td>
+<td class="contentDetails">Number of tasks requested by job</td>
+</tr>
+
+<tr>
+<td class="contentLabels">User</td>
+<td class="contentDetails">&lt;STRING></td>
+<td class="contentDetails">Name of user submitting job</td>
+</tr>
+
+<tr>
+   <td class="contentLabels">Utilized Resources Per Task*</td>
+   <td class="contentDetails">&lt;FLOAT></td>
+   <td class="contentDetails">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="contentLabels">WallTime</td>
+<td class="contentDetails">[[[DD:]HH:]MM:]SS of [[[DD:]HH:]MM:]SS</td>
+<td class="contentDetails">Length of time job has been running out of the specified limit</td>
+</tr>
+
+<!--<tr>
+   <td>WallTime Limit</td>
+   <td>[[[DD:]HH:]MM:]SS</td>
+   <td>Maximum walltime allowed to job</td>
+</tr>-->
+
+<!--<tr>
+   <td>Blank</td>
+   <td>&nbsp;</td>
+   <td>&nbsp;</td>
+</tr>-->
+</table>
+
+<font size=-1>In the above table, fields marked with an asterisk (*) are
+only displayed when set or when the <b>-v</b> flag is specified.</font>
+<br>&nbsp;
+
+<p><big><b>Example 1</b></big></p>
+
+&nbsp;&nbsp;Check job 717
+
+<p><div class="example"><pre>
+&gt; checkjob 717
+job 717
+
+State: Idle
+Creds:  user:jacksond  group:jacksond  class:batch
+WallTime: 00:00:00 of 00:01:40
+SubmitTime: Mon Aug 15 20:49:41
+  (Time Queued  Total: 3:12:23:13  Eligible: 3:12:23:11)
+
+TerminationDate:   INFINITY  Sat Oct 24 06:26:40
+Total Tasks: 1
+
+Req[0]  TaskCount: 1  Partition: ALL
+Network: ---  Memory &gt;= 0  Disk &gt;= 0  Swap &gt;= 0
+Opsys: ---  Arch: ---  Features: ---
+
+
+IWD:            /home/jacksond/moab/moab-4.2.3
+Executable:     STDIN
+Flags:          RESTARTABLE,NORMSTART
+StartPriority:  5063
+Reservation '717' (  INFINITY -&gt;   INFINITY  Duration: 00:01:40)
+Note:  job cannot run in partition base (idle procs do not meet requirements : 0 of 1 procs found)
+idle procs:   4  feasible procs:   0
+
+Rejection Reasons: [State        :    3][ReserveTime  :    1]
+
+cannot select job 717 for partition GM (partition GM does not support requested class batch)
+</pre></div>
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">The example job cannot be started for two different reasons.
+<ul>
+   <li>It is temporarily blocked from partition <tt>base</tt> because of node state and node reservation conflicts.</li>
+   <li>It is permanently blocked from partition <tt>GM</tt> because the requested class
+<tt>batch</tt> is not supported in that partition.
+</ul></td>
+    </tr>
+  </tbody>
+</table></p>
+
+<h2>See Also</h2>
+
+<ul>
+<li><a href="../2.2installation.html#client">Moab Client Installation</a> - explains how to distribute this command to client nodes</li>
+<li><a href="mdiag-jobs.html">mdiag -j</a> command - display additional detailed information regarding jobs
+<li><a href="showq.html">showq</a> command - showq high-level job summaries
+<li><a href="../a.fparameters.html#jobcpurgetime">JOBCPURGETIME</a> parameter - specify how long information regarding completed jobs is maintained
+<li>diagnosing job <a href="../8.4preemption.html#testing">preemption</a>
+</ul>
+<br>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>

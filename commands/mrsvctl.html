@@ -1,0 +1,1662 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr align=left>
+   <td valign=bottom><h1>mrsvctl</h1>
+   <td valign=bottom nowrap><b>(Moab Reservation Control)</b>
+<tr>
+</table>
+
+<big><p><b>Synopsis</b></p></big>
+
+<!-- synopsis is a high-level usage / quick reference -->
+<!-- synopsis should not extend beyond ~80 chars -->
+
+<pre>
+<a href="mrsvctl.html#CREATE">mrsvctl -c</a> [<a href="mrsvctl.html#ACL">-a <i>acl</i></a>] [<a href="mrsvctl.html#SUBTYPE">-b </i>subtype</i></a>] [<a href="mrsvctl.html#DURATION">-d <i>duration</i></a>] [<a href="mrsvctl.html#DESCRIPTION">-D <i>description</i></a>] [<a href="mrsvctl.html#ENDTIME">-e <i>endtime</i></a>] [<a href="mrsvctl.html#EXCLUSIVE">-E</a>]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [<a href="mrsvctl.html#FEATURES">-f <i>features</i></a>] [<a href="mrsvctl.html#FLAGS">-F <i>flags</i></a>] [<a href="mrsvctl.html#RSVGROUP">-g <i>rsvgroup</i></a>] [<a href="mrsvctl.html#HOSTLIST">-h <i>hostexp</i></a>] 
+           [<a href="mrsvctl.html#SIGNAL">-I {cancel|end|failure|start}</a>] [<a href="mrsvctl.html#NAME">-n <i>name</i></a>] [<a href="mrsvctl.html#PARTITION">-p <i>partition</i></a>] [<a href="mrsvctl.html#PROFILE">-P <i>profile</i></a>]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [<a href="mrsvctl.html#RESOURCES">-R <i>resources</i></a>] [<a href="mrsvctl.html#STARTTIME">-s <i>starttime</i></a>] [<a href="mrsvctl.html#SET">-S <i>setvalue</i></a>] [<a href="mrsvctl.html#TASKS">-t <i>tasks</i></a>]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [<a href="mrsvctl.html#TRIGGER">-T <i>trigger</i></a>] [<a href="mrsvctl.html#VARIABLE">-V <i>variable</i></a>] [<a href="mrsvctl.html#JOBLIST">-x joblist</a>]
+<a href="mrsvctl.html#LIST">mrsvctl -l</a> [{<a href="mrsvctl.html#RESVID"><i>reservationid</i></a> | <a href="mrsvctl.html#INDEX">-i <i>index</i></a>}]
+<a href="mrsvctl.html#CLEAR">mrsvctl -C</a> [-g <i>standing_reservationid</i>]
+<a href="mrsvctl.html#MODIFY">mrsvctl -m</a> {<a href="mrsvctl.html#RESVID"><i>reservationid</i></a> | <a href="mrsvctl.html#INDEX">-i <i>index</i></a>} [<a href="mrsvctl.html#DURATION">-d <i>duration</i></a>] [<a href="mrsvctl.html#ENDTIME">-e <i>endtime</i></a>] [<a href="mrsvctl.html#HOSTLIST">-h <i>hostexp</i></a>]
+           [<a href="mrsvctl.html#">-s <i>starttime</i></a>] [<a href="mrsvctl.html#force">--flags=force</a>]
+<a href="mrsvctl.html#QUERY">mrsvctl -q</a> {<a href="mrsvctl.html#RESVID"><i>reservationid</i></a> | <a href="mrsvctl.html#INDEX">-i <i>index</i></a>} <!--{diag | resources}-->
+<a href="mrsvctl.html#RELEASE">mrsvctl -r</a> {<a href="mrsvctl.html#RESVID"><i>reservationid</i></a> | <a href="mrsvctl.html#INDEX">-i <i>index</i></a>}
+<a href="mrsvctl.html#CLEAR">mrsvctl -C</a> {<a href="mrsvctl.html#RESVID"><i>reservationid</i></a>}
+</pre>
+<!-- Quick overview with links as necessary -->
+
+<big><p><b>Overview</b></p></big>
+
+<b>mrsvctl</b> controls the creation, modification, querying, and releasing of reservations.
+
+<p>The timeframe covered by the reservation can be specified on either an absolute or relative basis. Only jobs with credentials listed in the reservation's <b>access control list</b> can utilize the reserved resources. However, these jobs still have the freedom to utilize resources outside of the reservation. The reservation will be assigned a name derived from the ACL specified. If no reservation ACL is specified, the reservation is created as a <i>system</i> reservation and no jobs will be allowed access to the resources during the specified timeframe (valuable for system maintenance, etc). See the <a href="../7.1.1resoverview.html">Reservation Overview</a> for more information.
+
+<p>Reservations can be viewed using the <b>-q</b> flag
+and can be released using the <b>-r</b> flag.
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">By default, reservations are not exclusive and may overlap with other reservations and jobs. Use the '<a href="mrsvctl.html#EXCLUSIVE">-E</a>' flag to adjust this behavior.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+<!-- who can run the command -->
+<big><p><b>Access</b></p></big>
+
+<p>By default, this command can be run by level 1 and level 2 Moab administrators (see <a href="../a.fparameters.html#admincfg">ADMINCFG</a>).</p>
+
+<big><p><b>Format</b></p></big>
+
+<table class="tblFormat01">
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-a
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="ACL"></a><b>ACL</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;TYPE&gt;==&lt;VAL&gt;[,&lt;TYPE&gt;==&lt;VAL&gt;]...<br>
+
+<br>Where &lt;TYPE&gt; is one of the following:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>ACCT</b>,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>CLASS</b>,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>GROUP</b>,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>JATTR</b>,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>QOS</b>,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>RSV</b>, or
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>USER</b></td>
+
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">List of credentials with access to the reserved resources (See also: <a href="../7.1.5managingreservations.html#aclmodifiers">ACL Modifiers</a>)</td>
+<tr>
+  <td class="contentLabels">Example:</td>
+  <td class="contentDetails"><p><div class="example"><pre>
+&gt; mrsvctl -c -h node01 -a USER==john+,CLASS==batch-
+</pre></div>
+Moab will make a reservation on node01 allowing access to user john and restricting access from class batch when other resources are available to class batch</p>
+
+<p><div class="example"><pre>
+&gt; mrsvctl -m -a USER-=john system.1
+</pre></div>
+Moab will remove user john from the <tt>system.1</tt> reservation</p></td>
+<tr>
+  <td class="contentLabels bottomRow">Notes:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail">
+<ul>
+<li>There are three different assignment operators that can be used for modifying credentials in the ACL. The
+operator '==' will reassess the list for that particular credential type. The '+=' operator will append to the list
+for that credential type, and '-=' will remove from the list.
+<li>To add multiple credentials of the same type with one command, use a colon to separate them. To separate lists
+of different credential types, use commas. For example, to reassign the user list to consist of users Joe and Bob,
+and to append the group MyGroup to the groups list on the system.1 reservation, you could use the command
+"mrsvctl -m -a USER==Joe:Bob,GROUP+=MyGroup system.1".
+<li>Any of the ACL modifiers may be used. When using them, it is often useful to put single quotes on either side of
+the assignment command. For example, "mrsvctl -m -a <b>'</b>USER==&Joe<b>'</b> system.1".
+<li>Some flags are mutually exclusive. For example, the ! modifier means that the credential is blocked from the
+reservation and the &amp modifier means that the credential <b>must</b> run on that reservation. Moab will take the most
+recently parsed modifier. Modifiers may be placed on either the left or the right of the argument, so "USER==&JOE"
+and "USER==JOE&amp" are equivalent. Moab parses each argument starting from right to left on the right side of the
+argument, then from left to right on the left side. So, if the command was "USER==&amp!Joe&amp", Moab would keep the
+equivalent of "USER==!Joe" because the ! would be the last one parsed.
+<li>You can set a reservation to have a time limit for submitted jobs using DURATION and the * modifier.  For example,
+"mrsvctl -m -a 'DURATION&lt=*1:00:00' system.1" would cause the system.1 reservation to not accept any jobs with a
+walltime greater than one hour.
+<li>You can verify the ACL of a reservation using the "mdiag -r" command.
+</ul>
+
+<p><div class="example"><pre>
+mrsvctl -m -a 'USER==Joe:Bob,GROUP-=BadGroup,ACCT+=GoodAccount,DURATION&lt=*1:00:00' system.1
+</pre></div>
+Moab will reassign the USER list to be Joe and Bob, will remove BadGroup from the GROUP list, append GoodAccount
+to the ACCT list, and only allow jobs that have a submitted walltime of an hour or less on the <tt>system.1</tt> reservation.</p>
+
+<p><div class="example"><pre>
+mrsvctl -m -a 'USER==Joe,USER==Bob' system.1
+</pre></div>
+Moab will assign the USER list to Joe, and then reassign it again to Bob.
+The final result will be that the USER list will just be Bob.  To add Joe and
+Bob, use "mrsvctl -m -a USER==Joe:Bob system.1" or
+"mrsvctl -m -a USER==Joe,USER+=Bob system.1".</p>
+</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-b
+   <tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="SUBTYPE"></a><b>SUBTYPE</b></td>
+   <tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">One of the <a href="../5.4nodeavailability.html#nodecat">node category</a> values or node category shortcuts.</td> 
+   <tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+   <tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Add subtype to reservation.</td>
+   <tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -c -b swmain -t ALL
+</pre></div>
+Moab will associate the reserved nodes with the <a href="../5.4nodeavailability.html#nodecat">node category</a> <b>swmain</b>.</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-c
+   <tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="CREATE"></a><b>CREATE</b></td>
+   <tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;ARGUMENTS&gt;</td>
+   <tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+   <tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails"><p>Creates a reservation. </p>
+    <p>Note: The -x flag, when used with -F ignjobrsv, lets users create reservations but exclude certain nodes from being part of the reservation because they are running specific jobs. The -F flag instructs mrsvctl to still consider nodes with current running jobs.</p></td>
+   <tr>
+  <td class="contentLabels bottomRow">Examples:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">
+    <pre>
+&gt; mrsvctl -c -t ALL</pre></div>
+    <p>Moab will create a reservation across all system resources.</p>
+    <div class="example">
+      <pre>&gt; mrsvctl -c -t 5 -F ignjobrsv -x moab.5,moab.6</pre></div>
+    <p>Moab will create the reservation while assigning the nodes. Nodes running jobs moab5 and moab6 will not be assigned to the reservation.</p></td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-C
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="CLEAR"></a><b>CLEAR</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;RSVID&gt; | -g &lt;SRSVID&gt;</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Clears any disabled time slots from standing reservations and allows the recreation of disabled reservations</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -C -g testing
+</pre></div>
+Moab will clear any disabled timeslots from the standing reservation <i>testing</i>.</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-d
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="DURATION"></a><b>DURATION</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">[[[DD:]HH:]MM:]SS</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">INFINITY</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Duration of the reservation (not needed if ENDTIME is specified)</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -c -h node01 -d 5:00:00
+</pre></div>
+Moab will create a reservation on <tt>node01</tt> lasting 5 hours.</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-D
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="DESCRIPTION"></a><b>DESCRIPTION</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;STRING&gt;</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Human-readable description of reservation or purpose</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -c -h node01 -d 5:00:00 -D 'system maintenance to test network'
+</pre></div>
+Moab will create a reservation on node01 lasting 5 hours.</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-e
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="ENDTIME"></a><b>ENDTIME</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">[HH[:MM[:SS]]][_MO[/DD[/YY]]]&nbsp;
+<br>or&nbsp;
+<br>+[[[DD:]HH:]MM:]SS</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">INFINITY</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Absolute or relative time reservation will end (not required if Duration specified). ENDTIME also supports an epoch timestamp.</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -c -h node01 -e +3:00:00
+</pre></div>
+Moab will create a reservation on node01 ending in 3 hours.</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-E
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="EXCLUSIVE"></a><b>EXCLUSIVE</b>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">N/A
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">When specified, Moab will only create a reservation if there are no other reservations (exclusive or otherwise) which would conflict with the time and space constraints of this reservation. &nbsp;If exceptions are desired, the <a href="mrsvctl.html#rsvaccesslist">rsvaccesslist</a> attribute can be set or the <a href="../7.1.5managingreservations.html#ignrsv">ignrsv</a> flag can be used.
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -c -h node01 -E
+</pre></div>
+Moab will only create a reservation on <tt>node01</tt> if no conflicting reservations are found.
+
+<p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">This flag is only used at the time of reservation creation. Once the reservation is created, Moab allows jobs into the reservation based on the ACL. Also, once the exclusive reservation is created, it is possible that Moab will overlap it with jobs that match the ACL.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-f
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="FEATURES"></a><b>FEATURES</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;STRING&gt;[:&lt;STRING&gt;]...</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">List of node features which must be possessed by the reserved resources</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -c -h node[0-9] -f fast
+</pre>
+</div>
+Moab will create a reservation on nodes matching the expression and which also have the feature <tt>fast.</tt></td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-F
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="FLAGS"></a><b>FLAGS</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;flag&gt;[[,&lt;flag&gt;]...]</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Comma-delimited list of flags to set for the reservation (see <a href="../7.1.5managingreservations.html#flagoverview">Managing Reservations</a> for flags).</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -c -h node01 -F ignstate
+</pre></div>
+Moab will create a reservation on <tt>node01</tt> ignoring any conflicting node states.</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-g
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="RSVGROUP"></a><b>RSVGROUP</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;STRING&gt;
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">For a <b>create</b> operation, create a reservation in this reservation group. For list and modify operations, take actions on all reservations in the specified reservation group. The <b>-g</b> option can also be used in conjunction with the <a href="mrsvctl.html#RELEASE"><strong>-r</strong></a> option to release a reservation associated with a specified group. See <a href="../7.1.1resoverview.html#rsvgroup">Reservation Group</a> for more information.</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -c -g staff -h 'node0[1-9]'
+</pre></div>
+Moab will create a reservation on nodes matching the expression given and assign it to the reservation group <tt>staff.</tt></td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-h
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="HOSTLIST"></a><b>HOSTLIST</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;STRING&gt;
+<br>or<br>
+<b>ALL</b></td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Host list (comma delimited), host regular expression, host range, or class mapping indicating the nodes which the reservation will allocate.
+    <p/>
+
+<p><table class="caution">
+  <tbody>
+    <tr>
+      <td class="cautionIMG"><img src="../caution.png" title="Caution" alt="Caution"></td>
+      <td class="cautionDetail">The <b>HOSTLIST</b> attribute is always treated as a regular expression. foo10 will map to foo10, foo101, foo1006, etc.  To request an exact host match, the expression can be bounded by the carat and dollar op expression markers as in ^foo10$.</td>
+    </tr>
+  </tbody>
+</table></p>
+
+
+</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -c -h 'node0[1-9]'
+</pre></div>
+Moab will create a reservation on nodes matching the expression given.
+  <p><div class="example"><pre>
+&gt; mrsvctl -c -h class:batch
+</pre></div>
+Moab will create a reservation on all nodes which support class/queue <tt>batch.</tt></td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-i
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="INDEX"></a><b>INDEX</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;STRING&gt;</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Use the reservation index instead of full reservation ID.</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -m -i 1 starttime=+5:00
+</pre></div>
+Moab will modify the reservation with the index of 1 to start in 5 minutes.
+</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-I
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="SIGNAL"></a><b>SIGNAL</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">{cancel|end|failure|start}</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Send signals under the specified event conditions.</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -m -I start starttime=+5:00
+</pre></div>
+Moab will send a signal when the start event occurs.</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-l
+   <tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="LIST"></a><b>LIST</b></td>
+   <tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;RSV_ID&gt; or ALL
+      <br>
+      <br>
+      RSV_ID can the name of a reservation or a regular expression.</td>
+   <tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">ALL</td>
+   <tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">List reservation(s).</td>
+   <tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -l system*
+</pre></div>
+<p>Moab will list all of the reservations whose names start with <tt>system</tt>.</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-m
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="MODIFY"></a><b>MODIFY</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;ATTR&gt;=&lt;VAL&gt;[-m &lt;ATTR2&gt;=&lt;VAL2&gt;]...<br>
+
+<br>Where &lt;ATTR&gt; is one of the following:
+  <table class="simpleTable">
+  <tr>
+    <td class="contentLabels"><b><a href="../7.1.5managingreservations.html#flags">flags</a></b></td>
+    <td class="contentDetails">&nbsp;</td></tr>
+  <tr>
+    <td class="contentLabels"><b>duration</b></td>
+    <td class="contentDetails">duration{+=|-=|=}&lt;RELTIME&gt;</td></tr>
+  <tr>
+    <td class="contentLabels"><b>endtime</b></td>
+    <td class="contentDetails">endtime{+=|-=}&lt;RELTIME&gt; or endtime=&lt;ABSTIME&gt;</td></tr>
+
+  <tr>
+    <td class="contentLabels"><b>hostexp</b></td>
+    <td class="contentDetails">hostexp[+=|-=]&lt;node&gt;[,&lt;node&gt;]</td></tr>
+  <tr>
+    <td class="contentLabels"><b>label</b></td>
+    <td class="contentDetails">label=&lt;LABEL&gt;</td></tr>
+  <tr>
+    <td class="contentLabels"><b>reqtaskcount</b></td>
+    <td class="contentDetails">reqtaskcount{+=|-=|=}&lt;TASKCOUNT&gt;</td></tr>
+  <tr>
+    <td class="contentLabels"><b>rsvgroup</b></td>
+    <td class="contentDetails">&nbsp;</td></tr>
+
+  <tr>
+    <td class="contentLabels"><b>starttime</b></td>
+    <td class="contentDetails">starttime{+=|-=}&lt;RELTIME&gt; or starttime=&lt;ABSTIME&gt;</td></tr>
+  </table>
+
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Modify aspects of a reservation.</td>
+
+<tr>
+  <td class="contentLabels">Example:</td>
+  <td class="contentDetails">
+<p><div class="example">
+<pre>&gt; mrsvctl -m duration=2:00:00 system.1</pre></div>
+Moab sets the duration of reservation <tt>system.1</tt> to 
+be exactly two hours, thus modifying the endtime of the reservation.</p>
+<p><div class="example">
+<pre>&gt; mrsvctl -m starttime+=5:00:00 system.1</pre></div>
+Moab advances the starttime of system.1 five hours from its 
+current starttime (without modifying the duration of the reservation).</p>
+<p><div class="example">
+<pre>&gt; mrsvctl -m endtime-=5:00:00 system.1</pre></div>
+Moab moves the endtime of reservation system.1 ahead five hours from its current endtime (without modifying the starttime; thus, this action is equivalent to modifying the duration of the reservation).</p>
+<p><div class="example">
+<pre>&gt; mrsvctl -m -s 15:00:00_7/6/08 system.1</pre></div>
+Moab sets the starttime of reservation system.1 to 3:00 p.m. on July 6, 2008.</p>
+<p><div class="example">
+<pre>&gt; mrsvctl -m -s -=5:00:00 system.1</pre></div>
+Moab moves the starttime of reservation system.1 ahead five hours.</p>
+<p><div class="example">
+<pre>&gt; mrsvctl -m -s +5:00:00 system.1</pre></div>
+Moab moves the starttime of reservation system.1 five hours from the current time.</p>
+<p><div class="example">
+<pre>&gt; mrsvctl -m -d +=5:00:00 system.1</pre></div>
+Moab extends the duration of system.1 by five hours.</p>
+<p><div class="example">
+<pre>&gt; mrsvctl -m flags+=ADVRES system.1</pre></div>
+Moab adds the flag <tt>ADVRES</tt> to reservation <tt>system.1</tt>.</p>
+</td>
+</tr>
+<tr>
+  <td class="contentLabels bottomRow">Notes:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail">
+<ul>
+<li>When the label is assigned for a reservation, the reservation can then be referenced by that label as well as by the reservation name. The reservation name cannot be modified.</li>
+<li>The starttime of a reservation can be modified by using <b>starttime</b> or <b>-s</b>. Modifing the starttime does not change the duration of the reservation, so the endtime changes as well. The starttime can be changed to be before the current time, but if the change causes the endtime to be before the current time, the change is not allowed.</li>
+<li>The endtime of a reservation can be modified by using <b>endtime</b> or <b>-e</b>. Modifying the endtime changes the duration of the reservation as well (and vice versa). An endtime <b>cannot</b> be placed before the starttime or before the current time.</li>
+<li>The duration can be changed by using <b>duration</b> or <b>-d</b>. Duration cannot be negative.</li>
+<li>The += and -= operators operate on the time of the reservation (starttime+=5 adds five seconds to the current reservation starttime), while + and - operate on the current time (starttime+5 sets the starttime to five seconds from now). The + and - operators can be used on -s, and + can be used on -e as well.</li>
+<li>If the starttime or endtime specified is before the current time without a date specified, it is set to the next time that fits the command. To force the date, add the date as well. For the following examples, assume that the current time is 9:00 a.m. on March 1, 2007.</li>
+</ul>
+<p><div class="example">
+<pre>&gt; mrsvctl -m -s 8:00:00_3/1/07 system.1</pre></div>
+Moab moves system.1's starttime to 8:00 a.m., March 1.</p>
+<p><div class="example">
+<pre>&gt; mrsvctl -m -s 8:00:00 system.1</pre></div>
+Moab moves system.1's starttime to 8:00 a.m., March 2.</p>
+<p><div class="example">
+<pre>&gt; mrsvctl -m -e 7:00:00 system.1</pre></div>
+Moab moves system.1's endtime to 7:00 a.m., March 3. This happens
+because the endtime must also be after the starttime, so Moab continues
+searching until it has found a valid time that is in the future and after the
+starttime.</p>
+<p><div class="example">
+<pre>&gt; mrsvctl -m -e 7:00:00_3/2/07 system.1</pre></div>
+Moab will return an error because the endtime cannot be before the starttime.</p>
+</td></tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-n
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="NAME"></a><b>NAME</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;STRING&gt;</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Name for new reservation.
+  
+    <p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">If no name is specified, the reservation name is set to first name listed in ACL or <tt>SYSTEM</tt> if no ACL is specified.</td>
+    </tr>
+  </tbody>
+</table></p>
+  
+  <p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">Reservation names may not contain whitespace.</td>
+    </tr>
+  </tbody>
+</table></p>
+</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>mrsvctl -c -h node01 -n John</pre></div>Moab will create a reservation on node01 with the name <tt>John</tt>.</td></tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+ 
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-p
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="PARTITION"></a><b>PARTITION</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;STRING&gt;</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Only allocate resources from the specified partition</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>mrsvctl -c -p switchB -t 14</pre></div>
+  Moab will allocate 14 tasks from the <tt>switchB</tt> partition.</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-P
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="PROFILE"></a><b>PROFILE</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;STRING&gt;</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Indicates the <a href="../a.fparameters.html#rsvprofile">reservation profile</a> to load when creating this reservation</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>mrsvctl -c -P testing2 -t 14</pre></div>
+  Moab will allocate 14 tasks to a reservation defined by the <tt>testing2</tt> reservation profile.</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-q
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="QUERY"></a><b>QUERY</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;RSV_ID&gt; where &lt;RSV_ID&gt; is treated as a regular expression<br>or<br>ALL --flags=COMPLETED</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Get diagnostic information or list all completed reservations.</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><p><div class="example"><pre>mrsvctl -q ALL --flags=COMPLETED</pre></div>
+  Moab will query completed reservations.</p>
+  
+  <p><div class="example"><pre>mrsvctl -q system.1</pre></div>
+  Moab will query the reservation <tt>system.1</tt>.</p></td></tr>
+
+<!--
+<tr><td valign="top"></td><td>&lt;TYPE> or &lt;RSV_ID><br><br>where &lt;TYPE> is either <b>diag</b> or <b>resources</b></td>
+<tr><td valign="top"></td><td>diag</td>
+<tr><td valign="top"></td><td>Get diagnostic or resource information for all for selective reservations</td>
+<tr><td valign="top"></td><td><pre>mrsvctl -q ALL</pre><br>(Moab will query all reservations)<br><pre>mrsvctl -q system.1</pre><br>(Moab will query the reservation <tt>system.1</tt>)</td>
+</tr>
+</td></tr>
+-->
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-r
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="RELEASE"></a><b>RELEASE</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;RSV_ID&gt; (treated as a regular expression)</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Releases the specified reservation.</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><p><div class="example"><pre>
+&gt; mrsvctl -r system.1
+</pre></div>
+Moab will release reservation <tt>system.1</tt>.</p>
+<p><div class="example"><pre>
+&gt; mrsvctl -r -g idle
+</pre></div>
+Moab will release all idle job reservations.</p>
+</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-R
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="RESOURCES"></a><b>RESOURCES</b>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;tid&gt; or <br>
+&lt;RES&gt;=&lt;VAL&gt;[{,|+|;}&lt;RES&gt;=&lt;VAL&gt;]...
+<br>
+<br>Where &lt;RES&gt; is one of the following: 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>PROCS</b>, 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>MEM</b>, 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>DISK</b>, 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>SWAP</b>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>GRES</b></td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">PROCS=-1</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Specifies the resources to be reserved per task. (-1 indicates
+all resources on node) 
+
+    <p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">For <b>GRES</b> resources, &lt;VAL&gt; is specified in the format &lt;GRESNAME&gt;[:&lt;COUNT&gt;]</td>
+    </tr>
+  </tbody>
+</table></p>
+
+</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -c -R MEM=100;PROCS=2 -t 2
+</pre></div>
+Moab will create a reservation for two tasks with the specified resources</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-s
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="STARTTIME"></a><b>STARTTIME</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">[HH[:MM[:SS]]][_MO[/DD[/YY]]]&nbsp;
+<br>or&nbsp;
+<br>+[[[DD:]HH:]MM:]SS</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">[NOW]</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Absolute or relative time reservation will start. STARTTIME also supports an epoch timestamp.</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -c -t ALL -s 3:00:00_4/4/04
+</pre></div>
+Moab will create a reservation on all system resources at 3:00 am on April 4, 2004
+
+<p><div class="example"><pre>
+&gt; mrsvctl -c -h node01 -s +5:00
+</pre></div>
+Moab will create a reservation in 5 minutes on node01</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-S
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="SET"></a><b>SET ATTRIBUTE</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;ATTR&gt;=&lt;VALUE&gt; where &lt;ATTR&gt; is one of 
+<br><b>aaccount</b> (accountable account), 
+<br><b>agroup</b> (accountable group), 
+<br><b>aqos</b> (accountable QoS), 
+<br><b>auser</b> (accountable user), 
+<br><b>reqarch</b> (required architecture),
+<br><b>reqmemory</b> (required node memory - in MB),
+<br><b>reqnetwork</b> (required network),
+<br><b>reqos</b> (required operating system), or
+<br><b><a name="rsvaccesslist"></a>rsvaccesslist</b> (comma delimited list of reservations or reservation groups which can be accessed by this reservation request)</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Specifies a reservation attribute will be used to create this reservation</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -c -h node01 -S aqos=high
+</pre></div>
+Moab will create a reservation on <tt>node01</tt> and will use the QOS <tt>high</tt> as the accountable credential</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-t
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="TASKS"></a><b>TASKS</b>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails"><b>&lt;INTEGER&gt;[-&lt;INTEGER&gt;]</b>&nbsp;
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">---</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Specifies the number of tasks to reserve. <tt>ALL</tt> indicates all resources available should be reserved.
+  
+    <p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">If the task value is set to <tt>ALL</tt>, Moab applies the reservation regardless of existing reservations and exclusive issues. If an integer is used, Moab only allocates accessible resources. If a range is specified Moab attempts to reserve the maximum number of tasks, or at least the minimum.</td>
+    </tr>
+  </tbody>
+</table></p>
+  
+</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -c -t ALL
+</pre></div>
+Moab will create a reservation on all resources.
+
+<p><div class="example"><pre>
+&gt; mrsvctl -c -t 3
+</pre></div>
+Moab will create a reservation for three tasks.
+
+<p><div class="example"><pre>
+&gt; mrsvctl -c -t 3-10 -E
+</pre></div>
+Moab will attempt to reserve 10 tasks but will fail if it cannot get at least three.
+</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-T
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="TRIGGER"></a><b>TRIGGER</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;STRING&gt;</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">N/A</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Comma-delimited reservation trigger list following format described in the trigger format section of the reservation configuration overview. See <a href="../19.1triggers.html">Trigger Creation</a> for more information.</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -c -h node01 -T offset=200,etype=start,atype=exec,action=/opt/moab/tools/support.diag.pl
+</pre></div>
+Moab will create a reservation on node01 and fire the script <tt>/tmp/email.sh</tt> 200 seconds after it starts</td>
+</tr>
+</tbody>
+
+<tbody>
+  <tr class="blank">
+     <td>&nbsp;</td>
+     <td>&nbsp;</td>
+  </tr>
+</tbody>
+
+
+<tbody>
+<tr>
+  <td colspan="2" class="featureName">-V
+<tr>
+  <td class="contentLabels">Name:</td>
+  <td class="contentDetails"><a name="VARIABLE"></a><b>VARIABLE</b></td>
+<tr>
+  <td class="contentLabels">Format:</td>
+  <td class="contentDetails">&lt;name&gt;[=&lt;value&gt;][[;&lt;name&gt;[=&lt;value&gt;]]...]</td>
+<tr>
+  <td class="contentLabels">Default:</td>
+  <td class="contentDetails">N/A</td>
+<tr>
+  <td class="contentLabels">Description:</td>
+  <td class="contentDetails">Semicolon-delimited list of variables that will be set when the reservation is created (see <a href="../20.1triggers.html">17.5.4 Trigger Variables</a>). Names with no values will simply be set to TRUE.</td>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>
+&gt; mrsvctl -c -h node01 -V $T1=mac;var2=18.19
+</pre></div>
+Moab will create a reservation on node01 and set $T1 to mac and var2 to 18.19.</td>
+</td></tr>
+<tr><td colspan="2" class="featureName">-x
+</td> 
+</tr>
+<tr>
+  <td class="contentLabels bottomRow">Name:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail4"><span class="contentDetails"><a name="JOBLIST" id="VARIABLE"></a></span><strong>JOBLIST</strong></td>
+  <td>  
+</tr>
+<tr>
+  <td class="contentLabels bottomRow">Format:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail9">-x &lt;jobs to be excluded&gt;</td>
+  <td>  
+</tr>
+<tr>
+  <td class="contentLabels bottomRow">Default:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail8">N/A</td>
+  <td>  
+</tr>
+<tr>
+  <td class="contentLabels bottomRow">Description:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail7">The -x flag, when used with -F ignjobrsv, lets users create reservations but exclude certain nodes that are running the listed jobs.The -F flag instructs mrsvctl to still consider nodes with 		current running jobs. The nodes are not listed directly.</td>
+  <td>  
+</tr>
+<tr>
+  <td class="contentLabels bottomRow">Example:</td>
+  <td class="contentDetails bottomRow" id="bottomDetail6"><div class="example"><pre>&gt; mrsvctl -c -t 5 -F ignjobrsv -x moab.5,moab.6
+</pre></div>
+  Moab will create the reservation while assigning the nodes. Nodes running jobs moab5 and moab6 will 		not be assigned to the reservation.<br /></td>
+  <td>  
+</tr>
+</table>
+
+<big><p><b>Parameters</b></p></big>
+
+<table class="tblFormat01">
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><a name="RESVID"></a><b>RESERVATION ID</b></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">&lt;STRING&gt;</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">The name of a reservation or a regular expression for several reservations.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example"><pre>system*</pre></div>
+      Specifies all reservations starting with 'system'.</td>
+    </tr>
+  </tbody>
+</table>
+
+<big><p><b>Resource Allocation Details</b></p></big>
+
+When allocating resources, the following rules apply:
+
+<p><ul>
+<li>When specifying tasks, a each task defaults to <i>one full compute node</i> unless otherwise specified using the <a href="mrsvctl.html#RESOURCES">-R</a> specification
+<li>When specifying tasks, the reservation will not be created unless all requested resources can be allocated. (This behavior can be changed by specifying '<b><a href="mrsvctl.html#FLAGS">-F</a> besteffort</b>')
+<li>When specifying tasks or hosts, only nodes in an idle or running state will be considered. (This behavior can be changed by specifying '<b><a href="mrsvctl.html#FLAGS">-F</a> ignstate</b>')
+</ul>
+
+<big><p><b><a name="rsvmodify"></a>Reservation Timeframe Modification</b></p></big>
+
+Moab supports dynamically modifying the timeframe of existing reservations. This can be accomplished using the <a href="mrsvctl.html#MODIFY">mrsvctl -m</a> flag. By default, Moab will perform advanced boundary and resource access to verify that the modification does not result in an invalid scheduler state. However, in certain circumstances administrators may wish to <i>FORCE</i> the modification in spite of any access violations. This can be done using the switch <i>mrsvctl -m --flags=force</i> which forces Moab to bypass any access verification and force the change through.
+
+<big><p><b>Extending a reservation by modifying the endtime</b></p></big> 
+
+The following increases the endtime of a reservation using the "+=" tag:
+
+<p><div class="example"><pre>
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:35:57  1:11:35:57  1:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+
+$&gt; mrsvctl -m endtime+=24:00:00 system.1
+endtime for rsv 'system.1' changed
+
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:35:22  2:11:35:22  2:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+</pre></div>
+
+<p>The following increases the endtime of a reservation by setting the endtime to an absolute time:
+
+<p><div class="example"><pre>
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:33:18  1:11:33:18  1:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+
+$&gt; mrsvctl -m endtime=0_11/20 system.1
+endtime for rsv 'system.1' changed
+
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:33:05  2:11:33:05  2:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+</pre></div>
+
+<big><p><b>Extending a reservation by modifying the duration</b></p></big>
+
+The following increases the duration of a reservation using the "+=" tag:
+
+<p><div class="example"><pre>
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:28:46  1:11:28:46  1:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+
+$&gt; mrsvctl -m duration+=24:00:00 system.1
+duration for rsv 'system.1' changed
+
+&gt;$ showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:28:42  2:11:28:42  2:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+</pre></div>
+
+<p>The following increases the duration of a reservation by setting the duration to an absolute time:
+
+<p><div class="example"><pre>
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:26:41  1:11:26:41  1:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+
+$&gt; mrsvctl -m duration=48:00:00 system.1
+duration for rsv 'system.1' changed
+
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:26:33  2:11:26:33  2:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+</pre></div>
+
+<big><p><b>Shortening a reservation by modifying the endtime</b></p></big>
+
+The following modifies the endtime of a reservation using the "-=" tag:
+
+<p><div class="example"><pre>
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:15:51  2:11:15:51  2:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+
+$&gt; mrsvctl -m endtime-=24:00:00 system.1
+endtime for rsv 'system.1' changed
+
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:15:48  1:11:15:48  1:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+</pre></div>
+
+<p>The following modifies the endtime of a reservation by setting the endtime to an absolute time:
+
+<p><div class="example"><pre>
+$ showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:14:00  2:11:14:00  2:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+
+$&gt; mrsvctl -m endtime=0_11/19 system.1
+endtime for rsv 'system.1' changed
+
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:13:48  1:11:13:48  1:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+</pre></div>
+
+<big><p><b>Shortening a reservation by modifying the duration</b></p></big>
+
+The following modifies the duration of a reservation using the "-=" tag:
+
+<p><div class="example"><pre>
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:12:20  2:11:12:20  2:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+
+$&gt; mrsvctl -m duration-=24:00:00 system.1
+duration for rsv 'system.1' changed
+
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:12:07  1:11:12:07  1:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+</pre></div>
+
+<p>The following modifies the duration of a reservation by setting the duration to an absolute time:
+<p><div class="example"><pre>
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:10:57  2:11:10:57  2:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+
+$&gt; mrsvctl -m duration=24:00:00 system.1
+duration for rsv 'system.1' changed
+
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:10:50  1:11:10:50  1:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+</pre></div>
+
+<big><p><b>Modifying the starttime of a reservation</b></p></big>
+
+The following increases the starttime of a reservation using the "+=" tag:
+
+<p><div class="example"><pre>
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:08:30  2:11:08:30  2:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+
+$&gt; mrsvctl -m starttime+=24:00:00 system.1
+starttime for rsv 'system.1' changed
+
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -  1:11:08:22  3:11:08:22  2:00:00:00    1/2    Sun Nov 19 00:00:00
+
+1 reservation located
+</pre></div>
+
+<p>The following decreases the starttime of a reservation using the "-=" tag:
+<p><div class="example"><pre>
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:07:04  2:11:07:04  2:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+
+$&gt; mrsvctl -m starttime-=24:00:00 system.1
+starttime for rsv 'system.1' changed
+
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -   -12:53:04  1:11:06:56  2:00:00:00    1/2    Fri Nov 17 00:00:00
+
+1 reservation located
+</pre></div>
+
+<p>The following modifies the starttime of a reservation using an absolute time:
+<p><div class="example"><pre>
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:05:31  2:11:05:31  2:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+
+$&gt; mrsvctl -m starttime=0_11/19 system.1
+starttime for rsv 'system.1' changed
+
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -  1:11:05:18  3:11:05:18  2:00:00:00    1/2    Sun Nov 19 00:00:00
+
+1 reservation located
+</pre></div>
+
+<p>The following modifies the starttime of a reservation using an absolute time:
+<p><div class="example"><pre>
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -    11:04:04  2:11:04:04  2:00:00:00    1/2    Sat Nov 18 00:00:00
+
+1 reservation located
+
+$&gt; mrsvctl -m starttime=0_11/17 system.1
+starttime for rsv 'system.1' changed
+
+$&gt; showres
+
+ReservationID       Type S       Start         End    Duration    N/P    StartTime
+system.1            User -   -12:56:02  1:11:03:58  2:00:00:00    1/2    Fri Nov 17 00:00:00
+
+1 reservation located
+</pre></div>
+
+<!-- Give short description of what the example will show. -->
+
+<big><p><b>Examples</b></p></big>
+
+<ul>
+<li><a href="mrsvctl.html#example1">Example 1</a>: Basic Reservation
+<li><a href="mrsvctl.html#example2">Example 2</a>: System Maintenance Reservation
+<li><a href="mrsvctl.html#example3">Example 3</a>: Explicit Task Description
+<li><a href="mrsvctl.html#example4">Example 4</a>: Dynamic Reservation Modification
+<li><a href="mrsvctl.html#example5">Example 5</a>: Adding a Reservation Trigger
+<li><a href="mrsvctl.html#example6">Example 6</a>: Index-based Reservation Release
+<li><a href="mrsvctl.html#example7">Example 7</a>: Reservation Modification
+<li><a href="mrsvctl.html#example8">Example 8</a>: Allocating Reserved Resources
+<li><a href="mrsvctl.html#example9">Example 9</a>: Modifying an Existing Reservation
+</ul>
+
+<big><p><b><a name="example1"></a>Example 1:  Basic Reservation</b></p></big>
+
+Reserve two nodes for use by users john and mary for a period of 8 hours starting in 24 hours
+
+<p><div class="example"><pre>
+&gt; mrsvctl -c -a USER=john,USER=mary -s +24:00:00 -d 8:00:00 -t 2
+
+reservation 'system.1' created</pre>
+</pre></div>
+
+<big><p><b><a name="example2"></a>Example 2:  System Maintenance Reservation</b></p></big>
+
+Schedule a system wide reservation to allow a system maintenance on Jun 20, 8:00 AM until Jun 22, 5:00 PM.
+<p><div class="example"><pre>% mrsvctl -c -s 8:00:00_06/20 -e 17:00:00_06/22 -h ALL
+
+reservation 'system.1' created</pre>
+</pre></div>
+
+<big><p><b><a name="example3"></a>Example 3:  Explicit Task Description</b></p></big>
+
+Reserve one processor and 512 MB of memory on nodes node003 through node 006 for members of the group staff and jobs in the interactive class
+
+<p><div class="example"><pre>
+&gt; mrsvctl -c -R PROCS=1,MEM=512 -a GROUP=staff,CLASS=interactive -h 'node00[3-6]'
+
+reservation 'system.1' created</pre>
+</pre></div>
+
+<big><p><b><a name="example4"></a>Example 4:  Dynamic Reservation Modification</b></p></big>
+
+Modify reservation john.1 to start in 2 hours, run for 2 hours, and include node02 in the hostlist.
+
+<p><div class="example"><pre>
+&gt; mrsvctl -m starttime=+2:00:00,duration=2:00:00,HostExp+=node02
+
+Note:  hosts added to rsv system.3</pre>
+</pre></div>
+
+<big><p><b><a name="example5"></a>Example 5:  Adding a Reservation Trigger</b></p></big>
+
+Add a trigger to reservation system.1
+
+<p><div class="example"><pre>
+&gt; mrsvctl -m TRIGGER=X
+
+Note:  trigger added to rsv system.1</pre>
+</pre></div>
+
+<big><p><b><a name="example6"></a>Example 6:  Index-based Reservation Release</b></p></big>
+
+Release reservation system.1 using its index.
+
+<p><div class="example"><pre>
+&gt; mrsvctl -r -i 1
+
+reservation 'system.1' successfully released</pre>
+</pre></div>
+
+<big><p><b><a name="example7"></a>Example 7: Reservation Modification</b></p></big>
+
+Remove user John's access to reservation system.1
+
+<p><div class="example"><pre>
+&gt; mrsvctl -m -a USER=John system.1 --flags=unset
+
+successfully changed ACL for rsv system.1</pre>
+</pre></div>
+
+<big><p><b><a name="example8"></a>Example 8: Allocating Reserved Resources</b></p></big>
+
+Allocate resources for group <tt>dev</tt> which are <a href="mrsvctl.html#EXCLUSIVE">exclusive</a> except for resources found within reservations myrinet.3 or john.6 
+
+<p><div class="example"><pre>
+&gt; mrsvctl -c <a href="mrsvctl.html#EXCLUSIVE">-E</a> -a group=dev,rsv=myrinet.3,rsv=john.6 -h 'node00[3-6]'
+
+reservation 'dev.14' created
+</pre></div>
+
+<p>Create exclusive <tt>network</tt> reservation on racks 3 and 4
+
+<p><div class="example"><pre>
+&gt; mrsvctl -c -E -a group=ops -g network -f rack3 -h ALL 
+
+reservation 'ops.1' created
+
+&gt; mrsvctl -c -E -a group=ops -g network -f rack4 -h ALL
+
+reservation 'ops.2' created
+</pre></div>
+
+<p>Allocate 64 nodes for 2 hours to new reservation and grant access to reservation <tt>system.3</tt> and all reservations in the reservation group <tt>network</tt>
+
+<p><div class="example"><pre>
+&gt; mrsvctl -c <a href="mrsvctl.html#EXCLUSIVE">-E</a> -d 2:00:00 -a group=dev -t 64 -S <a href="mrsvctl.html#rsvaccesslist">rsvaccesslist</a>=system.3,network 
+
+reservation 'system.23' created
+</pre></div>
+
+<p>Allocate 4 nodes for 1 hour to new reservation and grant access to idle job reservations
+
+<p><div class="example"><pre>
+&gt; mrsvctl -c <a href="mrsvctl.html#EXCLUSIVE">-E</a> -d 1:00:00 -t 4 -S <a href="mrsvctl.html#rsvaccesslist">rsvaccesslist</a>=idle
+
+reservation 'system.24' created
+</pre></div>
+
+<big><p><b><a name="example9"></a>Example 9: Modifying an Existing Reservation</b></p></big>
+
+Remove user <tt>john</tt> from reservation ACL
+
+<p><div class="example"><pre>
+&gt; mrsvctl -m -a USER=john system.1 --flags=unset
+
+successfully changed ACL for rsv system.1
+</pre></div>
+
+<p>Change reservation group
+
+<p><div class="example"><pre>
+&gt; mrsvctl -m RSVGROUP=network ops.4
+
+successfully changed RSVGROUP for rsv ops.4
+</pre></div>
+
+<h2>See Also</h2>
+
+<ul>
+<li><a href="../2.2installation.html#client">Moab Client Installation</a> - explains how to distribute this command to client nodes</li>
+<li><a href="../7.1.2adminreservations.html">Admin Reservation Overview</a>
+<li><a href="showres.html">showres</a>
+<li><a href="mdiag-reservations.html">mdiag -r</a>
+<li><a href="mshowa.html">mshow -a</a> command to identify available resources
+<li><a href="../7.1.5managingreservations.html#aclmodifiers">job to rsv binding</a> 
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

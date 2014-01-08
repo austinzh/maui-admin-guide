@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div><b>NOTE:</b>
+
+          <p>For all Maui 3.0 versions, throttling policies must be specified using the old style convention requiring two or more parameters. The first parameter, <b>*POLICY</b>, indicates whether the policy is enabled. The <b>*COUNT</b> parameter specifies the policy hard limit. The <b>*SCOUNT</b> parameter specifies the optional policy soft limit. For example, In Maui 3.2, you might limit the number of jobs per user using the statement '<tt>USERCFG[DEFAULT] MAXJOB=4,6</tt>'. In Maui 3.0, you would do the same thing by specifying the following:</p>
+
+          <p>------<br>
+          <tt>MAXJOBPERUSERPOLICY ON</tt><br>
+          <tt>MAXJOBPERUSERCOUNT 4</tt><br>
+          <tt>SMAXJOBPERUSERCOUNT 6</tt><br>
+          <b>------</b></p>
+
+          <p>The following translation must be used to specify policy <b>X</b> for credential <b>Y</b></p>
+
+          <p>Maui 3.2<br>
+          ----<br>
+          <tt>USERCFG&lt;Y&gt; &lt;X&gt;=&lt;SOFTLIMIT&gt;[,&lt;HARDLIMIT&gt;]</tt><br>
+          ----</p>
+
+          <p>Maui 3.2<br>
+          ----<br>
+          <tt>&lt;X&gt;PER&lt;Y&gt;POLICY ON</tt><br>
+          <tt>&lt;X&gt;PER&lt;Y&gt;COUNT &lt;HARDLIMIT&gt;</tt><br>
+          <tt>S&lt;X&gt;PER&lt;Y&gt;COUNT &lt;SOFTLIMIT&gt;</tt><br>
+          ----</p>
+
+          <p>If you have any questions, please send a note to us at <a href="mailto:brian@chpc.utah.edu">help</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

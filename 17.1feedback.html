@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="17.0miscellaneous.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="17.0miscellaneous.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="17.2grid.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>17.1 User Feedback Overview</h1>
+
+          <p>The 'Feedback' facility allows a site to provide job performance information to users at job completion time. When a job completes, the program pointed to by the <a href="a.fparameters.html#feedbackprogram">FEEDBACKPROGRAM</a> parameter is called with a number of command line arguments. The site is responsible for creating a program capable of processing and acting upon the contents of the command line. The command line arguments passed are a follows</p>
+
+          <p>- job name<br>
+          - user name<br>
+          - NONE<br>
+          - final job state<br>
+          - QOS requested<br>
+          - epoch time job was submitted<br>
+          - epoch time job started<br>
+          - epoch time job completed<br>
+          - job XFactor<br>
+          - job wallclock limit<br>
+          - processors requested<br>
+          - memory requested<br>
+          - average per task cpu load<br>
+          - maximum per task cpu load<br>
+          - average per task memory usage<br>
+          - maximum per task memory usage</p>
+
+          <p>For many sites, the feedback script is useful as a means of letting user's know that accuracy of their wallclock limit estimate, as well as the cpu efficiency, and memory usage pattern of their job. The feedback script may be used as a mechanism to do any of the following:</p>
+
+          <p>- email users regarding statistics of all completed jobs<br>
+          - email users only when certain criteria are met (ie. "Dear John, you submitted job X requesting 128MB of memory per task. It actually utilized 253 MB of memory per task potentially wreaking havoc with the entire system! Please improve your resource usage estimates in future jobs!")<br>
+          - update system databases<br>
+          - take system actions based on job completion statistics<br></p>
+
+          <p>NOTE: some of these fields may be set to zero if the underlying OS/Resource Manager does not support the necessary data collection.</p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="17.0miscellaneous.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="17.0miscellaneous.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="17.2grid.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

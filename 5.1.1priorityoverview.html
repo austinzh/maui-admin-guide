@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="5.1jobprioritization.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="5.1jobprioritization.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="5.1.2priorityfactors.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>5.1.1 Priority Overview</h1>
+
+          <p>Maui's prioritization mechanism allows component and subcomponent weights to be associated with many aspects of a job so as to enable fine-grained control over this aspect of scheduling. To allow this level of control, Maui uses a simple priority-weighting hierarchy where the contribution of each priority subcomponent is calculated as</p>
+
+          <p><b>&lt;COMPONENT WEIGHT&gt; * &lt;SUBCOMPONENT WEIGHT&gt; * &lt;PRIORITY SUBCOMPONENT VALUE&gt;</b></p>
+
+          <p>Each priority component contains one or more subcomponents as described in the <a href="5.1.2priorityfactors.html">Priority Component Overview</a>. For example, the Resource component consists of Node, Processor, Memory, Swap, Disk, and PE subcomponents. While there are numerous priority components and many more subcomponents, a site need only focus on and configure the subset of components related to their particular priority needs. In actual usage, few sites use more than a small fraction (usually 5 or less) of the available priority subcomponents. This results in fairly straightforward priority configurations and tuning. By mixing and matching priority weights, sites may generally obtain the desired job-start behavior. At any time, the <a href="commands/diagnosepriority.html">diagnose -p</a> command can be issued to determine the impact of the current priority-weight settings on idle jobs. Likewise, the command <a href="commands/showgrid.html">showgrid</a> can assist the admin in evaluating priority effectiveness on historical system usage metrics such as queue time or expansion factor.</p>
+
+          <p>As mentioned above, a job's priority is the weighted sum of its activated subcomponents. By default, the value of all component and subcomponent weights is set to 1 and 0 respectively. The one exception is the <b>QUEUETIME</b> subcomponent weight which is set to 1. This results in a total job priority equal to the period of time the job has been queued, causing Maui to act as a simple FIFO. Once the summed component weight is determined, this value is then bounded resulting in a priority ranging between 0 and MAX_PRIO_VAL which is currently defined as 1000000000 (one billion). In no case will a job obtain a priority in excess of MAX_PRIO_VAL through its priority subcomponent values.</p>
+
+          <p>Using the <a href="commands/setspri.html">setspri</a> command, site admins may adjust the base calculated job priority by either assigning a relative priority adjust or an absolute system priority. A relative priority adjustment will cause the base priority to be increased or decreased by a specified value. Setting an absolute system priority, SPRIO, will cause the job to receive a priority equal to MAX_PRIO_VAL + SPRIO, and thus guaranteed to be of higher value than any naturally occurring job priority.</p>
+
+          <div class="navIcons bottomIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="5.1jobprioritization.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="5.1jobprioritization.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="5.1.2priorityfactors.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

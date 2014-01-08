@@ -1,0 +1,273 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Maui Scheduler  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+<div class="navIcons topIcons">
+<a href="index.html"><img src="../home.png" title="Home" alt="Home" border="0"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" title="Up" alt="Up" border="0"></a>
+</div>
+
+<H1>showgrid</H1>
+<P>
+
+
+
+<P>
+<B>showgrid <I>STATISTICTYPE</I> [-h]</B>
+
+<P>
+<B>Purpose</B>
+
+<P>
+Shows table of various scheduler statistics.
+
+<P>
+<B>Permissions</B>
+
+<P>
+This command can be run by any Maui Scheduler Administrator.
+
+
+<P>
+<B>Parameters</B>
+
+<P>
+<TABLE BORDER=0 CELLPADDING=5>
+
+<TR VALIGN=TOP>
+<TD><I>STATISTICTYPE</I></TD>
+<TD COLSPAN=2>Values for this parameter:</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD></TD>
+<TD>AVGBYPASS</TD>
+<TD>Average bypass count. Includes summary of job-weighted expansion
+    bypass and total samples.</TD>
+</TR>
+
+
+<TR VALIGN=TOP>
+<TD></TD>
+<TD>AVGQTIME</TD>
+<TD>Average queue time. Includes summary of job-weighted queue time and
+    total samples.</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD></TD>
+<TD>AVGXFACTOR</TD>
+<TD>Average expansion factor. Includes summary of job-weighted expansion 
+    factor, node-weighted expansion factor, node-second-weighted expansion
+    factor, and total number of samples.</TD>
+</TR>
+
+
+<TR VALIGN=TOP>
+<TD></TD>
+<TD>BFCOUNT</TD>
+<TD>Number of jobs backfilled. Includes summary of job-weighted backfill
+    job percent and total samples.</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD></TD>
+<TD>BFNHRUN</TD>
+<TD>Number of node-hours backfilled. Includes summary of job-weighted
+    backfill node-second percentage and total samples.</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD></TD>
+<TD>JOBCOUNT</TD>
+<TD>Number of jobs. Includes summary of total jobs and total samples.</TD>
+</TR>
+
+
+<TR VALIGN=TOP>
+<TD></TD>
+<TD>JOBEFFICIENCY</TD>
+<TD>Job efficiency. Includes summary of job-weighted job efficiency
+    percent and total samples.</TD>
+</TR>
+
+
+<TR VALIGN=TOP>
+<TD></TD>
+<TD>MAXBYPASS</TD>
+<TD>Maximum bypass count. Includes summary of overall maximum bypass and
+    total samples.</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD></TD>
+<TD>MAXXFACTOR</TD>
+<TD>Maximum expansion factor. Includes summary of overall maximum 
+    expansion factor and total samples.</TD> 
+</TR>
+
+
+<TR VALIGN=TOP>
+<TD></TD>
+<TD>NHREQUEST</TD>
+<TD>Node-hours requested. Includes summary of total node-hours requested
+    and total samples.</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD></TD>
+<TD>NHRUN</TD>
+<TD>Node-hours run. Includes summary of total node-hours run and total
+    samples.</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD></TD>
+<TD>QOSDELIVERED</TD>
+<TD>Quality of service delivered. Includes summary of job-weighted 
+    quality of service success rate and total samples.</TD> 
+</TR>
+
+<TR VALIGN=TOP>
+<TD></TD>
+<TD>WCACCURACY</TD>
+<TD>Wall clock accuracy. Includes summary of overall wall clock accuracy
+    and total samples.</TD>
+</TR>
+
+
+
+
+</TABLE>
+
+<P>
+<BLOCKQUOTE>
+
+<B>NOTE</B><BR>
+The <I>STATISTICTYPE</I> parameter value must be entered in uppercase
+characters.
+
+</BLOCKQUOTE>
+
+<P>
+<B>Flags</B>
+
+<P>
+<TABLE BORDER=0 CELLPADDING=5>
+
+<TR VALIGN=TOP>
+<TD>-h</TD>
+<TD>Help for this command.</TD>
+</TR>
+</TABLE>
+
+<P>
+<B>Description</B>
+
+<P>
+This command displays a table of the selected Maui Scheduler statistics,
+such as expansion factor, bypass count, jobs, node-hours, wall clock
+accuracy, and backfill information.
+
+<P>
+<B>Example</B>
+
+<P>
+<TT>% showgrid AVGXFACTOR</TT>
+
+<FONT SIZE=2>
+<PRE>
+Average XFactor Grid
+
+[ NODES ][ 00:02:00 ][ 00:04:00 ][ 00:08:00 ][ 00:16:00 ][ 00:32:00 ][ 01:04:00 ][ 02:08:00 ][ 04:16:00 ][ 08:32:00 ][ 17:04:00 ][ 34:08:00 ][   TOTAL  ]
+[    1  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ]
+[    2  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ]
+[    4  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][  1.00   1][ -------- ][  1.12   2][ -------- ][ -------- ][  1.10   3]
+[    8  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][  1.00   2][  1.24   2][ -------- ][ -------- ][ -------- ][  1.15   4]
+[   16  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][  1.01   2][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][  1.01   2]
+[   32  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ]
+[   64  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ]
+[  128  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ]
+[  256  ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ]
+[ T TOT ][ -------- ][ -------- ][ -------- ][ -------- ][ -------- ][  1.01   2][  1.00   3][  1.24   2][  1.12   2][ -------- ][ -------- ]
+Job Weighted X Factor:     1.0888
+Node Weighted X Factor:    1.1147
+NS Weighted X Factor:      1.1900
+Total Samples:                9
+
+</PRE>
+</FONT>
+
+<P>
+The <TT>showgrid</TT> command returns a table with data for the specified
+<I>STASTICTYPE</I> parameter. The left-most column shows the maximum number
+of nodes required by the jobs shown in the other columns. The column heads
+indicate the maximum wall clock time (in HH:MM:SS notation) requested by
+the jobs shown in the columns. The data returned in the table varies by
+the <I>STATISTICTYPE</I> requested. For table entries with one number, it
+is of the data requested. For table entries with two numbers, the left
+number is the data requested and the right number is the number of jobs
+used to calculate the average. Table entries that contain only dashes
+(-------) indicate no job has completed that matches the profile associated 
+for this inquiry. The bottom row shows the totals for each column. 
+Following each table is a summary, which varies by the <I>STATISTICTYPE</I> 
+requested. 
+
+<P>
+This particular example shows the average expansion factor grid. Each table 
+entry indicates two pieces of information -- the average expansion 
+factor for all jobs that meet this slot's profile and the number of jobs 
+that were used to calculate this average. For example, the XFactors of 
+two jobs were averaged to obtain an average XFactor of 1.24 for jobs 
+requiring over 2 hours 8 minutes, but not more than 4 hours 16 minutes 
+and between 5 and 8 nodes. Totals along the bottom provide overall 
+XFactor averages weighted by job, node, and node-seconds. 
+
+
+
+<P>
+<B>Related Commands</B>
+
+<P>
+None.
+
+<P>
+<B>Default File Location</B>
+
+<P>
+<TT>/u/loadl/maui/bin/showgrid</TT>
+
+
+<P>
+<B>Notes</B>
+
+<P>
+None.
+
+
+
+
+<P>
+
+
+&#169; Copyright 1998, Maui High Performance Computing Center. 
+All rights reserved.
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" title="Home" alt="Home" border="0"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" title="Up" alt="Up" border="0"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>

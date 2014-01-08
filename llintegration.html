@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <center>
+            <h1>Maui-Loadleveler Integration Guide</h1>
+          </center>
+
+          <p><br>
+          <b>Overview:</b></p>
+
+          <p>Maui can be used as an external scheduler for Loadleveler. In this configuration, Loadleveler manages the job queue and the compute resources while maui queries the Loadleveler negotiator via the Loadleveler data API to obtain up to date job and node information. Using this information, maui directs Loadleveler to manage jobs in accordance with specified maui policies, priorities, and reservations.<br></p>
+
+          <p><b>Steps:</b></p>
+
+          <p>Maui drives LL via the Loadleveler scheduling API. To enable this api and thus the external scheduler, the following steps must be taken:</p>
+
+          <p>- set '<b>SCHEDULER_API=yes</b>' in the 'LoadL_config' file typically located in the user 'loadl' home directory.</p>
+
+          <p>- set the '<b>NEGOTIATOR_REMOVE_COMPLETED</b>' parameter (also located in the 'LoadL_config' file) to a value of at least 5 minutes, ie 'NEGOTIATOR_REMOVE_COMPLETED=300'. (This allows maui to obtain job info from LL required to maintain accurate job statistics)</p>
+
+          <p>- recycle negotiator using the command '<b>llctl recycle</b>' on the central manager node.</p>
+
+          <p><b>Issues:</b></p>
+
+          <p>The Loadleveler scheduling API is not event driven so Maui has no way of knowing when a new job is submitted. Under these conditions, it will not evaluate a newly submitted job until its next scheduling iteration, typically within 15 to 30 seconds. This lag can be removed by utilizing Loadleveler's 'SUBMITFILTER'. The Maui command 'schedctl -r 2' can be added as the last statement in this filter causing Maui to 'wake-up' and attempt to schedule new jobs immediately. The 'schedctl' command is a administrative command and so may need an suid wrapper in order to allow use by non-privileged users. (see <a href="schedctlwrapper.html">example</a>).</p>
+
+          <p>NOTE: You can return to Loadleveler default scheduling at any time by setting 'SCHEDULER_API=no' in the LoadL_config file and re-issuing the 'llctl recycle' command.</p>
+
+          <p>Maui supports interactive job hostlists but these hostlists must currently be specified using the network interface Loadleveler utilizes. For example, an SP node may have two names, node001e and node001sw representing its ethernet and switch interfaces respectively. Loadleveler is configured to communicate with the nodes on one of these interfaces. (This can be determined by issuing 'llstatus' and observing the name used to specify each node.) Interactive job hostlists must be specified using the same interface that Loadleveler is configured to use. Efforts are underway to extend Maui interface tracking to remedy this.<br></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

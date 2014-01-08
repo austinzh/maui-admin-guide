@@ -1,0 +1,232 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>mshow</h1>
+   <td valign=bottom nowrap><b>(Moab Show)</b>
+<tr>
+</table>
+
+<big><p><b>Synopsis</b></p></big>
+<pre>
+mshow [-a] <!--[<a href="#job">-j</a> [&lt;JOBID&gt;]]--> [-q <i>jobqueue</i>] <!--[-r [<i>reservationid</i>]]--></pre>
+
+<big><p><b>Overview</b></p></big>
+The mshow command displays various diagnostic messages about the system and job queues.
+
+<br>
+<big><p><b>Arguments</b></p></big>
+<table class="simpleTable">
+<tr>
+  <th>Flag</th>
+  <th>Description</th>
+</tr>
+<tr>
+<td class="contentLabels"><a href="mshowa.html">-a</a></td>
+<td class="contentDetails"><b><a href="mshowa.html">AVAILABLE RESOURCES</a></b></td>
+</tr>
+
+<!--  Removed as per Jira MOAB-835.
+<tr>
+<td class="contentLabels"><a name="job"></a>-j [&lt;JOBID&gt;]</td>
+<td class="contentDetails"><b>JOBS</b></td>
+</tr>
+-->
+
+<tr>
+<td class="contentLabels"><a name="queue"></a>-q [&lt;QUEUENAME&gt;]</td>
+<td class="contentDetails"><b>JOB QUEUE</b></td>
+</tr>
+
+<!--  Removed as per Jira MOAB-835.
+<tr>
+<td class="contentLabels">-r</td>
+<td class="contentDetails"><b>RESERVATIONS</b></td>
+</tr>
+-->
+
+</table>
+
+<big><p><b>Format</b></p></big>
+
+<table class="tblFormat01">
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><strong>AVAILABLE RESOURCES</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">Can be combined with --flags=[tid|verbose|future] --format=xml and/or -w </td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Display available resources.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">
+        <pre>&gt; mshow -a -w user=john --flags=tid --format=xml</pre></div>
+        Show resources available to john in XML format with a transaction id. See <a href="mshowa.html">mshow -a</a> for details</td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  
+<!--  Removed as per Jira MOAB-835.
+
+<tbody>
+    <tr>
+      <td colspan="2" class="featureName"><strong>JOBS</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">[&lt;JOBID&gt;]</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Display job information in XML format
+      
+      <p><table class="note">
+  <tbody>
+    <tr>
+      <td class="noteIMG"><img src="../note.png" title="Note" alt="Note"></td>
+      <td class="noteDetail">Use <a href="showq.html">showq</a> for human readable output.</td>
+    </tr>
+  </tbody>
+</table></p>
+      </td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><p><div class="example">
+<pre>&gt; mshow -j scida.1045
+   [XML describing job scida.1045]
+...</pre></div></p>
+
+<p><div class="example">         
+<pre>&gt; mshow -j
+   [XML describing all jobs]
+...</pre></div></p></td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+  -->
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><strong>JOB QUEUE</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Show the job queue.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><div class="example">
+<pre>&gt; mshow -q
+    [information about all queues]
+...</pre>
+</div></td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <tr class="blank">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+ 
+ <!--  Removed as per Jira MOAB-835.
+  
+  <tbody>
+    <tr>
+      <td colspan="2" class="featureName"><strong>RESERVATIONS</strong></td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Format:</td>
+      <td class="contentDetails">RSVID</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Default:</td>
+      <td class="contentDetails">---</td>
+    </tr>
+    <tr>
+      <td class="contentLabels">Description:</td>
+      <td class="contentDetails">Display reservation information.</td>
+    </tr>
+    <tr>
+      <td class="contentLabels bottomRow">Example:</td>
+      <td class="contentDetails bottomRow" id="bottomDetail"><p><div class="example"><pre>mshow -r system.0</pre></div>
+        Display information about reservation system.0.
+        
+        <p><div class="example"><pre>mshow -r</pre></div>
+      Display information about all reservations.</td>
+    </tr>
+  </tbody>
+  
+  -->
+</table>
+<!--<big><p><b>Examples</b></p></big>-->
+
+<h2>See Also</h2>
+
+<ul>
+<li><a href="../2.2installation.html#client">Moab Client Installation</a> - explains how to distribute this command to client nodes</li>
+<li><a href="mshowa.html">mshow -a</a> command to show available resources
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+
+

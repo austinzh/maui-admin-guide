@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <div class="docsSearch"></div>
+
+          <div class="navIcons topIcons">
+            <a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="12.0generalnodeadmin.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="12.3nodepolicies.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="13.0rmandinterfaces.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a>
+          </div>
+
+          <h1>12.4 Managing Node-Locked Consumable Generic Resources</h1>
+
+          <h2>12.4.1 Configuring Consumable Generic Resources</h2>Consumable generic resources are fully supported in all releases of <a href="http://docs.adaptivecomputing.com/moab">Moab</a> with resource manager level auto-detection. Within Maui 3.2, node-locked consumable generic resources (or <i>generic resources</i>) are specified using the <b>NODECFG</b> parameter's <b>GRES</b> attribute. This attribute is specified using the format <tt>&lt;ATTR&gt;:&lt;COUNT&gt; as in the example below.</tt>
+          <pre>
+<tt>-----
+# maui.cfg
+
+NODECFG[titan001]  GRES=tape:4
+NODECFG[login32]   GRES=matlab:2,prime:4
+NODECFG[login32]   GRES=matlab:2
+-----
+</tt>
+</pre>
+
+          <h2><tt>12.4.1 requesting Consumable Generic Resources</tt></h2><tt>Generic resources are requested on a <i>per task</i> basis using <a href="13.3rmextensions.html">resource manager extensions</a>.</tt>
+
+          <div class="navIcons bottomIcons">
+            <tt><a href="index.html"><img src="home.png" title="Home" alt="Home" border="0"></a> <a href="12.0generalnodeadmin.html"><img src="upArrow.png" title="Up" alt="Up" border="0"></a> <a href="12.3nodepolicies.html"><img src="prevArrow.png" title="Previous" alt="Previous" border="0"></a> <a href="13.0rmandinterfaces.html"><img src="nextArrow.png" title="Next" alt="Next" border="0"></a></tt>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

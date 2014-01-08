@@ -1,0 +1,82 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>mdiag -u</h1>
+   <td valign=bottom nowrap><b>(Moab User Diagnostics)</b>
+<tr>
+</table>
+
+<p><big><b>Synopsis</b></big></p>
+
+<pre> 
+mdiag -u [<i>userid</i>]
+</pre>
+
+<p><big><b>Overview</b></big></p>
+
+   The <b>mdiag -u</b> command is used to present information
+about user records maintained by Moab.  The information presented
+includes user name, UID, scheduling priority, default job flags, default
+QOS level, List of accessible QOS levels, and list of accessible partitions.
+
+<p><big><b>Example 1</b></big></p>
+
+<div class="example"><pre>
+&gt; mdiag -u
+evaluating user information
+Name         Priority        Flags         QDef      QOSList*        PartitionList Target  Limits
+ 
+jvella              0       [NONE]       [NONE]       [NONE]                [NONE]   0.00  [NONE]
+  ALIST=Engineering
+  Message:  profiling enabled (597 of 3000 samples/00:15:00 interval)
+[NONE]              0       [NONE]       [NONE]       [NONE]                [NONE]   0.00  [NONE]
+reynolds            0       [NONE]       [NONE]       [NONE]                [NONE]   0.00  [NONE]
+  ALIST=Administration
+  Message:  profiling enabled (597 of 3000 samples/00:15:00 interval)
+mshaw               0       [NONE]       [NONE]       [NONE]                [NONE]   0.00  [NONE]
+  ALIST=Test
+  Message:  profiling enabled (584 of 3000 samples/00:15:00 interval)
+kforbes             0       [NONE]       [NONE]       [NONE]                [NONE]   0.00  [NONE]
+  ALIST=Shared
+  Message:  profiling enabled (597 of 3000 samples/00:15:00 interval)
+gastor              0       [NONE]       [NONE]       [NONE]                [NONE]   0.00  [NONE]
+  ALIST=Engineering
+  Message:  profiling enabled (597 of 3000 samples/00:15:00 interval)
+</pre></div>
+
+<p>   Note that only users which have jobs which are currently
+queued or have been queued since Moab was most recently started are listed. 
+
+<h2>See Also</h2>
+
+<ul>
+<li><a href="showstats.html">showstats</a> command (display user statistics)
+</ul>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

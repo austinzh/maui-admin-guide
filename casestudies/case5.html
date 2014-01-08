@@ -1,0 +1,166 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Maui Scheduler  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+<div class="navIcons topIcons">
+<a href="../index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.acasestudy.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+<a href="case4.html"><img src="../prevArrow.png" border=0 title="Previous" alt="Previous"></a>
+<a href="../a.bxinterface.html"><img src="../nextArrow.png" border=0 title="Next" alt="Next"></a>
+</div>
+  
+
+
+<h1>A.5&nbsp; Case Study: Multi-Queue Cluster with QOS and Charge Rates</h1>
+
+<big><p><b>Overview</b></p></big>
+<p>
+A 160 node, single processor Linux&#0174; cluster is to be used to support various
+organizations within an enterprise.&nbsp; The system should allow a user to
+request improved job turnaround time in exchange for a higher charge rate.&nbsp;
+A portion of the system must be reserved for small development jobs at all
+times.&nbsp;
+</p>
+
+<big><p><b>Resources</b></p></big>
+
+<table class="navTable" width=100%>
+<tr valign="top">
+  <td class="contentLabels">Compute Nodes:</td>
+  <td class="contentDetails">128 800MHz single processor Linux&#0174; nodes with 512 MB RAM<br>32 1.2GHz
+      single processor Linux&#0174; nodes with 512 MB RAM</td>
+</tr>
+<tr valign="top">
+  <td class="contentLabels">Resource Manager:&nbsp;&nbsp;</td>
+  <td class="contentDetails">OpenPBS 2.3</td>
+</tr>
+<tr valign="top">
+  <td class="contentLabels">Network:</td>
+  <td class="contentDetails">100 MB switched Ethernet</td>
+</tr>
+</table>
+
+<big><p><b>Workload</b></p></big>
+<table class="simpleTable">
+<tr valign="top">
+  <td class="contentLabels">Job Size:</td>
+  <td class="contentDetails">Range in size from 1 to 80 processors</td>
+</tr>
+<tr valign="top">
+  <td class="contentLabels">Job Length:</td>
+  <td class="contentDetails">Jobs range in length from 15 minutes to 24 hours</td>
+</tr>
+<tr valign="top">
+  <td nowrap class="contentLabels">Job Owners:&nbsp;&nbsp;</td>
+  <td class="contentDetails">Various</td>
+</tr>
+</table>
+
+<big><p><b>Goals</b></p></big>
+<p>
+Management desires the following queue structure:
+</p>
+
+<pre>
+QueueName      Nodes        MaxWallTime   Priority     ChargeRate
+-----------------------------------------------------------------
+Test            &lt;=16            0:30:00        100             1x
+Serial             1            2:00:00         10             1x
+Serial-Long        1           24:00:00         10             2x
+Short           2-16            4:00:00         10             1x
+Short-Long      2-16           24:00:00         10             2x
+Med            17-64            8:00:00         20             1x
+Med-Long       17-64           24:00:00         20             2x
+Large          65-80           24:00:00         50             2x
+LargeMem           1            8:00:00         10             4x
+
+</pre>
+
+<p>
+For charging, management has decided to charge by job walltime since the nodes
+will not be shared.&nbsp; Management has also dictated that 16 of the single
+processor nodes should be dedicated to running small jobs requiring 16 or fewer
+nodes.&nbsp; Management has also decided that it would like to allow only serial
+jobs to run on the large memory nodes and would like to charge these jobs at a
+rate of 4x.&nbsp; There are no constraints on the remaining nodes.&nbsp;
+</p>
+<p>
+This site has goals which are focused more on a supplying a straightforward
+queue environment to the end users than on maximizing the scheduling
+performance of the system.&nbsp; The Moab configuration has the primary purpose
+of faithfully reproducing the queue constraints above while maintaining
+reasonable scheduling performance in the process.&nbsp;
+</p>
+
+<big><p><b>Analysis</b></p></big>
+<p>
+Since we are using PBS as the resource manager, this should be a pretty
+straightforward process.&nbsp; It will involve setting up an allocations
+manager to handle charging, configuring queue priorities, and creating a system
+reservation to manage the 16 processors dedicated to small jobs, and another
+for managing the large memory nodes.&nbsp;
+</p>
+
+<big><p><b>Configuration</b></p></big>
+<p>
+First, the queue structure must be configured.&nbsp; The best place to handle
+this is via the PBS configuration.&nbsp; The <tt>qmgr</tt> command can be used
+to set up the nine queues described above.&nbsp; PBS supports the node and
+walltime constraints as well as the queue priorities.&nbsp; Moab will honor
+queue priorities configured within PBS.&nbsp; Alternatively, these priorities
+can be specified directly within the Moab <tt>fs.cfg</tt> file for resource
+managers which do not support this capability.&nbsp;
+</p>
+<p>
+We will be using QBank to handle all allocations and so, will want to configure
+the the "per class charge rates" there.&nbsp; Note that QBank 2.9 or higher is
+required for per class charge rate support.&nbsp;
+</p>
+<p>
+Now, two reservations are needed.&nbsp; The first reservation will be for the
+16 small memory nodes.&nbsp; It should only allow node access to jobs requesting
+up to 16 processors.&nbsp; In this environment, this is probably most easily
+accomplished with a reservation class ACL containing the queues which allow
+1 - 16 node jobs.&nbsp;
+</p>
+
+<big><p><b>Monitoring</b></p></big>
+<p>
+The commands <a href="../commands/mdiag.html">mdiag -s</a> and
+<a href="../commands/mdiag-reservations.html">mdiag -r</a> can be used to
+examine the standing reservations and all reservations in more detail.&nbsp;
+The <a href="../commands/mdiag-class.html">mdiag -c</a> command can be used
+to examine and verify class/queue information.&nbsp; The
+<a href="../commands/mshow.html">mshow</a> command may also be used to display
+information about a class/queue, job, and reservation.&nbsp;
+</p>
+
+<big><p><b>Conclusions:</b></p></big>
+<p>
+Moab supports intelligent scheduling across a wide variety of existing queue
+types.&nbsp; This intelligence allows administrators to charge for access to
+priority resources in a very flexible manner.&nbsp; Moab will work seamlessly
+with other software products to implement the desired behavior.&nbsp;
+</p>
+
+<div class="navIcons bottomIcons">
+<a href="../index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.acasestudy.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+<a href="case4.html"><img src="../prevArrow.png" border=0 title="Previous" alt="Previous"></a>
+<a href="../a.bxinterface.html"><img src="../nextArrow.png" border=0 title="Next" alt="Next"></a>
+</div>
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

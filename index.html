@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title></title>
+</head>
+
+<body>
+  <div class="sright">
+    <div class="sub-content-head">
+      Maui Scheduler
+    </div>
+
+    <div id="sub-content-rpt" class="sub-content-rpt">
+      <div class="tab-container docs" id="tab-container">
+        <div class="topNav">
+          <center>
+            <h1>Maui Scheduler&trade;<br>
+            Administrator's Guide</h1>
+
+            <p><font size="1">version 3.2<br>
+            Copyright &copy; 1999-2011 Adaptive Computing Enterprises, Inc All Rights Reserved<br>
+            Distribution of this document for commercial purposes in either<br>
+            hard or soft copy form is strictly prohibited<br>
+            without prior written consent from Cluster Resources, Inc.</font></p>
+          </center>
+
+          <div class="indexSearch"></div><br>
+
+          <p>The Maui Scheduler is a <i>policy engine</i> which allows sites control over when, where, and how resources such as processors, memory, and disk are allocated to jobs. In addition to this control, it also provides mechanisms which help to intelligently optimize the use of these resources, monitor system performance, help diagnose problems, and generally manage the system.</p>
+
+          <h2>Administrative Topics</h2>
+
+          <ul>
+            <li><a href="1.0philosophy.html">1.0 Philosophy and Goals of the Maui Scheduler</a></li>
+
+            <li>
+              <a href="2.0installation.html">2.0 Installation and Initial Configuration</a>
+
+              <ul>
+                <li><a href="2.1installation.html">2.1 Building and Installing Maui</a></li>
+
+                <li><a href="2.2initialconfig.html">2.2 Initial Configuration</a></li>
+
+                <li><a href="2.3initialtesting.html">2.3 Initial Testing</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="3.0basics.html">3.0 Scheduler Basics</a>
+
+              <ul>
+                <li><a href="3.1layout.html">3.1 Layout of Scheduler Components</a></li>
+
+                <li><a href="3.2environment.html">3.2 Scheduling Environment and Objects</a></li>
+
+                <li><a href="3.3jobflow.html">3.3 Scheduling Iterations and Job Flow</a></li>
+
+                <li><a href="3.4configure.html">3.4 Configuring the Scheduler</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="4.0commands.html">4.0 Scheduler Commands</a>
+
+              <ul>
+                <li><a href="4.1clientoverview.html">4.1 Client Overview</a></li>
+
+                <li><a href="4.2status-cmds.html">4.2 Monitoring System Status</a></li>
+
+                <li><a href="4.3jobmgmt-cmds.html">4.3 Managing Jobs</a></li>
+
+                <li><a href="4.4reservation-cmds.html">4.4 Managing Reservations</a></li>
+
+                <li><a href="4.5policy-cmds.html">4.5 Configuring Policies</a></li>
+
+                <li><a href="4.6user-cmds.html">4.6 End User Commands</a></li>
+
+                <li><a href="4.7misc-cmds.html">4.7 Miscellaneous Commands</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="5.0prioritization.html">5.0 Prioritizing Jobs and Allocating Resources</a>
+
+              <ul>
+                <li><a href="5.1jobprioritization.html">5.1 Job Priority</a></li>
+
+                <li><a href="5.2nodeallocation.html">5.2 Node Allocation</a></li>
+
+                <li><a href="5.3nodeaccess.html">5.3 Node Access</a></li>
+
+                <li><a href="5.4nodeavailability.html">5.4 Node Availability</a></li>
+
+                <li><a href="5.5taskdistribution.html">5.5 Task Distribution</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="6.0managingfairness.html">6.0 Managing Fairness - Throttling Policies, Fairshare, and Allocation Management</a>
+
+              <ul>
+                <li><a href="6.1fairnessoverview.html">6.1 Fairness Overview</a></li>
+
+                <li><a href="6.2throttlingpolicies.html">6.2 Throttling Policies</a></li>
+
+                <li><a href="6.3fairshare.html">6.3 Fairshare</a></li>
+
+                <li><a href="6.4allocationmanagement.html">6.4 Allocation Management</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="7.0controllingresourceaccess.html">7.0 Controlling Resource Access - Reservations, Partitions, and QoS Facilities</a>
+
+              <ul>
+                <li><a href="7.1advancereservations.html">7.1 Advance Reservations</a></li>
+
+                <li><a href="7.2partitions.html">7.2 Partitions</a></li>
+
+                <li><a href="7.3qos.html">7.3 QoS Facilities</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="8.0optimizingschedulingbehavior.html">8.0 Optimizing Scheduling Behavior - Backfill, Node Sets, and Preemption</a>
+
+              <ul>
+                <li><a href="8.1optimizationoverview.html">8.1 Optimization Overview</a></li>
+
+                <li><a href="8.2backfill.html">8.2 Backfill</a></li>
+
+                <li><a href="8.3nodesetoverview.html">8.3 Node Sets</a></li>
+
+                <li><a href="8.4preemption.html">8.4 Preemption</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="9.0evaluatingsystemperformance.html">9.0 Evaluating System Performance - Statistics, Profiling, Testing, and Simulation</a>
+
+              <ul>
+                <li><a href="9.1performanceevaluation.html">9.1 Scheduler Performance Evaluation Overview</a></li>
+
+                <li><a href="9.2accounting.html">9.2 Accounting - Job and System Statistics</a></li>
+
+                <li><a href="9.3profilingusage.html">9.3 Profiling Current and Historical Usage</a></li>
+
+                <li><a href="9.4testingnewversionsconfigs.html">9.4 Testing New Versions and Configurations</a></li>
+
+                <li><a href="9.5whatifquestions.html">9.5 Answering 'What If?' Questions with the Simulator</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="10.0managingsharedresources.html">10.0 Managing Shared Resources - SMP Issues and Policies</a>
+
+              <ul>
+                <li><a href="10.1consumableresourcehandling.html">10.1 Consumable Resource Handling</a></li>
+
+                <li><a href="10.2loadbalancingfeatures.html">10.2 Load Balancing Features</a></li>
+
+                <li><a href="10.3resourceusagetracking.html">10.3 Resource Usage Tracking</a></li>
+
+                <li><a href="10.4resourceusagelimits.html">10.4 Resource Usage Limits</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="11.0generaljobadmin.html">11.0 General Job Administration</a>
+
+              <ul>
+                <li><a href="11.1jobholds.html">11.1 Deferred Jobs and Job Holds</a></li>
+
+                <li><a href="11.2jobpriority.html">11.2 Job Priority Management</a></li>
+
+                <li><a href="11.3suspendresume.html">11.3 Suspend/Resume Handling</a></li>
+
+                <li><a href="11.4checkpointrestart.html">11.4 Checkpoint/Restart</a></li>
+
+                <li><a href="11.5jobdependencies.html">11.5 Job Dependencies</a></li>
+
+                <li><a href="11.6jobdefaults.html">11.6 Setting Job Defaults and Per Job Limits</a></li>
+
+                <li><a href="11.7generaljobpolicies.html">11.7 General Job Policies</a></li>
+
+                <li><a href="11.8localqueue.html">11.8 Using a Local Queue</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="12.0generalnodeadmin.html">12.0 General Node Administration</a>
+
+              <ul>
+                <li><a href="12.1nodelocation.html">12.1 Node Location (Partitions, Frames, Queues, etc.)</a></li>
+
+                <li><a href="12.2nodeattributes.html">12.2 Node Attributes (Node Features, Speed, etc.)</a></li>
+
+                <li><a href="12.3nodepolicies.html">12.3 Node Specific Policies (MaxJobPerNode, etc.)</a></li>
+
+                <li><a href="12.4consumablegres.html">12.4 Configuring Node-Locked Consumable Generic Resources (tape drives, node-locked licenses, etc.)</a></li><!-- <a href="12.5generalresources.html">12.5 Managing Shared Cluster Resources (shared filesystems, licenses, etc.)</a> -->
+              </ul>
+            </li>
+
+            <li>
+              <a href="13.0rmandinterfaces.html">13.0 Resource Managers and Interfaces</a>
+
+              <ul>
+                <li><a href="13.1rmoverview.html">13.1 Resource Manager Overview</a></li>
+
+                <li><a href="13.2rmconfiguration.html">13.2 Resource Manager Configuration</a></li>
+
+                <li><a href="13.3rmextensions.html">13.3 Resource Manager Extensions</a></li>
+
+                <li><a href="13.4addingrminterfaces.html">13.4 Adding Resource Manager Interfaces</a></li><!-- <a href="13.5nativerm.html">13.5 Managing Resources Directly with the Native Interface</a> -->
+              </ul>
+            </li>
+
+            <li>
+              <a href="14.0troubleshootingandsysmaintenance.html">14.0 Trouble Shooting and System Maintenance</a>
+
+              <ul>
+                <li><a href="14.1internaldiagnostics.html">14.1 Internal Diagnostics</a></li>
+
+                <li><a href="14.2logging.html">14.2 Logging Facilities</a></li>
+
+                <li><a href="14.3messagebuffer.html">14.3 Using the Message Buffer</a></li>
+
+                <li><a href="14.4eventmgmt.html">14.4 Handling Events with the Notification Routine</a></li>
+
+                <li><a href="14.5troubleshootingclients.html">14.5 Issues with Client Commands</a></li>
+
+                <li><a href="14.6troubleshootingsystemerrors.html">14.6 Tracking System Failures</a></li>
+
+                <li><a href="14.7troubleshootingjobs.html">14.7 Problems with Individual Jobs</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="15.0improvingusereffectiveness.html">15.0 Improving User Effectiveness</a>
+
+              <ul>
+                <li><a href="15.1userfeedbackloops.html">15.1 User Feedback Loops</a></li>
+
+                <li><a href="15.2userlevelstatistics.html">15.2 User Level Statistics</a></li>
+
+                <li><a href="15.3improvingwallclock.html">15.3 Enhancing Wallclock Limit Estimates</a></li>
+
+                <li><a href="15.4resourceavailability.html">15.4 Providing Resource Availability Information</a></li>
+
+                <li><a href="15.5jobstarttimeestimates.html">15.5 Job Start Time Estimates</a></li>
+
+                <li><a href="15.6profilingjobs.html">15.6 Collecting Performance Information on Individual Jobs</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="16.0simulations.html">16.0 Simulations</a>
+
+              <ul>
+                <li><a href="16.1simulationoverview.html">16.1 Simulation Overview</a></li>
+
+                <li><a href="16.2resourcetrace.html">16.2 Resource Traces</a></li>
+
+                <li><a href="16.3workloadtrace.html">16.3 Workload Traces</a></li>
+
+                <li><a href="16.4simspecconfig.html">16.4 Simulation Specific Configuration</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="17.0miscellaneous.html">17.0 Miscellaneous</a>
+
+              <ul>
+                <li><a href="17.1feedback.html">17.1 User Feedback</a></li>
+
+                <li><a href="17.2grid.html">17.2 Grid Scheduling</a></li>
+
+                <li><a href="17.3ha.html">17.3 Enabling High Availability Features</a></li>
+
+                <li><a href="17.4appsched.html">17.4 Using the Application Scheduling Library</a></li>
+              </ul>
+            </li>
+
+            <li>Appendices
+
+              <ul>
+                <li><a href="a.acasestudy.html">Appendix A: Case Studies</a></li>
+
+                <li><a href="a.bxinterface.html">Appendix B: Extension Interface</a></li>
+
+                <li><a href="a.clocalinterface.html">Appendix C: Adding New Algorithms</a></li>
+
+                <li><a href="a.ddevelopment.html">Appendix D: Structure Limits</a></li>
+
+                <li><a href="a.esecurity.html">Appendix E: Security Configuration</a></li>
+
+                <li><a href="a.fparameters.html">Appendix F: Parameters Overview</a></li>
+
+                <li><a href="a.gcommandoverview.html">Appendix G: Commands Overview</a></li>
+
+                <li><a href="a.hinterfacing.html">Appendix H: Interfacing to Maui</a></li>
+
+                <li><a href="a.ilargeclusters.html">Appendix I: Considerations for Large Clusters</a></li>
+
+                <li><a href="a.jdifferences.html">Appendix J: Differences Guide</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-content-btm"></div>
+  </div>
+</body>
+</html>

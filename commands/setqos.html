@@ -1,0 +1,75 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>setqos</h1>
+   <td valign=bottom nowrap><b>(Set QoS)</b>
+<tr>
+</table>
+
+<p><font color="#e63805"><b>Caution</b></font>: This command is deprecated. Use <a href="mjobctl.html#modify">mjobctl -m</a> instead.</p>
+
+<h4>Synopsis</h4>
+<pre>
+setqos <i>qosid</i> <i>jobid</i>
+</pre>
+
+<h4>Overview</h4>
+Set Quality Of Service for a specified job.
+<p>This command allows users to change the QOS of their own jobs.</p>
+
+<h4>Access</h4>
+This command can be run by any user.
+
+<p><B>Parameters</B></p>
+
+<P>
+<TABLE BORDER=0 CELLPADDING=5>
+
+<TR VALIGN=TOP>
+<TD><I>JOBID</I></TD>
+<TD>Job name.</TD>
+</TR>
+
+<TR VALIGN=TOP>
+<TD><I>QOSID</I></TD>
+<TD>QOS name.</TD> 
+</TR> </TABLE>
+
+<h4>Example 1</h4>
+
+&nbsp;&nbsp; This example sets the Quality Of Service to a value of <i>high_priority</i> for job <i>moab.3</i>.
+
+<p><fieldset><pre>
+&gt; setqos high_priority moab.3</TT>
+
+Job QOS Adjusted
+</pre></fieldset>
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
+

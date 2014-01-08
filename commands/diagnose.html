@@ -1,0 +1,102 @@
+
+<div class="sright">
+  <div class="sub-content-head">
+    Moab Workload Manager  </div>
+  <div id="sub-content-rpt" class="sub-content-rpt" >
+ <div class="tab-container docs" id="tab-container">
+<div class="topNav">
+
+<div class="docsSearch">
+</div>
+
+
+
+<div class="navIcons topIcons">
+    <a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+<table>
+<tr>
+   <td valign=bottom><h1>diagnose</h1>
+   <td valign=bottom nowrap><b>(Diagnostics)</b>
+<tr>
+</table>
+
+<p><font color="#e63805"><b>Caution</b></font>: This command is deprecated. Use <a href="mdiag.html">mdiag</a> instead.</p>
+
+<h4>Synopsis</h4>
+<!-- synopsis is a high-level usage / quick reference -->
+<!-- synopsis should not extend beyond ~80 chars -->
+<pre>
+<a href="mdiag-accounts.html">diagnose -a</a> [<i>accountid</i>]
+<a href="mdiag-blockedjobs.html">diagnose -b</a> [-l <i>policylevel</i>] [-t <i>partition</i>]
+<a href="mdiag-class.html">diagnose -c</a> [<i>classid</i>]
+diagnose -C [<i>configfile</i>]
+<a href="mdiag-fairshare.html">diagnose -f</a> [-o user|group|account|qos|class]
+<a href="mdiag-groups.html">diagnose -g</a> [<i>groupid</i>]
+<a href="mdiag-jobs.html">diagnose -j</a> [<i>jobid</i>]
+diagnose -L
+diagnose -m [<i>rackid</i>]
+<a href="mdiag-node.html">diagnose -n</a> [-t <i>partition</i>] [<i>nodeid</i>]
+<a href="mdiag-priority.html">diagnose -p</a> [-t <i>partition</i>]
+<a href="mdiag-qos.html">diagnose -q</a> [<i>qosid</i>]
+<a href="mdiag-reservations.html">diagnose -r</a> [<i>reservationid</i>]
+<a href="mdiag-rm.html">diagnose -R</a> [<i>resourcemanagername</i>]
+diagnose -s [<i>standingreservationid</i>]
+<a href="mdiag-sched.html">diagnose -S</a>
+<a href="mdiag-users.html">diagnose -u</a> [<i>userid</i>]
+diagnose -v
+diagnose -x
+<!-- [a-ACCOUNT] [b-Blocked], c-Class, f-FAIRSHARE, g-GROUP, j-JOB, l-Level, L-LIMIT, m-rack, n-Node, p-Priority, t-Partition, q-Qos, r-Reservation, R-RM, s-SR, S-SCHED, u-USERs, v-VERBOSE, x-SYS -->
+</pre>
+
+<h4>Overview</h4>
+The <b>diagnose</b> command is used to display information about various aspects of scheduling and the results of internal diagnostic tests.
+<!--
+<h4>Format</h4>
+<table>
+<tr>
+<td>diagnose<td>[ -a ]<td>[&lt;ACCOUNTID&gt;]<td>// <a href="mdiag-accounts.html"><b>diagnose accounts</b></a></tr>
+<td>&nbsp;<td>[ -b ]<td>&nbsp;<td>// <a href="diagnosequeue.html"><b>diagnose blocked queue</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -c ]<td>[&lt;CLASSID&gt;]<td>// <a href="diagnoseclass.html"><b>diagnose class</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -f ]<td>&nbsp;<td>// <a href="diagnosefairshare.html"><b>diagnose fairshare</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -g ]<td>[&lt;GROUPID&gt;]<td>// <a href="diagnosegroups.html"><b>diagnose groups</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -j ]<td>[&lt;JOBID&gt;]<td>// <a href="diagnosejobs.html"><b>diagnose jobs</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -m ]<td>&nbsp;<td>// <a href="diagnoseracks.html"><b>diagnose racks</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -n ]<td>[ -t &lt;PARTITION&gt;] [&lt;NODEID&gt;]<td>// <a href="diagnosenodes.html"><b>diagnose nodes</b></a></tr>
+<td>&nbsp;<td>[ -p ]<td>[ -t &lt;PARTITION&gt;]<td>// <a href="diagnosepriority.html"><b>diagnose priority</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -q ]<td>&nbsp;<td>// <a href="mdiag-qos.html"><b>diagnose QOS configuration</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -r ]<td>&nbsp;<td>// <a href="mdiag-reservations.html"><b>diagnose reservations</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -R ]<td>&nbsp;<td>// <a href="mdiag-rm.html"><b>diagnose resource managers</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -s ]<td>&nbsp;<td>// <a href="diagnosesreservations.html"><b>diagnose standing reservations</b></a></b>
+<tr>
+<td>&nbsp;<td>[ -S ]<td>&nbsp;<td>// <a href="mdiagsched.html"><b>diagnose scheduler</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -t ]<td>&nbsp;<td>// <a href="diagnosepartition.html"><b>diagnose partitions</b></a></tr>
+<tr>
+<td>&nbsp;<td>[ -u ]<td>[ &lt;USERID&gt;]<td>// <a href="diagnoseuser.html"><b>diagnose users</b></a></tr>
+</table>
+-->
+
+
+<div class="navIcons bottomIcons">
+<a href="index.html"><img src="../home.png" border=0 title="Home" alt="Home"></a>
+<a href="../a.gcommandoverview.html"><img src="../upArrow.png" border=0 title="Up" alt="Up"></a>
+</div>
+
+ </div>
+ </div>
+  </div>
+  <div class="sub-content-btm"></div>
+</div>
+</div>
