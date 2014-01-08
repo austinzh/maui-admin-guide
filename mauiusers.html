@@ -51,7 +51,7 @@
           <a name="advancereservations" id="advancereservations"></a><b>Advance Reservations</b>
 
           <p>Advance reservations allow a site to set aside certain resources for specific uses over a given timeframe. Access to a given reservation is controlled by a reservation-specific access control list (ACL) which determines who or what can use the reserved resources. It is important to note that while reservation ACL's <i>allow</i> particular jobs to utilize reserved resources, they do not <i>force</i> the job to utilize these resources. Maui will attempt to locate the best possible combination of available resources whether these are reserved or unreserved. For example, in the figure below, note that job X, which meets access criteria for both reservation A and B, allocates a portion of its resources from each reservation and the remainder from resources outside of both reservations.<br>
-          <img src="http://docs.adaptivecomputing.com/images/resaffinity1.gif" height="180" width="302" align="left"><br>
+          <img src="resaffinity1.gif" height="180" width="302" align="left"><br>
           While by default, reservations make resources available to jobs which meet particular criteria, Maui can be configured to constrain jobs to only run within accessible reservations. Specifically, jobs can be forced to run only within reserved resources on a job by job basis or by specifying special QoS constraints. (See the <a href="13.3rmextensions.html">Resource Manager Extensions</a> and <a href="7.3qos.html">QoS Facilities</a> sections of the Maui Admin Manual for more information.)</p>
 
           <p>See Also:</p>
