@@ -8,3 +8,5 @@ If you clone this repository please note the copyright of the original authors,
 in particular:
 
 > Distribution of this document for commercial purposes in either hard or soft copy form is strictly prohibited
+
+The Github pages URL for this repo is https://jbarber.github.io/maui-admin-guide/
